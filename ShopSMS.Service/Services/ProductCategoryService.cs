@@ -47,8 +47,8 @@ namespace ShopSMS.Service.Services
             if (check != null)
                 return false;
 
-            int? orderBy = obj.ProductCategoryDisplayOrder;
-            obj.ProductCategoryDisplayOrder = orderBy == null ? (lstPC.Count() + 1) : orderBy;
+            int? orderBy = obj.DisplayOrder;
+            obj.DisplayOrder = orderBy == null ? (lstPC.Count() + 1) : orderBy;
             productCategoryRepository.Add(obj);
             return true;
         }
