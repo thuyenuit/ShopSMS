@@ -13,12 +13,8 @@ namespace ShopSMS.Web.Infrastructure.Extensions
         {
             proCategory.ProductCategoryID = proCategoryVM.ProductCategoryID;
             proCategory.ProductCategoryName = proCategoryVM.ProductCategoryName;
-            proCategory.ProductCategoryAlias = proCategoryVM.ProductCategoryAlias;
-            proCategory.ProductCategoryDescription = proCategoryVM.ProductCategoryDescription;
             proCategory.CategoryID = proCategoryVM.CategoryID;
-            proCategory.ProductCategoryDisplayOrder = proCategoryVM.ProductCategoryDisplayOrder;
-            proCategory.ProductCategoryImage = proCategoryVM.ProductCategoryImage;
-            proCategory.ProductCategoryHomeFlag = proCategoryVM.ProductCategoryHomeFlag;
+            proCategory.DisplayOrder = proCategoryVM.DisplayOrder;
             proCategory.CreateDate = proCategoryVM.CreateDate;
             proCategory.CreateBy = proCategoryVM.CreateBy;
             proCategory.UpdateDate = proCategoryVM.UpdateDate;
@@ -37,7 +33,6 @@ namespace ShopSMS.Web.Infrastructure.Extensions
             product.MetaKeyword = productVM.MetaKeyword;
             product.ProductCategoryID = productVM.ProductCategoryID;
             product.ProductCode = productVM.ProductCode;
-            product.ProductContent = productVM.ProductContent;
             product.ProductDescription = productVM.ProductDescription;
             product.ProductHomeFlag = productVM.ProductHomeFlag;
             product.ProductHotFlag = productVM.ProductHotFlag;
@@ -58,11 +53,7 @@ namespace ShopSMS.Web.Infrastructure.Extensions
         {
             category.CategoryID = categoryVM.CategoryID;
             category.CategoryName = categoryVM.CategoryName;
-            category.CategoryAlias = categoryVM.CategoryAlias;
-            category.CategoryDescription = categoryVM.CategoryDescription;
-            category.CategoryDisplayOrder = categoryVM.CategoryDisplayOrder;
-            category.CategoryHomeFlag = categoryVM.CategoryHomeFlag;
-            category.CategoryImage = categoryVM.CategoryImage;
+            category.DisplayOrder = categoryVM.CategoryDisplayOrder;
             category.CreateBy = categoryVM.CreateBy;
             category.CreateDate = categoryVM.CreateDate;
             category.MetaDescription = categoryVM.MetaDescription;
