@@ -1,5 +1,4 @@
-﻿using ShopSMS.Model.Abstract;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,19 +8,15 @@ using System.Threading.Tasks;
 
 namespace ShopSMS.Model.Model
 {
-    [Table("Categories")]
-    public class Category : Auditable
+    [Table("Producer")]
+    public class Producer
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int CategoryID { get; set; }
+        public int ProducerID { get; set; }
 
         [Required]
         [MaxLength(255)]
-        public string CategoryName { get; set; }
-
-        public int? DisplayOrder { get; set; }
-
-        public virtual IEnumerable<ProductCategory> ProductCategories { get; set; }
+        public string ProducerName { get; set; }
     }
 }

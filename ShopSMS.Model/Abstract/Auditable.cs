@@ -27,7 +27,7 @@ namespace ShopSMS.Model.Abstract
 
         public DateTime? UpdateDate { get; set; }
 
-        [MaxLength(255)]
+        [MaxLength(1000)]
         public string UpdateBy { get; set; }
 
         [MaxLength(500)]

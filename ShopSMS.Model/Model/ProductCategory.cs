@@ -20,20 +20,11 @@ namespace ShopSMS.Model.Model
         [MaxLength(255)]
         public string ProductCategoryName { get; set; }
 
-        [Required]
-        [MaxLength(255)]
-        public string ProductCategoryAlias { get; set; }
-
-        [MaxLength(255)]
-        public string ProductCategoryDescription { get; set; }
-
         public int CategoryID { get; set; }
 
-        public int? ProductCategoryDisplayOrder { get; set; }
+        public int? DisplayOrder { get; set; }
 
-        public string ProductCategoryImage { get; set; }
-
-        public bool? ProductCategoryHomeFlag { get; set; }
+        public bool? HomeFlag { get; set; }
 
         [ForeignKey("CategoryID")]
         public virtual Category Categories { get; set; }

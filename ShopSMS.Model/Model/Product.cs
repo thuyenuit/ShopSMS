@@ -46,17 +46,22 @@ namespace ShopSMS.Model.Model
 
         public int? ProductQuantity { get; set; }
 
-        [MaxLength(255)]
-        public string ProductDescription { get; set; }
+        public decimal? TaxVAT { get; set; }
 
         [MaxLength(500)]
-        public string ProductContent { get; set; }
+        public string ProductDescription { get; set; }
 
         public bool? ProductHomeFlag { get; set; }
 
         public bool? ProductHotFlag { get; set; }
 
+        public bool? ProductNew { get; set; }
+
+        public bool? ProductSellingGood { get; set; }
+
         public int? ProductViewCount { get; set; }
+
+        public int? ProducerID { get; set; }
 
         [ForeignKey("ProductCategoryID")]
         public virtual ProductCategory ProductCategories { get; set; }
