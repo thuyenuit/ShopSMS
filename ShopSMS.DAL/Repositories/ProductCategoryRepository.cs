@@ -13,7 +13,7 @@ namespace ShopSMS.DAL.Repositories
     public interface IProductCategoryRepository : IRepository<ProductCategory>
     {
         //IQueryable<ProductCategory> Search(IDictionary<string, object> dic);
-        IEnumerable<ProductCategory> GetByAlias(string alias);
+        //IEnumerable<ProductCategory> GetByAlias(string alias);
     }
 
     public class ProductCategoryRepository: RepositoryBase<ProductCategory>, IProductCategoryRepository
@@ -28,11 +28,6 @@ namespace ShopSMS.DAL.Repositories
         /*public IEnumerable<ProductCategory> GetAllProductCategory()
         {
             return DbContext.ProductCategory;
-        }*/
-
-        public IEnumerable<ProductCategory> GetByAlias(string alias)
-        {
-            return DbContext.ProductCategory.Where(x => x.ProductCategoryAlias == alias);
-        }
+        }*/      
     }
 }

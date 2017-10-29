@@ -31,6 +31,8 @@ namespace ShopSMS.DAL
         public DbSet<SystemConfig> SystemConfig { get; set; }
         public DbSet<Tag> Tag { get; set; }
         public DbSet<ErrorLog> ErrorLog { get; set; }
+        public DbSet<Producer> Producer { get; set; }
+        public DbSet<Supplier> Supplier { get; set; }
 
         public static ShopSMSDbcontext Create()
         {
