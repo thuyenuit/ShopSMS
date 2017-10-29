@@ -48,22 +48,24 @@ namespace ShopSMS.Web.Api
                 dic.Add("KeyWord", keyWord);
                 dic.Add("CategoryID", categoryID);
                 dic.Add("Status", status);
-                List<ProductCategory> lstProductCategory = productCategoryService.Search(dic).ToList();             
+                List<ProductCategory> lstProductCategory = productCategoryService.Search(dic).ToList();
                 List<ProductCategoryViewModel> lstResponse = lstProductCategory
                 .Select(x => new ProductCategoryViewModel
                 {
-                    ProductCategoryID  =x.ProductCategoryID,
+                    ProductCategoryID = x.ProductCategoryID,
                     ProductCategoryName = x.ProductCategoryName,
                     CategoryName = x.Categories.CategoryName,
+                    CategoryID = x.CategoryID,
                     CreateBy = x.CreateBy,
                     CreateDate = x.CreateDate,
                     UpdateBy = x.UpdateBy,
                     UpdateDate = x.UpdateDate,
                     DisplayOrder = x.DisplayOrder,
-                    Status = x.Status
+                    Status = x.Status,
+                    IntStatusID = x.Status == true ? 1 : 2
                 }).ToList();
 
-                string StrDate = string.Empty;
+                /*string StrDate = string.Empty;
                 string StrHour = string.Empty;
                 string StrUser = string.Empty;
                 var a = lstProductCategory.ToList();
@@ -110,7 +112,7 @@ namespace ShopSMS.Web.Api
                         if (userResult != null)
                             StrUser = userResult.FullName;
                     }
-                }
+                }*/
 
                 lstResponse = lstResponse.OrderByDescending(x => x.DisplayOrder)
                                         .ThenBy(x => x.ProductCategoryName).ToList();
@@ -123,9 +125,9 @@ namespace ShopSMS.Web.Api
                     Page = page,
                     TotalCount = totalRow,
                     TotalPages = (int)Math.Ceiling((decimal)totalRow / pageSize),
-                    StrDate = StrDate,
+                    /*StrDate = StrDate,
                     StrHour = StrHour,
-                    StrUser = StrUser
+                    StrUser = StrUser*/
                 };
                 var response = request.CreateResponse(HttpStatusCode.OK, paginationset);
                 return response;
@@ -236,11 +238,10 @@ namespace ShopSMS.Web.Api
                         {
                             objProductCategory.ProductCategoryName = productCategoryVM.ProductCategoryName;
                             objProductCategory.CategoryID = productCategoryVM.CategoryID;
-                            objProductCategory.MetaDescription = productCategoryVM.MetaDescription;
-                            objProductCategory.MetaKeyword = productCategoryVM.MetaKeyword;
                             objProductCategory.DisplayOrder = productCategoryVM.DisplayOrder;
                             objProductCategory.UpdateDate = DateTime.Now;
                             objProductCategory.UpdateBy += UserInfoInstance.UserCodeInstance + ",";
+                            objProductCategory.Status = productCategoryVM.IntStatusID == 1 ? true : false;
                             productCategoryService.Update(objProductCategory);
                             productCategoryService.SaveChanges();
 
