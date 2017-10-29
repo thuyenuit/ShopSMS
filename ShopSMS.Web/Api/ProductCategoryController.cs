@@ -54,14 +54,12 @@ namespace ShopSMS.Web.Api
                 {
                     ProductCategoryID  =x.ProductCategoryID,
                     ProductCategoryName = x.ProductCategoryName,
-                    ProductCategoryAlias = x.ProductCategoryAlias,
-                    ProductCategoryDescription = x.ProductCategoryDescription,
                     CategoryName = x.Categories.CategoryName,
                     CreateBy = x.CreateBy,
                     CreateDate = x.CreateDate,
                     UpdateBy = x.UpdateBy,
                     UpdateDate = x.UpdateDate,
-                    ProductCategoryDisplayOrder = x.ProductCategoryDisplayOrder,
+                    DisplayOrder = x.DisplayOrder,
                     Status = x.Status
                 }).ToList();
 
@@ -114,7 +112,7 @@ namespace ShopSMS.Web.Api
                     }
                 }
 
-                lstResponse = lstResponse.OrderByDescending(x => x.ProductCategoryDisplayOrder)
+                lstResponse = lstResponse.OrderByDescending(x => x.DisplayOrder)
                                         .ThenBy(x => x.ProductCategoryName).ToList();
                 int totalRow = lstResponse.Count();
                 IEnumerable<ProductCategoryViewModel> lstResult = lstResponse.Skip((page) * pageSize).Take(pageSize);
@@ -150,8 +148,8 @@ namespace ShopSMS.Web.Api
                 {
                     ProductCategoryID = x.ProductCategoryID,
                     ProductCategoryName = x.ProductCategoryName,
-                    ProductCategoryDisplayOrder = x.ProductCategoryDisplayOrder
-                }).OrderByDescending(x => x.ProductCategoryDisplayOrder)
+                    DisplayOrder = x.DisplayOrder
+                }).OrderByDescending(x => x.DisplayOrder)
                 .ThenBy(x => x.ProductCategoryName).ToList();
 
                 var response = request.CreateResponse(HttpStatusCode.OK, lstResponse);
@@ -187,8 +185,7 @@ namespace ShopSMS.Web.Api
                 }
                 else
                 {
-                    ProductCategory objPC = new ProductCategory();
-                    productCategoryVM.ProductCategoryHomeFlag = true ? productCategoryVM.ProductCategoryHomeFlag == true : false;
+                    ProductCategory objPC = new ProductCategory();                   
                     objPC.UpdateProductCategory(productCategoryVM);
                     objPC.CreateDate = DateTime.Now;
                     objPC.CreateBy = UserInfoInstance.UserCodeInstance;
@@ -239,12 +236,9 @@ namespace ShopSMS.Web.Api
                         {
                             objProductCategory.ProductCategoryName = productCategoryVM.ProductCategoryName;
                             objProductCategory.CategoryID = productCategoryVM.CategoryID;
-                            objProductCategory.ProductCategoryAlias = productCategoryVM.ProductCategoryAlias;
-                            objProductCategory.ProductCategoryDescription = productCategoryVM.ProductCategoryDescription;
-                            objProductCategory.ProductCategoryDisplayOrder = productCategoryVM.ProductCategoryDisplayOrder;
                             objProductCategory.MetaDescription = productCategoryVM.MetaDescription;
                             objProductCategory.MetaKeyword = productCategoryVM.MetaKeyword;
-                            objProductCategory.ProductCategoryDisplayOrder = productCategoryVM.ProductCategoryDisplayOrder;
+                            objProductCategory.DisplayOrder = productCategoryVM.DisplayOrder;
                             objProductCategory.UpdateDate = DateTime.Now;
                             objProductCategory.UpdateBy += UserInfoInstance.UserCodeInstance + ",";
                             productCategoryService.Update(objProductCategory);

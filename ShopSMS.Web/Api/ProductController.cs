@@ -45,7 +45,6 @@ namespace ShopSMS.Web.Api
                     ProductQuantity = x.ProductQuantity,
                     ProductPrice =x.ProductPrice,
                     ProductCode = x.ProductCode,
-                    ProductContent = x.ProductContent,
                     ProductImage = x.ProductImage,
                     ProductPromotionPrice = x.ProductPromotionPrice,
                     ProductViewCount = x.ProductViewCount,

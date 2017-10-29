@@ -46,13 +46,11 @@ namespace ShopSMS.Web.Api
                 {
                     CategoryID = x.CategoryID,
                     CategoryName = x.CategoryName,
-                    CategoryAlias = x.CategoryAlias,
-                    CategoryDescription = x.CategoryDescription,
                     CreateBy = x.CreateBy,
                     CreateDate = x.CreateDate,
                     UpdateBy = x.UpdateBy,
                     UpdateDate = x.UpdateDate,
-                    CategoryDisplayOrder = x.CategoryDisplayOrder,
+                    CategoryDisplayOrder = x.DisplayOrder,
                     Status = x.Status
                 }).OrderByDescending(x => x.CategoryDisplayOrder)
                 .ThenBy(x => x.CategoryName).ToList();
@@ -85,7 +83,7 @@ namespace ShopSMS.Web.Api
                 {
                     CategoryID = x.CategoryID,
                     CategoryName = x.CategoryName,
-                    CategoryDisplayOrder = x.CategoryDisplayOrder
+                    CategoryDisplayOrder = x.DisplayOrder
                 }).OrderByDescending(x => x.CategoryDisplayOrder)
                 .ThenBy(x => x.CategoryName).ToList();
              
@@ -135,9 +133,9 @@ namespace ShopSMS.Web.Api
                         objCate.CreateDate = DateTime.Now;
                         objCate.CreateBy = UserInfoInstance.UserCodeInstance;
                         objCate.Status = true;
-                        if (objCate.CategoryDisplayOrder == null)
+                        if (objCate.DisplayOrder == null)
                         {
-                            objCate.CategoryDisplayOrder = categoryService.GetAll().ToList().Count() + 1;
+                            objCate.DisplayOrder = categoryService.GetAll().ToList().Count() + 1;
                         }
 
                         categoryService.Add(objCate);
@@ -182,12 +180,9 @@ namespace ShopSMS.Web.Api
                             if (checkResult == null)
                             {
                                 objDB.CategoryName = categoryVM.CategoryName;
-                                objDB.CategoryAlias = categoryVM.CategoryAlias;
-                                objDB.CategoryDescription = categoryVM.CategoryDescription;
-                                objDB.CategoryDisplayOrder = categoryVM.CategoryDisplayOrder;
                                 objDB.MetaDescription = categoryVM.MetaDescription;
                                 objDB.MetaKeyword = categoryVM.MetaKeyword;
-                                objDB.CategoryDisplayOrder = categoryVM.CategoryDisplayOrder;
+                                objDB.DisplayOrder = categoryVM.CategoryDisplayOrder;
                                 objDB.UpdateDate = DateTime.Now;
                                 objDB.UpdateBy += UserInfoInstance.UserCodeInstance + ",";
                                 objDB.Status = categoryVM.Status;
