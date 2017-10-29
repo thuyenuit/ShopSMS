@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <div ng-controller="categoryEditController">
+        <section class="content-header">
+            <h1>Cập nhật</h1>
+        </section>
+        <section class="content">
+            <div class="row" ng-init="CategoryInfo={}">
+                <form class="form-horizontal" novalidate name="frmEditCategory" role="form" ng-submit="UpdateCategory()">
+                    <div class="col-md-12">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <div class="col-md-6">
+                                    <h3 class="box-title">Thông tin Danh mục</h3>
+                                </div>
+                                <div class="col-md-6 pull-right">
+                                    <div class="col-md-3  pull-right">
+                                        <button type="button" ui-sref="categories" class="btn btn-default btn-flat"><i class="fa fa-undo"></i>  Quay lại</button>
+                                    </div>
+                                    <div class="col-md-3  pull-right">
+                                        <button type="submit" ng-disabled="frmEditCategory.$invalid" class="btn btn-primary btn-flat pull-right">
+                                            <i class="fa fa-save"></i> Lưu
+                                        </button>
+                                    </div>
+
+                                </div>
+                                <div class="box-tools pull-right">
+                                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-6 col-xs-12">
+                                        <div class="form-group"
+                                             ng-class="{'has-error': frmEditCategory.categoryName.$invalid && !frmEditCategory.categoryName.$pristine }">
+                                            <span style="font-size:14px" class="col-sm-3 control-label"> Tên danh mục * </span>
+                                            <div class="col-sm-9">
+                                                <input ng-required="true" ng-model="CategoryInfo.CategoryName" ng-change="GetSEOTitle()"
+                                                       type="text" name="categoryName" class="form-control" placeholder="Thể loại">
+                                                <span class="has-error" ng-show="frmEditCategory.categoryName.$touched
+                                                      && frmEditCategory.categoryName.$error.required">
+                                                    Vui lòng nhập tên danh mục!
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span style="font-size:14px" class="col-sm-3 control-label">Thứ tự </span>
+                                            <div class="col-sm-9">
+                                                <input maxlength="3" name="order" id="order" min="1" ng-model="CategoryInfo.CategoryDisplayOrder"
+                                                       type="text" class="form-control" placeholder="Thứ tự sắp xếp">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Thông tin cho SEO</h3>
+                                <div class="box-tools pull-right">
+                                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span style="font-size:14px" class="col-sm-3 control-label">Mô tả ngắn</span>
+                                            <div class="col-sm-9">
+                                                <textarea style="height:230px" type="text" ng-model="CategoryInfo.CategoryDescription" maxlength="100"
+                                                          name="productCategoryDescription" class="form-control" placeholder="Mô tả ngắn"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span style="font-size:14px" class="col-sm-3 control-label">Tiêu đề SEO</span>
+                                            <div class="col-sm-9">
+                                                <input ng-model="CategoryInfo.CategoryAlias" type="text" class="form-control" placeholder="Tiêu đề SEO" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <span style="font-size:14px" class="col-sm-3 control-label">Meta Keyword</span>
+                                            <div class="col-sm-9">
+                                                <textarea style="height:83px" ng-model="pcInfo.MetaKeyword" class="form-control" placeholder="Meta Keyword"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <span style="font-size:14px" class="col-sm-3 control-label">Meta Description</span>
+                                            <div class="col-sm-9">
+                                                <textarea style="height:83px" ng-model="pcInfo.MetaDescription" class="form-control" placeholder="Meta Description"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label"></label>
+                                            <div class="col-sm-9">
+                                                <div class="col-sm-6 col-xs-6">
+                                                    <div class="checkbox">
+                                                        <input type="checkbox" ng-model="CategoryInfo.Status" ng-checked="CategoryInfo.Status" />
+                                                        Kích hoạt
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-xs-6">
+                                                    <div class="checkbox">
+                                                        <input type="checkbox" ng-model="CategoryInfo.CategoryHomeFlag" ng-checked="CategoryInfo.CatgoryHomeFlag" />
+                                                        Hiển thị trang chủ
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-footer">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

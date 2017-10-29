@@ -1,0 +1,139 @@
+﻿
+<section class="content-header">
+    <span style="font-size:14px">
+        Lần cập nhật gần nhất:
+        <span style="color: #ff6a00">{{strHour}}</span><span ng-show="showMsg"> ngày</span>
+        <span style="color: #ff6a00">{{strDate}}</span><span ng-show="showMsg"> bởi</span>
+        <span style="color: #ff6a00">{{strUser}}</span>
+    </span>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" ng-model="keyWord" placeholder="Từ khóa...">        
+                    </div>
+                    <div class="col-md-2">
+                            <select name="categoryID" ng-required=true class="form-control"
+                                    ng-model="categories.CategoryID" ng-change="onChangeCategory()"
+                                    ng-options="option.CategoryID as option.CategoryName for option in categories">
+                                <option value="">[Danh mục]</option>
+                            </select>
+                    </div>
+                    <div class="col-md-2">
+                            <select name="statusID" class="form-control" ng-model="listStatus.StatusID" ng-change="onChangeStatus()"
+                                    ng-options="option.StatusID as option.StatusName for option in listStatus"></select>
+                    </div>
+
+                    <div class="row col-md-5">
+                        <div class="col-xs-4">
+                            <button class="btn btn-block btn-default btn-flat" type="button" ng-click="onSearch()">
+                                <i class="fa fa-search"></i> Tìm kiếm
+                            </button>
+                        </div>
+                        <div class="col-xs-4">
+                            <button ng-click="onClickAddProductCategory()" class="btn btn-block btn-primary btn-flat" type="button">
+                                <i class="fa fa-plus"></i> {{resData.LabelCreate}}
+                            </button>
+                        </div>
+                        <div class="col-xs-4">
+                            <button ng-click="deleteMulti()" id="btnDeleteMulti" ng-show="selectDelete" class="btn btn-block btn-danger btn-flat" type="button">
+                                <i class="fa fa-trash"></i> {{resData.LabelDelete}}
+                            </button>
+                        </div>
+                    </div>                    
+                </div>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="thead-inverse">
+                                <tr style="font-style:normal" class="bg-primary">
+                                    <th style="width:3%;">
+                                        <input type="checkbox" name="all" ng-model="checkall" ng-click="selectAll()" />
+                                    </th>
+                                    <th style="width:5%;">
+                                        <span>STT</span>
+                                    </th>
+                                    <th style="width:20%; cursor:pointer" ng-click="sortData('ProductCategoryName')">
+                                        <span>Thể loại</span><div ng-class="getSortClass('ProductCategoryName')"></div>
+                                    </th>
+                                    <th style="width:10%; cursor:pointer" ng-click="sortData('CategoryName')">
+                                        <span>Danh mục</span> <div ng-class="getSortClass('CategoryName')"></div>
+                                    </th>
+                                    <th style="width:25%;">
+                                        <span>Mô tả</span>
+                                    </th>
+                                    <th style="width:15%;">
+                                        <span>Trạng thái</span>
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in lstProductCategory | orderBy:sortColumn:reverse">
+                                    <td style="text-align:center;">
+                                        <input type="checkbox" ng-if="item.Status == true" name="all" ng-model="item.checked" />
+                                    </td>
+                                    <td style="text-align:center;">{{ $index + 1 }}</td>
+                                    <td>
+                                        <a ui-sref="productCategoryEdit({categoryId:item.ProductCategoryID})" ng-style="item.Status == false && {'color':'red'}">
+                                            {{ item.ProductCategoryName}}
+                                        </a>
+                                        <!--<md-menu>
+                                            <md-button ng-click="$mdMenu.open($event)">
+                                                <a ui-sref="productCategoryEdit({categoryId:item.ProductCategoryID})" ng-style="item.Status == false && {'color':'red'}">
+                                                    {{ item.ProductCategoryName}}
+                                                </a>
+                                            </md-button>
+                                            <md-menu-content width="2" style="border: 1px solid blue">
+                                                <md-menu-item ng-if="item.Status == true">
+                                                    <md-button ui-sref="productCategoryEdit({categoryId:item.ProductCategoryID})">
+                                                        <i class="fa fa-edit"></i> Cập nhật
+                                                    </md-button>
+                                                </md-menu-item>
+                                                <md-menu-item>
+                                                    <md-button ui-sref="productCategoryView({categoryId:item.ProductCategoryID})">
+                                                        <i class="fa fa-eye"></i> Xem chi tiết
+                                                    </md-button>
+                                                </md-menu-item>
+                                                <md-menu-item ng-if="item.Status == false">
+                                                    <md-button ng-click="RefreshProductCategory(item.ProductCategoryID, item.ProductCategoryName)">
+                                                        <i class="fa fa-refresh"></i> Phục hồi
+                                                    </md-button>
+                                                </md-menu-item>
+                                            </md-menu-content>
+                                        </md-menu>-->
+                                    </td>
+                                    <td style="text-align:center;">{{ item.CategoryName }}</td>
+                                    <td>{{ item.ProductCategoryDescription }}</td>
+                                    <td style="text-align:center;font-style:normal">
+                                        <span ng-class="{'label label-success': item.Status == true, 'label label-danger': item.Status == false}">
+                                            {{ item.Status | statusFilter}}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+                <div class="box-footer clearfix">
+                    <div class="col-md-7">
+                        <div class="col-md-3">
+                            Hiện thị <select ng-change="changeShow()" ng-model="valueShow"
+                                             ng-options="option.value as option.name for option in options"></select>
+                        </div>
+                        <!--<div class="col-md-9">
+                                Hiển thị từ <strong> {{ showFrom }}</strong> - <strong>{{showTo}}</strong> của <strong>{{totalCount}}</strong> bản ghi
+                        </div>-->                      
+                    </div>              
+                    <pager-directive page="{{page}}" custom-path="{{customPath}}" pages-count="{{pagesCount}}" total-count="{{totalCount}}" search-func="ListProductCategory(page)"></pager-directive>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

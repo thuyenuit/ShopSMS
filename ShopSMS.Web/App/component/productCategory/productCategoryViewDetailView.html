@@ -1,0 +1,142 @@
+﻿
+<section class="content-header">
+    <h1>
+        Xem chi tiết
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Thể loại</a></li>
+        <li class="active">Xem chi tiết</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Thông tin Thể loại</h3>
+                </div>
+                <div ng-init="pcInfo={}">
+                    <form class="form-horizontal">
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Tên thể loại</label>
+                                        <div class="col-sm-9">
+                                            <input ng-model="pcInfo.ProductCategoryName" type="text" class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Mô tả ngắn</label>
+                                        <div class="col-sm-9">
+                                            <input ng-model="pcInfo.ProductCategoryDescription" type="text" class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Thứ tự</label>
+                                        <div class="col-sm-9">
+                                            <input ng-model="pcInfo.ProductCategoryDisplayOrder" class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Ngày tạo</label>
+                                        <div class="col-sm-9">
+                                            <input ng-model="pcInfo.CreateDate | date: 'dd/MM/yyyy hh:mm:ss'" class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Ngày cập nhật</label>
+                                        <div class="col-sm-9">
+                                            <input ng-model="pcInfo.UpdateDate | date: 'dd/MM/yyyy hh:mm:ss'" class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Hình ảnh</label>
+                                        <div class="col-sm-9">
+                                            <input type="file" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Tiêu đề SEO</label>
+                                        <div class="col-sm-9">
+                                            <input ng-model="pcInfo.ProductCategoryAlias" type="text" class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Meta Keyword</label>
+                                        <div class="col-sm-9">
+                                            <textarea ng-model="pcInfo.MetaKeyword" class="form-control" readonly></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">MetaDescription</label>
+                                        <div class="col-sm-9">
+                                            <textarea ng-model="pcInfo.MetaDescription" class="form-control" readonly></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Người tạo</label>
+                                        <div class="col-sm-9">
+                                            <input ng-model="pcInfo.CreateBy" class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Người cập nhật</label>
+                                        <div class="col-sm-9">
+                                            <input ng-model="pcInfo.UpdateBy" class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label"></label>
+                                        <div class="col-sm-9">
+                                            <div class="col-sm-6">
+                                                <div class="checkbox">
+                                                    <md-checkbox ng-model="pcInfo.Status" ng-checked="pcInfo.Status" ng-disabled="true" />
+                                                    Kích hoạt
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="checkbox">
+                                                    <md-checkbox ng-model="pcInfo.ProductCategoryHomeFlag" ng-checked="pcInfo.ProductCatgoryHomeFlag" ng-disabled="true"/>
+                                                    Hiển thị trang chủ
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-3">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" ng-if="pcInfo.Status == true" ui-sref="productCategoryEdit({categoryId:pcInfo.ProductCategoryID})" class="btn btn-primary btn-flat pull-right">
+                                            <i class="fa fa-edit"></i> Cập nhật
+                                        </button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" ui-sref="productCategories" class="btn btn-default btn-flat"><i class="fa fa-undo"></i>  Quay lại</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+

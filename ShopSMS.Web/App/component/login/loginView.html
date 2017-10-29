@@ -1,0 +1,36 @@
+﻿
+<div ng-controller="loginController">
+    <div cg-busy="{promise:promise,templateUrl:templateUrl,
+         message:message,backdrop:backdrop,delay:delay,minDuration:minDuration}">
+        <div class="login-box">
+            <div class="login-logo">
+                <a href="javascript(0);"><b>SMS</b>Shop</a>
+            </div>
+            <div class="login-box-body">
+                <p class="login-box-msg">Đăng nhập hệ thống SMS</p>
+                <form relo="form" method="post" ng-submit="loginSubmit()">
+                    <div class="form-group has-feedback">
+                        <input type="text" id="userName" class="form-control" placeholder="Tài khoản" ng-model="loginData.userName">
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="password" id="password" class="form-control" placeholder="Mật khẩu" ng-model="loginData.password">
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <div class="checkbox icheck">
+                                <label>
+                                    <input type="checkbox"> Nhớ mật khẩu
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat">Đăng nhập</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>   
+</div>
