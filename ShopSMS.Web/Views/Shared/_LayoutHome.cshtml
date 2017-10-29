@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    @*<title>SMS - Hệ thống quản lý bán hàng</title>*@
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link href="~/Assets/Admin/libs/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    @*<link href="~/Assets/Admin/libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />*@
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Assets/Admin/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="~/Assets/Admin/dist/css/skins/_all-skins.min.css">
+    <link href="~/Assets/Admin/custom/css/custom.css" rel="stylesheet" />
+    <link href="~/Assets/Admin/libs/toastr/toastr.css" rel="stylesheet" />
+    <link href="~/Assets/Admin/libs/angular-loading-bar/src/loading-bar.css" rel="stylesheet" />
+    <link href="~/Assets/Admin/libs/angular-busy/angular-busy.css" rel="stylesheet" />
+    <base href="/">
+</head>
+<body class="hold-transition skin-blue fixed sidebar-mini" ng-app="sms">
+    @RenderBody()
+    <!-- jQuery 2.1.4 -->
+    <script type="text/javascript" src="~/Assets/Admin/libs/jquery/dist/jquery.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script type="text/javascript" src="~/Assets/Admin/libs/bootstrap/dist/js/bootstrap.js"></script>
+    <!-- SlimScroll -->
+    <script type="text/javascript" src="~/Assets/Admin/libs/slimscroll/jquery.slimscroll.js"></script>
+    <!-- FastClick -->
+    <script type="text/javascript" src="~/Assets/Admin/libs/fastclick/lib/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script type="text/javascript" src="~/Assets/Admin/dist/js/app.min.js"></script>
+
+    <!-- Angular JS -->
+    <script type="text/javascript" src="~/Assets/Admin/libs/angular/angular.js"></script>
+    <script type="text/javascript" src="~/Assets/Admin/libs/angular-ui-router/release/angular-ui-router.js"></script>
+    <script type="text/javascript" src="~/Assets/Admin/libs/toastr/toastr.js"></script>
+    <script type="text/javascript" src="~/Assets/Admin/libs/angular-messages/angular-messages.js"></script>
+    <script type="text/javascript" src="~/Assets/Admin/libs/angular-sanitize/angular-sanitize.js"></script>
+    <script type="text/javascript" src="~/Assets/Admin/libs/angular-local-storage/dist/angular-local-storage.js"></script>
+    <script type="text/javascript" src="~/Assets/Admin/libs/angular-loading-bar/src/loading-bar.js"></script>
+    <script type="text/javascript" src="~/Assets/Admin/libs/angular-animate/angular-animate.js"></script>
+    <script type="text/javascript" src="~/Assets/Admin/libs/angular-busy/angular-busy.js"></script>
+
+    <script type="text/javascript" src="~/App/shared/module/sms.commom.js"></script>
+    <script type="text/javascript" src="~/App/shared/services/apiService.js"></script>
+    <script type="text/javascript" src="~/App/shared/directives/pagerDirective.js"></script>
+    <script type="text/javascript" src="~/App/shared/services/notificationService.js"></script>
+    <script type="text/javascript" src="~/App/shared/services/showLoadingService.js"></script>
+    <script type="text/javascript" src="~/App/shared/filter/statusFilter.js"></script>
+    <script type="text/javascript" src="~/App/shared/filter/homeflagFilter.js"></script>
+    <script type="text/javascript" src="~/App/shared/services/authData.js"></script>
+    <script type="text/javascript" src="~/App/shared/services/authenticationService.js"></script>
+    <script type="text/javascript" src="~/App/shared/services/loginService.js"></script>
+    <script type="text/javascript" src="~/App/shared/commonService/commonService.js"></script>
+    <script type="text/javascript" src="~/Assets/Admin/libs/bootbox/bootbox.js"></script>
+    <script type="text/javascript" src="~/Assets/Admin/libs/ngBootbox/ngBootbox.js"></script>
+    <script type="text/javascript" src="~/App/component/productCategory/productCategory.module.js"></script>
+    <script type="text/javascript" src="~/App/component/category/category.module.js"></script>
+    <script type="text/javascript" src="~/App/component/product/product.module.js"></script>
+    <script type="text/javascript" src="~/App/app.js"></script>
+
+    <script type="text/javascript" src="~/App/component/home/rootController.js"></script>
+    <script type="text/javascript" src="~/App/shared/views/BaseController.js"></script>
+    <script type="text/javascript" src="~/App/component/login/loginController.js"></script>
+    <script type="text/javascript" src="~/App/component/home/homeController.js"></script>
+    <!--product category-->
+    <script type="text/javascript" src="~/App/component/productCategory/productCategoryAddController.js"></script>
+    <script type="text/javascript" src="~/App/component/productCategory/productCategoryEditController.js"></script>
+    <script type="text/javascript" src="~/App/component/productCategory/productCategoryListController.js"></script>
+    <script type="text/javascript" src="~/App/component/productCategory/productCategoryViewDetailController.js"></script>
+    <!--category-->
+    <script type="text/javascript" src="~/App/component/category/categoryListController.js"></script>
+    <script type="text/javascript" src="~/App/component/category/categoryAddController.js"></script>
+    <script type="text/javascript" src="~/App/component/category/categoryEditController.js"></script>
+   <!--product-->
+    <script type="text/javascript" src="~/App/component/product/productListController.js"></script>
+    <script type="text/javascript" src="~/App/component/product/productAddController.js"></script>
+    <script type="text/javascript" src="~/App/component/product/productListController.js"></script>
+</body>
+</html>
+

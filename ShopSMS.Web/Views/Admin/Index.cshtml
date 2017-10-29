@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+    ViewBag.Title = "SMS - Hệ thống quản lý bán hàng";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+<body ng-controller="rootController">
+    <div cg-busy="{promise:promise,templateUrl:templateUrl,
+         message:message,backdrop:backdrop,delay:delay,minDuration:minDuration}">
+        <div ui-view>
+        </div>
+    </div>
+</body>
+</html>
