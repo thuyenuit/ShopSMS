@@ -11,17 +11,9 @@ namespace ShopSMS.Web.Models
 
         public string ProductCategoryName { get; set; }
 
-        public string ProductCategoryAlias { get; set; }
-
-        public string ProductCategoryDescription { get; set; }
-
         public int CategoryID { get; set; }
 
-        public int? ProductCategoryDisplayOrder { get; set; }
-
-        public string ProductCategoryImage { get; set; }
-
-        public bool? ProductCategoryHomeFlag { get; set; }
+        public int? DisplayOrder { get; set; }
 
         public DateTime? CreateDate { get; set; }
 
