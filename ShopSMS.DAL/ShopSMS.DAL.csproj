@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7F196660-1EF3-4D84-BD10-D05299C38300}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ShopSMS.DAL</RootNamespace>
+    <AssemblyName>ShopSMS.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.IndexingExtensions, Version=1.0.1.26117, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.IndexingExtensions.1.0.1\lib\net40\EntityFramework.IndexingExtensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Infrastructure\Implements\DbFactory.cs" />
+    <Compile Include="Infrastructure\Implements\Disposable.cs" />
+    <Compile Include="Infrastructure\Implements\RepositoryBase.cs" />
+    <Compile Include="Infrastructure\Implements\UnitOfWork.cs" />
+    <Compile Include="Infrastructure\Interfaces\IDbFactory.cs" />
+    <Compile Include="Infrastructure\Interfaces\IRepository.cs" />
+    <Compile Include="Infrastructure\Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Migrations\201709161025302_InitialDatabase.cs" />
+    <Compile Include="Migrations\201709161025302_InitialDatabase.Designer.cs">
+      <DependentUpon>201709161025302_InitialDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709170632393_AddUserAdmin.cs" />
+    <Compile Include="Migrations\201709170632393_AddUserAdmin.Designer.cs">
+      <DependentUpon>201709170632393_AddUserAdmin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709170716492_InitialAddUserAdmin.cs" />
+    <Compile Include="Migrations\201709170716492_InitialAddUserAdmin.Designer.cs">
+      <DependentUpon>201709170716492_InitialAddUserAdmin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709170726413_UpdateAddUserAdmin.cs" />
+    <Compile Include="Migrations\201709170726413_UpdateAddUserAdmin.Designer.cs">
+      <DependentUpon>201709170726413_UpdateAddUserAdmin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709301740396_AddIndex.cs" />
+    <Compile Include="Migrations\201709301740396_AddIndex.Designer.cs">
+      <DependentUpon>201709301740396_AddIndex.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ApplicationUserRepository.cs" />
+    <Compile Include="Repositories\CategoryRepository.cs" />
+    <Compile Include="Repositories\ErrorLogRepository.cs" />
+    <Compile Include="Repositories\FooterRepository.cs" />
+    <Compile Include="Repositories\MenuGroupRepository.cs" />
+    <Compile Include="Repositories\MenuRepository.cs" />
+    <Compile Include="Repositories\OrderDetailRepository.cs" />
+    <Compile Include="Repositories\OrderRepository.cs" />
+    <Compile Include="Repositories\PostCategoryRepositorycs.cs" />
+    <Compile Include="Repositories\PostRepository.cs" />
+    <Compile Include="Repositories\PostTagRepository.cs" />
+    <Compile Include="Repositories\ProductCategoryRepository.cs" />
+    <Compile Include="Repositories\ProductRepository.cs" />
+    <Compile Include="Repositories\ProductTagRepository.cs" />
+    <Compile Include="Repositories\SlideRepository.cs" />
+    <Compile Include="Repositories\SystemConfigRepository.cs" />
+    <Compile Include="Repositories\TagRepository.cs" />
+    <Compile Include="ShopSMSDbcontext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ShopSMS.Common\ShopSMS.Common.csproj">
+      <Project>{32BD63B4-BEFC-47D7-997A-A28011703501}</Project>
+      <Name>ShopSMS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShopSMS.Model\ShopSMS.Model.csproj">
+      <Project>{C62A17D2-1D7B-42BD-B346-B2A82A635F97}</Project>
+      <Name>ShopSMS.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201709161025302_InitialDatabase.resx">
+      <DependentUpon>201709161025302_InitialDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709170632393_AddUserAdmin.resx">
+      <DependentUpon>201709170632393_AddUserAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709170716492_InitialAddUserAdmin.resx">
+      <DependentUpon>201709170716492_InitialAddUserAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709170726413_UpdateAddUserAdmin.resx">
+      <DependentUpon>201709170726413_UpdateAddUserAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709301740396_AddIndex.resx">
+      <DependentUpon>201709301740396_AddIndex.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
