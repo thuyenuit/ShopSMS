@@ -9,6 +9,8 @@
     function productCategoryListController($scope, apiService, $interval,
         $filter, $ngBootbox, $state, notificationService) {
 
+        $scope.editingData = {};
+
         $scope.onClickAddProductCategory = function () {
             $state.go('productCategoryAdd');
         };
@@ -38,12 +40,12 @@
             ListProductCategory();
         };
 
-        $scope.listStatus = [];
-        $scope.listStatus.StatusID = 0;
+        $scope.listStatus = {};
+       // $scope.listStatus.StatusID = 0;
         function LoadStatus() {
             apiService.get('/api/other/getListStatus', null, function (result) {
                 $scope.listStatus = result.data;
-                $scope.listStatus.StatusID = 0;
+              //  $scope.listStatus.StatusID = 0;
             }, function () {
                 notificationService.displayError('Không thể tải danh sách trạng thái');
             });
@@ -54,7 +56,7 @@
         //$scope.categories.CategoryID = 0;
         function LoadCategory() {
             apiService.get('/api/category/getallNoPage', null, function (result) {
-                $scope.categories = result.data;
+                $scope.categories = result.data;            
                 //$scope.categories.CategoryID = 0;
             }, function () {
                 notificationService.displayError('Không thể tải danh sách danh mục');
@@ -74,11 +76,15 @@
         function ListProductCategory(page) {
           
             page = page || 0;
-
-            var statusId = $scope.listStatus.StatusID;
+           
             var categoryID = $scope.categories.CategoryID;
             if (categoryID === undefined || categoryID === 'undefined' || categoryID === null)
                 categoryID = 0;
+
+            var statusId = $scope.listStatus.StatusID;
+            if (statusId === undefined || statusId === 'undefined' || statusId === null)
+                statusId = 0;
+
             var consfig = {
                 params: {
                     page: page,
@@ -96,16 +102,10 @@
                 $scope.totalCount = result.data.TotalCount;
                 $scope.showFrom = result.data.ShowFrom;
                 $scope.showTo = result.data.ShowTo;
-                $scope.strDate = result.data.StrDate;
-                $scope.strHour = result.data.StrHour;
-                $scope.strUser = result.data.StrUser;
-
-                if ($scope.strDate === null || $scope.strDate === "")
-                {
-                    $scope.showMsg = false;
+                
+                for (var i = 0, length = $scope.lstProductCategory.length; i < length; i++) {
+                    $scope.editingData[$scope.lstProductCategory[i].ProductCategoryID] = false;
                 }
-                else
-                    $scope.showMsg = true;
                
             }, function () {
                 notificationService.displayError('Không thể tải danh sách danh mục');
@@ -114,6 +114,37 @@
             $scope.$parent.MethodShowLoading("Đang tải dữ liệu", $scope.promise);
         }
         $scope.ListProductCategory();
+
+
+        $scope.fnModify = function(item){
+            $scope.editingData[item.ProductCategoryID] = true;
+        };
+
+        $scope.fnUpdate = function (item) {
+
+            if (item.ProductCategoryName === '' || item.ProductCategoryName === null) {
+                notificationService.displayError('Tên thể loại không được bỏ trống!');                
+                var name = 'txtName_' + item.ProductCategoryID;
+                angular.element('input[name=' + name + ']').focus();
+            }
+            else {
+                var url = '/api/productcategory/update';
+                $scope.promise = apiService.put(url, item, function (result) {
+                    notificationService.displaySuccess(result.data);
+                    $scope.editingData[item.ProductCategoryID] = false;
+                    ListProductCategory();
+                }, function (result) {
+                    notificationService.displayError(result.data);
+                });
+                $scope.$parent.MethodShowLoading("Đang xử lý", $scope.promise);
+            }
+            
+        };
+
+        $scope.fnCancel = function (item) {
+            $scope.editingData[item.ProductCategoryID] = false;
+            ListProductCategory();
+        };
 
         $scope.sortColumn = 'ProductCategoryName';
         $scope.reverse = true; // sắp xếp giảm dần

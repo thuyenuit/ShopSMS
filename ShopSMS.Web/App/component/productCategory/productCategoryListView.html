@@ -25,7 +25,9 @@
                     </div>
                     <div class="col-md-2">
                             <select name="statusID" class="form-control" ng-model="listStatus.StatusID" ng-change="onChangeStatus()"
-                                    ng-options="option.StatusID as option.StatusName for option in listStatus"></select>
+                                    ng-options="option.StatusID as option.StatusName for option in listStatus">
+                                <option value="">[Trạng thái]</option>
+                            </select>
                     </div>
 
                     <div class="row col-md-5">
@@ -63,57 +65,71 @@
                                     <th style="width:10%; cursor:pointer" ng-click="sortData('CategoryName')">
                                         <span>Danh mục</span> <div ng-class="getSortClass('CategoryName')"></div>
                                     </th>
-                                    <th style="width:25%;">
-                                        <span>Mô tả</span>
-                                    </th>
                                     <th style="width:15%;">
                                         <span>Trạng thái</span>
+                                    </th>
+                                    <th style="width:15%;">
+                                        
                                     </th>
 
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="item in lstProductCategory | orderBy:sortColumn:reverse">
+                                <!--<tr ng-repeat="item in lstProductCategory | orderBy:sortColumn:reverse">-->
+                                <tr ng-repeat="item in lstProductCategory">
                                     <td style="text-align:center;">
                                         <input type="checkbox" ng-if="item.Status == true" name="all" ng-model="item.checked" />
                                     </td>
                                     <td style="text-align:center;">{{ $index + 1 }}</td>
                                     <td>
-                                        <a ui-sref="productCategoryEdit({categoryId:item.ProductCategoryID})" ng-style="item.Status == false && {'color':'red'}">
+                                        <div ng-hide="editingData[item.ProductCategoryID]">{{item.ProductCategoryName}}</div>
+                                        <div ng-show="editingData[item.ProductCategoryID]">
+                                            <input type="text" name="txtName_{{item.ProductCategoryID}}" class="form-control" ng-model="item.ProductCategoryName" maxlength="100" />
+                                        </div>
+
+                                        <!--<a ui-sref="productCategoryEdit({categoryId:item.ProductCategoryID})" ng-style="item.Status == false && {'color':'red'}">
                                             {{ item.ProductCategoryName}}
-                                        </a>
-                                        <!--<md-menu>
-                                            <md-button ng-click="$mdMenu.open($event)">
-                                                <a ui-sref="productCategoryEdit({categoryId:item.ProductCategoryID})" ng-style="item.Status == false && {'color':'red'}">
-                                                    {{ item.ProductCategoryName}}
-                                                </a>
-                                            </md-button>
-                                            <md-menu-content width="2" style="border: 1px solid blue">
-                                                <md-menu-item ng-if="item.Status == true">
-                                                    <md-button ui-sref="productCategoryEdit({categoryId:item.ProductCategoryID})">
-                                                        <i class="fa fa-edit"></i> Cập nhật
-                                                    </md-button>
-                                                </md-menu-item>
-                                                <md-menu-item>
-                                                    <md-button ui-sref="productCategoryView({categoryId:item.ProductCategoryID})">
-                                                        <i class="fa fa-eye"></i> Xem chi tiết
-                                                    </md-button>
-                                                </md-menu-item>
-                                                <md-menu-item ng-if="item.Status == false">
-                                                    <md-button ng-click="RefreshProductCategory(item.ProductCategoryID, item.ProductCategoryName)">
-                                                        <i class="fa fa-refresh"></i> Phục hồi
-                                                    </md-button>
-                                                </md-menu-item>
-                                            </md-menu-content>
-                                        </md-menu>-->
+                                            </a>-->
+                                       
                                     </td>
-                                    <td style="text-align:center;">{{ item.CategoryName }}</td>
-                                    <td>{{ item.ProductCategoryDescription }}</td>
-                                    <td style="text-align:center;font-style:normal">
-                                        <span ng-class="{'label label-success': item.Status == true, 'label label-danger': item.Status == false}">
-                                            {{ item.Status | statusFilter}}
-                                        </span>
+                                    <td style="text-align:center;">
+                                        <div ng-hide="editingData[item.ProductCategoryID]">
+                                            {{item.CategoryName}}
+                                        </div>
+                                        <div ng-show="editingData[item.ProductCategoryID]">
+                                            <select class="form-control" ng-model="item.CategoryID"
+                                                    ng-options="ca.CategoryID as ca.CategoryName for ca in categories"></select>
+                                        </div>
                                     </td>
+                                    <td style="text-align:center;font-style:normal">                                       
+                                        <div ng-hide="editingData[item.ProductCategoryID]">
+                                            <span ng-class="{'label label-success': item.Status == true, 'label label-danger': item.Status == false}">
+                                                {{ item.Status | statusFilter}}
+                                            </span>
+                                        </div>
+
+                                        <div ng-show="editingData[item.ProductCategoryID]">
+                                            <select class="form-control" ng-model="item.IntStatusID"
+                                                    ng-options="option.StatusID as option.StatusName for option in listStatus">
+                                            </select>
+                                        </div>
+                                                                              
+                                    </td>
+                                    <td>
+                                        <button title="Cập nhật" class="btn btn-primary btn-sm" ng-hide="editingData[item.ProductCategoryID]" ng-click="fnModify(item)">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                        <button title="Xóa" class="btn btn-danger btn-sm" ng-hide="editingData[item.ProductCategoryID]">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                        <button title="Lưu" class="btn btn-primary btn-sm" ng-show="editingData[item.ProductCategoryID]" ng-click="fnUpdate(item)">
+                                            <i class="fa fa-save"></i>
+                                        </button>
+                                        <button title="Hủy" class="btn btn-default btn-sm" ng-show="editingData[item.ProductCategoryID]" ng-click="fnCancel(item)">
+                                            <i class="fa fa-undo"></i>
+                                        </button>
+                                    </td>
+
                                 </tr>
                             </tbody>
                         </table>
