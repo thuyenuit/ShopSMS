@@ -35,5 +35,6 @@ namespace ShopSMS.Web.Models
 
         public string CategoryName { get; set; }
         public string CreateByUser { get; set; }
+        public int IntStatusID { get; set; }
     }
 }
