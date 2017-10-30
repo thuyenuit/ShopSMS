@@ -12,25 +12,25 @@
         };
 
         function displaySuccess(message) {
-            toastr.success(message);
+            toastr.success(message, 'Thông báo');
         }
 
         function displayError(error) {
             if (Array.isArray(error)) {
                 error.each(function (err) {
-                    toastr.error(err);
+                    toastr.error(err, 'Thông báo');
                 })
             }
             else
-                toastr.error(error);
+                toastr.error(error, 'Thông báo');
         }
 
         function displayWarning(message) {
-            toastr.warning(message);
+            toastr.warning(message, 'Thông báo');
         }
 
         function displayInfo(message) {
-            toastr.info(message);
+            toastr.info(message, 'Thông báo');
         }
 
         return {
