@@ -110,7 +110,7 @@ namespace ShopSMS.Web.Provider
                 UserInfoInstance.UserNameInstance = user.UserName;
                
                 List<ListStatus> listStatus = new List<ListStatus> {
-                    new ListStatus() { StatusID = SystemParameter.StatusID_0, StatusName = SystemParameter.StatusName_0},
+                    //new ListStatus() { StatusID = SystemParameter.StatusID_0, StatusName = SystemParameter.StatusName_0},
                     new ListStatus() { StatusID = SystemParameter.StatusID_1, StatusName = SystemParameter.StatusName_1},
                     new ListStatus() { StatusID = SystemParameter.StatusID_2, StatusName = SystemParameter.StatusName_2}
                 };
