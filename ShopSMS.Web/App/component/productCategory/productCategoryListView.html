@@ -187,7 +187,7 @@
                                                 ng-options="option.CategoryID as option.CategoryName for option in categories">
                                             <option value="">[Lựa chọn]</option>
                                         </select>
-                                        <button title="Quản lý danh mục" data-toggle="modal" data-target="#myModal" style="width:10%" class="btn btn-block btn-primary btn-flat" type="button">
+                                        <button title="Quản lý danh mục" data-toggle="modal" data-target="#myModal" style="width:15%" class="btn btn-block btn-primary btn-flat" type="button">
                                             ...
                                         </button>
                                     </div>
@@ -203,19 +203,19 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <div class="col-md-4">
+                    <div class="col-md-4 col-xs-2">                      
                     </div>
-                    <div class="col-md-2">
-                        <button type="submit" ng-disabled="frmAddPC.$invalid" class="btn btn-primary btn-flat pull-right">
+                    <div class="col-md-2 col-xs-4">
+                        <button type="submit" ng-disabled="frmAddPC.$invalid" class="btn btn-primary btn-flat">
                             <i class="fa fa-save"></i> {{resData.btnSave}}
                         </button>
                     </div>
-                    <div class="col-md-2">
-                        <button type="button" id="btnClose" class="btn btn-default btn-flat" data-dismiss="modal">
+                    <div class="col-md-2 col-xs-4">
+                        <button type="button" id="btnClosePC" class="btn btn-default btn-flat" data-dismiss="modal">
                             <i class="fa fa-save"></i> Đóng
                         </button>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 col-xs-2">
                     </div>
                 </div>
             </form>
@@ -242,7 +242,7 @@
                                         <li><a href="#social" data-toggle="tab">Thêm mới</a></li>
                                     </ul>
                                     <hr  style="margin-top:2px !important"/>
-                                    <div class="tab-content">
+                                    <div class="tab-content" style="overflow-y: auto;max-height: 300px;">
                                         <div class="tab-pane active" id="about">
                                             <div class="table-responsive">
                                                 <table class="table table-bordered">
@@ -251,10 +251,10 @@
                                                             <th style="width:10%;">
                                                                 <span>STT</span>
                                                             </th>
-                                                            <th style="width:65%;">
+                                                            <th style="width:70%;">
                                                                 <span>Danh mục</span>
                                                             </th>
-                                                            <th style="width:25%;">
+                                                            <th style="width:20%;">
                                                             </th>
                                                         </tr>
                                                     </thead>
@@ -272,7 +272,7 @@
                                                                 <button title="Cập nhật" class="btn btn-primary btn-sm" ng-hide="editingCaterogy[item.CategoryID]" ng-click="fnModifyCategory(item)">
                                                                     <i class="fa fa-edit"></i>
                                                                 </button>
-                                                                <button title="Xóa" class="btn btn-danger btn-sm" ng-hide="editingCaterogy[item.CategoryID]">
+                                                                <button title="Xóa" class="btn btn-danger btn-sm" ng-hide="editingCaterogy[item.CategoryID]" ng-click="fnDeleteCategory(item)">
                                                                     <i class="fa fa-trash"></i>
                                                                 </button>
                                                                 <button title="Lưu" class="btn btn-primary btn-sm" ng-show="editingCaterogy[item.CategoryID]" ng-click="fnUpdateCategory(item)">
@@ -293,7 +293,7 @@
                                                     <div style="display:flex">
                                                         <input ng-required="true" id="txtCategoryName" ng-model="cateInfo.CategoryName"
                                                                type="text" name="categoryName" class="form-control" placeholder="Nhập tên danh mục">
-                                                        <button ng-disabled="frmAddCategory.$invalid" ng-click="CreateCategory()" style="width:20%" class="btn btn-block btn-primary btn-flat" type="button">
+                                                        <button ng-disabled="frmAddCategory.$invalid" ng-click="CreateCategory()" style="width:30%" class="btn btn-block btn-primary btn-flat" type="button">
                                                             <i class="fa fa-save"></i> Lưu
                                                         </button>
                                                     </div>
@@ -308,14 +308,14 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <div class="col-md-4">
+                <div class="col-md-4 col-xs-4">
                 </div>
-                <div class="col-md-2">
-                    <button type="button" id="btnClose" class="btn btn-default btn-flat" data-dismiss="modal">
+                <div class="col-md-4 col-xs-4" style="text-align:center">
+                    <button type="button" id="btnCloseFormCate" class="btn btn-default btn-flat" data-dismiss="modal">
                         <i class="fa fa-save"></i> Đóng
                     </button>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 col-xs-2">
                 </div>
             </div>
         </div>

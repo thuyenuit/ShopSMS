@@ -85,9 +85,7 @@
                     notificationService.displayError(result.data);
                 });
                 $scope.$parent.MethodShowLoading("Đang xử lý", $scope.promise);
-            }
-           
-
+            }          
         }
 
     }
