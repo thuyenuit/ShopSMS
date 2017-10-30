@@ -1,4 +1,4 @@
-﻿ //<reference path="/Assets/Admin/libs/angular/angular.js" />
+﻿//<reference path="/Assets/Admin/libs/angular/angular.js" />
 
 (function (app) {
     app.controller('productCategoryListController', productCategoryListController);
@@ -9,7 +9,12 @@
     function productCategoryListController($scope, apiService, $interval,
         $filter, $ngBootbox, $state, notificationService) {
 
+        // object the loai - them moi
+        $scope.pcInfo = {};
+
+        ///
         $scope.editingData = {};
+        $scope.editingCaterogy = {};
 
         $scope.onClickAddProductCategory = function () {
             $state.go('productCategoryAdd');
@@ -41,28 +46,59 @@
         };
 
         $scope.listStatus = {};
-       // $scope.listStatus.StatusID = 0;
+        // $scope.listStatus.StatusID = 0;
         function LoadStatus() {
             apiService.get('/api/other/getListStatus', null, function (result) {
                 $scope.listStatus = result.data;
-              //  $scope.listStatus.StatusID = 0;
+                //  $scope.listStatus.StatusID = 0;
             }, function () {
                 notificationService.displayError('Không thể tải danh sách trạng thái');
             });
         }
         LoadStatus();
 
-        $scope.categories = [];
-        //$scope.categories.CategoryID = 0;
+        $scope.categories = {};
         function LoadCategory() {
             apiService.get('/api/category/getallNoPage', null, function (result) {
-                $scope.categories = result.data;            
-                //$scope.categories.CategoryID = 0;
+                $scope.categories = result.data;
+
+                for (var i = 0, length = $scope.categories.length; i < length; i++) {
+                    $scope.editingCaterogy[$scope.categories[i].CategoryID] = false;
+                }           
             }, function () {
                 notificationService.displayError('Không thể tải danh sách danh mục');
             });
         }
         LoadCategory();
+
+        $scope.fnModifyCategory = function (item) {
+            $scope.editingCaterogy[item.CategoryID] = true;
+        };
+
+        $scope.fnUpdateCategory = function (item) {
+            if (item.CategoryName === '' || item.CategoryName === null) {
+                notificationService.displayError('Tên thể loại không được bỏ trống!');
+                var name = 'txtNameCate_' + item.CategoryID;
+                angular.element('input[name=' + name + ']').focus();
+            }
+            else {
+                var url = '/api/category/update';
+                $scope.promise = apiService.put(url, item, function (result) {
+                    notificationService.displaySuccess(result.data);
+                    $scope.editingCaterogy[item.CategoryID] = false;
+                    LoadCategory();
+                    ListProductCategory();
+                }, function (result) {
+                    notificationService.displayError(result.data);
+                });
+                $scope.$parent.MethodShowLoading("Đang xử lý", $scope.promise);
+            }
+        };
+
+        $scope.fnCancelCategory = function (item) {
+            $scope.editingCaterogy[item.CategoryID] = false;
+            LoadCategory();
+        };
 
         // list
         $scope.lstProductCategory = [];
@@ -74,9 +110,9 @@
 
         $scope.ListProductCategory = ListProductCategory;
         function ListProductCategory(page) {
-          
+
             page = page || 0;
-           
+
             var categoryID = $scope.categories.CategoryID;
             if (categoryID === undefined || categoryID === 'undefined' || categoryID === null)
                 categoryID = 0;
@@ -102,11 +138,11 @@
                 $scope.totalCount = result.data.TotalCount;
                 $scope.showFrom = result.data.ShowFrom;
                 $scope.showTo = result.data.ShowTo;
-                
+
                 for (var i = 0, length = $scope.lstProductCategory.length; i < length; i++) {
                     $scope.editingData[$scope.lstProductCategory[i].ProductCategoryID] = false;
                 }
-               
+
             }, function () {
                 notificationService.displayError('Không thể tải danh sách danh mục');
             });
@@ -116,14 +152,13 @@
         $scope.ListProductCategory();
 
 
-        $scope.fnModify = function(item){
+        $scope.fnModify = function (item) {
             $scope.editingData[item.ProductCategoryID] = true;
         };
 
         $scope.fnUpdate = function (item) {
-
             if (item.ProductCategoryName === '' || item.ProductCategoryName === null) {
-                notificationService.displayError('Tên thể loại không được bỏ trống!');                
+                notificationService.displayError('Tên thể loại không được bỏ trống!');
                 var name = 'txtName_' + item.ProductCategoryID;
                 angular.element('input[name=' + name + ']').focus();
             }
@@ -138,7 +173,6 @@
                 });
                 $scope.$parent.MethodShowLoading("Đang xử lý", $scope.promise);
             }
-            
         };
 
         $scope.fnCancel = function (item) {
@@ -199,9 +233,7 @@
             }
         }, true);
 
-
         $scope.deleteMulti = deleteMulti;
-
         function deleteMulti() {
             $ngBootbox.confirm('Bạn có muốn chắc xóa những mục đã chọn?').then(function () {
 
@@ -209,8 +241,7 @@
                 $.each($scope.selected, function (i, item) {
                     listId.push(item.ProductCategoryID);
                 });
-                if (listId.length > 0)
-                {
+                if (listId.length > 0) {
                     var consfigs = {
                         params: {
                             jsonlistId: JSON.stringify(listId)
@@ -230,18 +261,11 @@
                     $scope.$parent.MethodShowLoading("Đang xử lý", $scope.promise);
 
                 }
-                else
-                {
+                else {
                     notificationService.displayError('Không có bản ghi nào được lựa chọn! Vui lòng kiểm tra lại.');
                 }
-
-
-               
             });
         }
-
-
-
 
         // phục hồi thể loại
         $scope.RefreshProductCategory = RefreshProductCategory;
@@ -253,5 +277,34 @@
             });
         }
 
+        // add category
+        $scope.cateInfo = {};
+        $scope.AddCategory = AddCategory;
+        function AddCategory() {
+            if ($scope.cateInfo.CategoryName === null || $scope.cateInfo.CategoryName === '') {
+                notificationService.displayError('Vui lòng nhập tên danh mục!');
+            }
+            else {
+                var url = '/api/category/create';
+                $scope.promise = apiService.post(url, $scope.cateInfo, function (result) {
+                    LoadCategory();
+                    console.log(result.data);
+                    notificationService.displaySuccess('Thêm mới thành công!');
+                    angular.element("input[id='txtCategoryName']").val('');
+
+                    $scope.pcInfo.CategoryID = result.data.CategoryID;                   
+                }, function (result) {
+                    notificationService.displayError(result.data);
+                });
+                $scope.$parent.MethodShowLoading("Đang xử lý", $scope.promise);
+            }
+        }
+
+        $scope.CreateCategory = function () {
+            AddCategory();
+        }
+
+       
+        
     }
 })(angular.module('sms.productCategory'));

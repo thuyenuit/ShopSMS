@@ -14,20 +14,20 @@
             <div class="box">
                 <div class="box-header with-border">
                     <div class="col-md-3">
-                        <input type="text" class="form-control" ng-model="keyWord" placeholder="Từ khóa...">        
+                        <input type="text" class="form-control" ng-model="keyWord" placeholder="Từ khóa...">
                     </div>
                     <div class="col-md-2">
-                            <select name="categoryID" ng-required=true class="form-control"
-                                    ng-model="categories.CategoryID" ng-change="onChangeCategory()"
-                                    ng-options="option.CategoryID as option.CategoryName for option in categories">
-                                <option value="">[Danh mục]</option>
-                            </select>
+                        <select name="categoryID" ng-required=true class="form-control"
+                                ng-model="categories.CategoryID" ng-change="onChangeCategory()"
+                                ng-options="option.CategoryID as option.CategoryName for option in categories">
+                            <option value="">[Danh mục]</option>
+                        </select>
                     </div>
                     <div class="col-md-2">
-                            <select name="statusID" class="form-control" ng-model="listStatus.StatusID" ng-change="onChangeStatus()"
-                                    ng-options="option.StatusID as option.StatusName for option in listStatus">
-                                <option value="">[Trạng thái]</option>
-                            </select>
+                        <select name="statusID" class="form-control" ng-model="listStatus.StatusID" ng-change="onChangeStatus()"
+                                ng-options="option.StatusID as option.StatusName for option in listStatus">
+                            <option value="">[Trạng thái]</option>
+                        </select>
                     </div>
 
                     <div class="row col-md-5">
@@ -37,7 +37,7 @@
                             </button>
                         </div>
                         <div class="col-xs-4">
-                            <button ng-click="onClickAddProductCategory()" class="btn btn-block btn-primary btn-flat" type="button">
+                            <button data-toggle="modal" data-target="#myModalPC" class="btn btn-block btn-primary btn-flat" type="button">
                                 <i class="fa fa-plus"></i> {{resData.LabelCreate}}
                             </button>
                         </div>
@@ -46,7 +46,7 @@
                                 <i class="fa fa-trash"></i> {{resData.LabelDelete}}
                             </button>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
                 <div class="box-body">
                     <div class="table-responsive">
@@ -69,7 +69,7 @@
                                         <span>Trạng thái</span>
                                     </th>
                                     <th style="width:15%;">
-                                        
+
                                     </th>
 
                                 </tr>
@@ -90,7 +90,7 @@
                                         <!--<a ui-sref="productCategoryEdit({categoryId:item.ProductCategoryID})" ng-style="item.Status == false && {'color':'red'}">
                                             {{ item.ProductCategoryName}}
                                             </a>-->
-                                       
+
                                     </td>
                                     <td style="text-align:center;">
                                         <div ng-hide="editingData[item.ProductCategoryID]">
@@ -101,7 +101,7 @@
                                                     ng-options="ca.CategoryID as ca.CategoryName for ca in categories"></select>
                                         </div>
                                     </td>
-                                    <td style="text-align:center;font-style:normal">                                       
+                                    <td style="text-align:center;font-style:normal">
                                         <div ng-hide="editingData[item.ProductCategoryID]">
                                             <span ng-class="{'label label-success': item.Status == true, 'label label-danger': item.Status == false}">
                                                 {{ item.Status | statusFilter}}
@@ -110,10 +110,8 @@
 
                                         <div ng-show="editingData[item.ProductCategoryID]">
                                             <select class="form-control" ng-model="item.IntStatusID"
-                                                    ng-options="option.StatusID as option.StatusName for option in listStatus">
-                                            </select>
+                                                    ng-options="option.StatusID as option.StatusName for option in listStatus"></select>
                                         </div>
-                                                                              
                                     </td>
                                     <td>
                                         <button title="Cập nhật" class="btn btn-primary btn-sm" ng-hide="editingData[item.ProductCategoryID]" ng-click="fnModify(item)">
@@ -129,12 +127,10 @@
                                             <i class="fa fa-undo"></i>
                                         </button>
                                     </td>
-
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-
 
                 </div>
                 <div class="box-footer clearfix">
@@ -145,11 +141,183 @@
                         </div>
                         <!--<div class="col-md-9">
                                 Hiển thị từ <strong> {{ showFrom }}</strong> - <strong>{{showTo}}</strong> của <strong>{{totalCount}}</strong> bản ghi
-                        </div>-->                      
-                    </div>              
+                        </div>-->
+                    </div>
                     <pager-directive page="{{page}}" custom-path="{{customPath}}" pages-count="{{pagesCount}}" total-count="{{totalCount}}" search-func="ListProductCategory(page)"></pager-directive>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<!--Form create product category-->
+<div class="modal fade" id="myModalPC" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Thêm mới thể loại</h4>
+            </div>
+            <form class="form-horizontal" novalidate name="frmAddPC" role="form" ng-submit="AddProductCategory()">
+                <div class="modal-body">
+                    <div class="container-fluid">
+
+                        <div class="col-md-12">
+                            <div class="form-group"
+                                 ng-class="{'has-error': frmAddPC.productCategory.$invalid && !frmAddPC.productCategory.$pristine }">
+                                <span style="font-size:14px" class="col-sm-3 control-label">Tên thể loại *</span>
+                                <div class="col-sm-9">
+                                    <input ng-required="true" ng-model="pcInfo.ProductCategoryName"
+                                           type="text" name="productCategory" class="form-control" placeholder="Thể loại">
+                                    <span class="has-error" ng-show="frmAddPC.productCategory.$touched && frmAddPC.productCategory.$error.required">
+                                        Vui lòng nhập tên thể loại!
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group"
+                                 ng-class="{'has-error': frmAddPC.categoryID.$invalid && !frmAddPC.categoryID.$pristine }">
+                                <span style="font-size:14px" class="col-sm-3 control-label">Danh mục *</span>
+                                <div class="col-sm-9">
+                                    <div style="display:flex">
+                                        <select name="categoryID" ng-required=true class="form-control"
+                                                ng-model="pcInfo.CategoryID"
+                                                ng-options="option.CategoryID as option.CategoryName for option in categories">
+                                            <option value="">[Lựa chọn]</option>
+                                        </select>
+                                        <button title="Quản lý danh mục" data-toggle="modal" data-target="#myModal" style="width:10%" class="btn btn-block btn-primary btn-flat" type="button">
+                                            ...
+                                        </button>
+                                    </div>
+                                    <div style="display:flex">
+                                        <span class="has-error" ng-show="frmAddPC.categoryID.$touched && frmAddPC.categoryID.$error.required">
+                                            Vui lòng chọn danh mục!
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" ng-disabled="frmAddPC.$invalid" class="btn btn-primary btn-flat pull-right">
+                            <i class="fa fa-save"></i> {{resData.btnSave}}
+                        </button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" id="btnClose" class="btn btn-default btn-flat" data-dismiss="modal">
+                            <i class="fa fa-save"></i> Đóng
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Form create category-->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Quản lý danh mục</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="tabbable">
+                                    <ul class="nav tab-group">
+                                        <li class="active"><a href="#about" data-toggle="tab">Danh sách</a></li>
+                                        <li><a href="#social" data-toggle="tab">Thêm mới</a></li>
+                                    </ul>
+                                    <hr  style="margin-top:2px !important"/>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="about">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-inverse">
+                                                        <tr style="font-style:normal" class="bg-primary">
+                                                            <th style="width:10%;">
+                                                                <span>STT</span>
+                                                            </th>
+                                                            <th style="width:65%;">
+                                                                <span>Danh mục</span>
+                                                            </th>
+                                                            <th style="width:25%;">
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="item in categories">
+                                                            <td style="text-align:center;">{{ $index + 1 }}</td>
+                                                            <td>
+                                                                <div ng-hide="editingCaterogy[item.CategoryID]">{{item.CategoryName}}</div>
+                                                                <div ng-show="editingCaterogy[item.CategoryID]">
+                                                                    <input type="text" name="txtNameCate_{{item.CategoryID}}" class="form-control" 
+                                                                           ng-model="item.CategoryName" maxlength="100" />
+                                                                </div>
+                                                            </td>                                                        
+                                                            <td>
+                                                                <button title="Cập nhật" class="btn btn-primary btn-sm" ng-hide="editingCaterogy[item.CategoryID]" ng-click="fnModifyCategory(item)">
+                                                                    <i class="fa fa-edit"></i>
+                                                                </button>
+                                                                <button title="Xóa" class="btn btn-danger btn-sm" ng-hide="editingCaterogy[item.CategoryID]">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </button>
+                                                                <button title="Lưu" class="btn btn-primary btn-sm" ng-show="editingCaterogy[item.CategoryID]" ng-click="fnUpdateCategory(item)">
+                                                                    <i class="fa fa-save"></i>
+                                                                </button>
+                                                                <button title="Hủy" class="btn btn-default btn-sm" ng-show="editingCaterogy[item.CategoryID]" ng-click="fnCancelCategory(item)">
+                                                                    <i class="fa fa-undo"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane col-sm-12" id="social">
+                                            <div ng-init="cateInfo={}">
+                                                <form class="form-horizontal" novalidate name="frmAddCategory" role="form" ng-submit="AddCategory()">
+                                                    <div style="display:flex">
+                                                        <input ng-required="true" id="txtCategoryName" ng-model="cateInfo.CategoryName"
+                                                               type="text" name="categoryName" class="form-control" placeholder="Nhập tên danh mục">
+                                                        <button ng-disabled="frmAddCategory.$invalid" ng-click="CreateCategory()" style="width:20%" class="btn btn-block btn-primary btn-flat" type="button">
+                                                            <i class="fa fa-save"></i> Lưu
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                                                                      
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-2">
+                    <button type="button" id="btnClose" class="btn btn-default btn-flat" data-dismiss="modal">
+                        <i class="fa fa-save"></i> Đóng
+                    </button>
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
