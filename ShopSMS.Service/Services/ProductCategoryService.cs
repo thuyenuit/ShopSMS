@@ -19,6 +19,7 @@ namespace ShopSMS.Service.Services
         IEnumerable<ProductCategory> GetAll();
         IEnumerable<ProductCategory> GetAllPaging(int page, int pageSize, out int totalRow);
         ProductCategory GetSingleById(int id);
+        IEnumerable<ProductCategory> GetByCategoryId(int categoryID);
         void SaveChanges();
     }
 
@@ -42,8 +43,7 @@ namespace ShopSMS.Service.Services
             List<ProductCategory> lstPC = productCategoryRepository.GetAll().ToList();
 
             string productName = obj.ProductCategoryName.Trim().ToUpper().ToString();
-            var check = lstPC.Where(x => x.ProductCategoryName.ToUpper() == productName
-                                && x.CategoryID == obj.CategoryID).FirstOrDefault();
+            var check = lstPC.Where(x => x.ProductCategoryName.ToUpper() == productName).FirstOrDefault();
             if (check != null)
                 return false;
 
@@ -134,6 +134,12 @@ namespace ShopSMS.Service.Services
                         b => b.CategoryID,
                         (a, b) => new { a }).Select(x => x.a);
 
+            return lstQuery;
+        }
+
+        public IEnumerable<ProductCategory> GetByCategoryId(int categoryID)
+        {
+            IEnumerable<ProductCategory> lstQuery = GetAll().Where(x=>x.CategoryID == categoryID);
             return lstQuery;
         }
     }
