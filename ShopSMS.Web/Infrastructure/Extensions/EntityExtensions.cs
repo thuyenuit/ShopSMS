@@ -53,7 +53,7 @@ namespace ShopSMS.Web.Infrastructure.Extensions
         {
             category.CategoryID = categoryVM.CategoryID;
             category.CategoryName = categoryVM.CategoryName;
-            category.DisplayOrder = categoryVM.CategoryDisplayOrder;
+            category.DisplayOrder = categoryVM.DisplayOrder;
             category.CreateBy = categoryVM.CreateBy;
             category.CreateDate = categoryVM.CreateDate;
             category.MetaDescription = categoryVM.MetaDescription;
