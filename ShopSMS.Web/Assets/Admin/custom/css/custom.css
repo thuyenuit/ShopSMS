@@ -42,83 +42,107 @@
     margin-left:2px;
 }
 
-
-
-
-
-.windows8 {
-    position: relative;
-    width: 78px;
-    height: 78px;
-    margin: auto;
+.tab-group, 
+.tab-group-vertical {
+   position: relative;
+   display: inline-block;
+   vertical-align: middle;
+   zoom: 1; /* Fix for IE7 */
+   *display: inline; /* Fix for IE7 */
 }
 
-    .windows8 .wBall {
-        position: absolute;
-        width: 74px;
-        height: 74px;
-        opacity: 0;
-        transform: rotate(225deg);
-        -o-transform: rotate(225deg);
-        -ms-transform: rotate(225deg);
-        -webkit-transform: rotate(225deg);
-        -moz-transform: rotate(225deg);
-        animation: orbit 6.96s infinite;
-        -o-animation: orbit 6.96s infinite;
-        -ms-animation: orbit 6.96s infinite;
-        -webkit-animation: orbit 6.96s infinite;
-        -moz-animation: orbit 6.96s infinite;
-    }
+.tab-group > li, 
+.tab-group-vertical > li {
+    border: 1px solid #428bca;
+    border-radius: 1px;
+    position: relative;
+    float: left;
+}
+.tab-group > li.active > a, 
+.tab-group > li.active > a:hover, 
+.tab-group > li.active > a:focus,
+.tab-group-vertical > li.active > a, 
+.tab-group-vertical > li.active > a:hover, 
+.tab-group-vertical > li.active > a:focus {
+    background-color: #428bca;
+    color: #fff;
+}
+.tab-group > li > a,
+.tab-group-vertical > li > a {
+    border-radius: 0;
+}
+.tab-group > li > a:hover,
+.tab-group-vertical > li > a:hover {
+    border-radius: 1px;
+}
 
-        .windows8 .wBall .wInnerBall {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: rgb(0,0,0);
-            left: 0px;
-            top: 0px;
-            border-radius: 10px;
-        }
+.tab-group li + li {
+    margin-left: -1px;
+}
 
-    .windows8 #wBall_1 {
-        animation-delay: 1.52s;
-        -o-animation-delay: 1.52s;
-        -ms-animation-delay: 1.52s;
-        -webkit-animation-delay: 1.52s;
-        -moz-animation-delay: 1.52s;
-    }
+.tab-group > li:not(:first-child):not(:last-child),
+.tab-group > li:not(:first-child):not(:last-child) > a:hover {
+  border-radius: 0;
+}
+.tab-group > li:first-child,
+.tab-group > li:first-child > a:hover {
+    margin-left: 0;
+}
+.tab-group > li:first-child:not(:last-child),
+.tab-group > li:first-child:not(:last-child) > a:hover {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.tab-group > li:last-child:not(:first-child),
+.tab-group > li:last-child:not(:first-child) > a:hover {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
 
-    .windows8 #wBall_2 {
-        animation-delay: 0.3s;
-        -o-animation-delay: 0.3s;
-        -ms-animation-delay: 0.3s;
-        -webkit-animation-delay: 0.3s;
-        -moz-animation-delay: 0.3s;
-    }
+.tab-group-vertical > li {
+    display: block;
+    float: none;
+    width: 100%;
+    max-width: 100%;
+    text-align:center;
+}
+.tab-group-vertical > li + li {
+    margin-top: -1px;
+    margin-left: 0px;
+}
 
-    .windows8 #wBall_3 {
-        animation-delay: 0.61s;
-        -o-animation-delay: 0.61s;
-        -ms-animation-delay: 0.61s;
-        -webkit-animation-delay: 0.61s;
-        -moz-animation-delay: 0.61s;
-    }
+.tab-group-vertical > li:not(:first-child):not(:last-child),
+.tab-group-vertical > li:not(:first-child):not(:last-child) > a:hover {
+  border-radius: 0;
+}
+.tab-group-vertical > li:first-child:not(:last-child),
+.tab-group-vertical > li:first-child:not(:last-child) > a:hover {
+  border-top-right-radius: 1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.tab-group-vertical > li:last-child:not(:first-child),
+.tab-group-vertical > li:last-child:not(:first-child) > a:hover {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 1px;
+}
 
-    .windows8 #wBall_4 {
-        animation-delay: 0.91s;
-        -o-animation-delay: 0.91s;
-        -ms-animation-delay: 0.91s;
-        -webkit-animation-delay: 0.91s;
-        -moz-animation-delay: 0.91s;
-    }
 
-    .windows8 #wBall_5 {
-        animation-delay: 1.22s;
-        -o-animation-delay: 1.22s;
-        -ms-animation-delay: 1.22s;
-        -webkit-animation-delay: 1.22s;
-        -moz-animation-delay: 1.22s;
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
