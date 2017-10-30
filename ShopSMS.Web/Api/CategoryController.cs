@@ -50,9 +50,9 @@ namespace ShopSMS.Web.Api
                     CreateDate = x.CreateDate,
                     UpdateBy = x.UpdateBy,
                     UpdateDate = x.UpdateDate,
-                    CategoryDisplayOrder = x.DisplayOrder,
+                    DisplayOrder = x.DisplayOrder,
                     Status = x.Status
-                }).OrderByDescending(x => x.CategoryDisplayOrder)
+                }).OrderByDescending(x => x.DisplayOrder)
                 .ThenBy(x => x.CategoryName).ToList();
 
                 int totalRow = lstResponse.Count();
@@ -83,8 +83,9 @@ namespace ShopSMS.Web.Api
                 {
                     CategoryID = x.CategoryID,
                     CategoryName = x.CategoryName,
-                    CategoryDisplayOrder = x.DisplayOrder
-                }).OrderByDescending(x => x.CategoryDisplayOrder)
+                    DisplayOrder = x.DisplayOrder,
+                    IntStatusID = x.Status == true ? 1 : 2
+                }).OrderByDescending(x => x.DisplayOrder)
                 .ThenBy(x => x.CategoryName).ToList();
              
                 var response = request.CreateResponse(HttpStatusCode.OK, lstResponse);
@@ -128,7 +129,6 @@ namespace ShopSMS.Web.Api
                         }
 
                         Category objCate = new Category();
-                        categoryVM.CategoryHomeFlag = true ? categoryVM.CategoryHomeFlag == true : false;
                         objCate.UpdateCategory(categoryVM);
                         objCate.CreateDate = DateTime.Now;
                         objCate.CreateBy = UserInfoInstance.UserCodeInstance;
@@ -140,8 +140,7 @@ namespace ShopSMS.Web.Api
 
                         categoryService.Add(objCate);
                         categoryService.SaveChanges();
-                        string msg = string.Format("Thêm mới thành công");
-                        response = request.CreateResponse(HttpStatusCode.OK, msg);
+                        response = request.CreateResponse(HttpStatusCode.OK, objCate);
                         return response;
                     }
                     catch (Exception ex)
@@ -173,19 +172,14 @@ namespace ShopSMS.Web.Api
                         var objDB = categoryService.GetSingleById(categoryVM.CategoryID);
                         if (objDB != null)
                         {
-                            var checkResult = categoryService.GetAll()
-                                            .Where(x => x.CategoryID != categoryVM.CategoryID
-                                                && x.CategoryName.ToUpper() == categoryVM.CategoryName.ToUpper())
-                                                    .FirstOrDefault();
+                            var checkResult = categoryService.GetAll().Where(x => x.CategoryID != categoryVM.CategoryID
+                                                                            && x.CategoryName.ToUpper() == categoryVM.CategoryName.ToUpper())
+                                                                    .FirstOrDefault();
                             if (checkResult == null)
                             {
                                 objDB.CategoryName = categoryVM.CategoryName;
-                                objDB.MetaDescription = categoryVM.MetaDescription;
-                                objDB.MetaKeyword = categoryVM.MetaKeyword;
-                                objDB.DisplayOrder = categoryVM.CategoryDisplayOrder;
                                 objDB.UpdateDate = DateTime.Now;
                                 objDB.UpdateBy += UserInfoInstance.UserCodeInstance + ",";
-                                objDB.Status = categoryVM.Status;
                                 categoryService.Update(objDB);
                                 categoryService.SaveChanges();
 
@@ -198,8 +192,6 @@ namespace ShopSMS.Web.Api
                                 response = request.CreateResponse(HttpStatusCode.BadGateway, msgError);
                                 return response;
                             }
-
-
                         }
                         else
                             response = request.CreateResponse(HttpStatusCode.NotFound);
@@ -226,9 +218,20 @@ namespace ShopSMS.Web.Api
             }
             else
             {
+                if(id <= 0)
+                    response = request.CreateResponse(HttpStatusCode.NotFound);
+
                 var result = categoryService.GetSingleById(id);
                 if (result != null)
                 {
+                    var objProductCategory = productCategoryService.GetByCategoryId(result.CategoryID).FirstOrDefault();
+                    if (objProductCategory != null)
+                    {
+                        string msgError = string.Format("Xóa thất bại! Danh mục {0} đã được sử dụng", result.CategoryName);
+                        response = request.CreateResponse(HttpStatusCode.BadGateway, msgError);
+                        return response;
+                    }
+
                     categoryService.Delete(id);
                     categoryService.SaveChanges();
                     response = request.CreateResponse(HttpStatusCode.OK, result);
