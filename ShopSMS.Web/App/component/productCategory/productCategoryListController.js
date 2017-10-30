@@ -3,11 +3,15 @@
 (function (app) {
     app.controller('productCategoryListController', productCategoryListController);
 
-    productCategoryListController.$inject = ['$scope',
+    productCategoryListController.$inject = ['$scope', '$compile',
         'apiService', '$interval', '$filter', '$ngBootbox', '$state', 'notificationService'];
 
-    function productCategoryListController($scope, apiService, $interval,
+    function productCategoryListController($scope,$compile, apiService, $interval,
         $filter, $ngBootbox, $state, notificationService) {
+
+            /*var htmlcontent = $('#loadhtml');
+            htmlcontent.load('/App/component/productCategory/formCategory.html');
+            $compile(htmlcontent.contents())($scope);*/
 
         // object the loai - them moi
         $scope.pcInfo = {};
@@ -336,10 +340,11 @@
             }
             else {
                 var url = '/api/productcategory/create';
-                $scope.promise = apiService.post(url, $scope.pcInfo, function (result) {
+                $scope.promise = apiService.post(url, $scope.pcInfo, function (result) {                  
                     angular.element("button[id='btnClosePC']").click();
                     notificationService.displaySuccess(result.data);
                     ListProductCategory();
+                   // $scope.pcInfo = null;
                 }, function (result) {
                     notificationService.displayError(result.data);
                 });
