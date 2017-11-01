@@ -21,7 +21,7 @@ namespace ShopSMS.Web.Api
     [Authorize]
     public class ProductCategoryController : BaseApiController
     {
-
+        IProductService productService;
         IProductCategoryService productCategoryService;
         IApplicationUserService userService;
         ICategoryService categoryService;
@@ -29,11 +29,13 @@ namespace ShopSMS.Web.Api
             IErrorLogService errorLogService,
             IProductCategoryService productCategoryService,
             IApplicationUserService userService,
-            ICategoryService categoryService) : base(errorLogService)
+            ICategoryService categoryService,
+            IProductService productService) : base(errorLogService)
         {
             this.productCategoryService = productCategoryService;
             this.userService = userService;
             this.categoryService = categoryService;
+            this.productService = productService;
         }
 
         [Route("getall")]
@@ -279,9 +281,19 @@ namespace ShopSMS.Web.Api
                 var result = productCategoryService.GetSingleById(id);
                 if (result != null)
                 {
-                    productCategoryService.Delete(id);
-                    productCategoryService.SaveChanges();
-                    response = request.CreateResponse(HttpStatusCode.OK, result);
+                    IDictionary<string, object> dic = new Dictionary<string, object>();
+                    dic.Add("CategoryID", result.CategoryID);
+                    Product objPro = productService.Search(dic).FirstOrDefault();
+
+                    if (objPro == null)
+                    {
+                        productCategoryService.Delete(id);
+                        productCategoryService.SaveChanges();
+                        response = request.CreateResponse(HttpStatusCode.OK, result);
+                        return response;
+                    }
+                    string msg = string.Format("Xóa thất bại! Thể loại {0} đã được sử dụng.", result.ProductCategoryName);
+                    response = request.CreateResponse(HttpStatusCode.BadGateway, msg);
                 }
                 else
                 {

@@ -15,6 +15,7 @@ using System.Web.Script.Serialization;
 namespace ShopSMS.Web.Api
 {
     [RoutePrefix("api/product")]
+    [Authorize]
     public class ProductController : BaseApiController
     {
         IProductService productService;
@@ -24,7 +25,6 @@ namespace ShopSMS.Web.Api
         }
 
         [Route("getall")]
-        [Authorize]
         [HttpGet]
         public HttpResponseMessage GetAll(HttpRequestMessage request,
            int page, int pageSize, string keyWord, int categoryID, int status)
@@ -76,7 +76,6 @@ namespace ShopSMS.Web.Api
         }
 
         [Route("getbykeyword")]
-        //[Authorize]
         [HttpGet]
         public HttpResponseMessage GetByKeyword(HttpRequestMessage request)
         {
@@ -93,7 +92,6 @@ namespace ShopSMS.Web.Api
         }
 
         [Route("getbyid")]
-        //[Authorize]
         [HttpGet]
         public HttpResponseMessage GetById(HttpRequestMessage request, int categoryId)
         {
@@ -107,7 +105,6 @@ namespace ShopSMS.Web.Api
         }
 
         [Route("create")]
-        [Authorize]
         [HttpPost]
         public HttpResponseMessage Create(HttpRequestMessage request, ProductViewModel productVM)
         {
@@ -135,7 +132,6 @@ namespace ShopSMS.Web.Api
         }
 
         [Route("update")]
-        [Authorize]
         [HttpPut]
         public HttpResponseMessage Update(HttpRequestMessage request, ProductViewModel productVM)
         {
@@ -170,7 +166,6 @@ namespace ShopSMS.Web.Api
         }
 
         [Route("delete")]
-        [Authorize]
         [HttpDelete]
         public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
