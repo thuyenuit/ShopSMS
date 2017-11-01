@@ -9,6 +9,9 @@
     function productAddController($scope, apiService, $interval,
         $filter, $ngBootbox, $state, notificationService) {
 
+            $scope.ChooseImage = function(){
+                alert('ok');
+            }
     }
 })(angular.module('sms.product'));
 
