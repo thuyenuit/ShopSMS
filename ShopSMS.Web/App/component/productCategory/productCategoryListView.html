@@ -31,19 +31,19 @@
                     </div>
 
                     <div class="row col-md-5">
-                        <div class="col-xs-6">
+                        <div class="col-md-4 col-xs-4">
                             <button class="btn btn-block btn-default btn-flat" type="button" ng-click="onSearch()">
-                                <i class="fa fa-search"></i> Tìm kiếm
+                                <i class="fa fa-search"></i> <span class="infoSpan">Tìm kiếm</span>
                             </button>
                         </div>
-                        <div class="col-xs-6">
+                        <div class="col-md-4 col-xs-4">
                             <button data-toggle="modal" data-target="#myModalPC" class="btn btn-block btn-primary btn-flat" type="button">
-                                <i class="fa fa-plus"></i> {{resData.LabelCreate}}
+                                <i class="fa fa-plus"></i> <span class="infoSpan">{{resData.LabelCreate}}</span>
                             </button>
                         </div>
-                        <div class="col-xs-6">
+                        <div class="col-md-4 col-xs-4">
                             <button ng-click="deleteMulti()" id="btnDeleteMulti" ng-show="selectDelete" class="btn btn-block btn-danger btn-flat" type="button">
-                                <i class="fa fa-trash"></i> {{resData.LabelDelete}}
+                                <i class="fa fa-trash"></i> <span class="infoSpan">{{resData.LabelDelete}}</span>
                             </button>
                         </div>
                     </div>
@@ -82,8 +82,8 @@
                                     </td>
                                     <td style="text-align:center;">{{ $index + 1 }}</td>
                                     <td>
-                                        <div ng-hide="editingData[item.ProductCategoryID]">{{item.ProductCategoryName}}</div>
-                                        <div ng-show="editingData[item.ProductCategoryID]">
+                                        <div ng-hide="editProductCategory[item.ProductCategoryID]">{{item.ProductCategoryName}}</div>
+                                        <div ng-show="editProductCategory[item.ProductCategoryID]">
                                             <input type="text" name="txtName_{{item.ProductCategoryID}}" class="form-control" ng-model="item.ProductCategoryName" maxlength="100" />
                                         </div>
 
@@ -93,37 +93,37 @@
 
                                     </td>
                                     <td style="text-align:center;">
-                                        <div ng-hide="editingData[item.ProductCategoryID]">
+                                        <div ng-hide="editProductCategory[item.ProductCategoryID]">
                                             {{item.CategoryName}}
                                         </div>
-                                        <div ng-show="editingData[item.ProductCategoryID]">
+                                        <div ng-show="editProductCategory[item.ProductCategoryID]">
                                             <select class="form-control" ng-model="item.CategoryID"
                                                     ng-options="ca.CategoryID as ca.CategoryName for ca in categories"></select>
                                         </div>
                                     </td>
                                     <td style="text-align:center;font-style:normal">
-                                        <div ng-hide="editingData[item.ProductCategoryID]">
+                                        <div ng-hide="editProductCategory[item.ProductCategoryID]">
                                             <span ng-class="{'label label-success': item.Status == true, 'label label-danger': item.Status == false}">
                                                 {{ item.Status | statusFilter}}
                                             </span>
                                         </div>
 
-                                        <div ng-show="editingData[item.ProductCategoryID]">
+                                        <div ng-show="editProductCategory[item.ProductCategoryID]">
                                             <select class="form-control" ng-model="item.IntStatusID"
                                                     ng-options="option.StatusID as option.StatusName for option in listStatus"></select>
                                         </div>
                                     </td>
                                     <td>
-                                        <button title="Cập nhật" class="btn btn-primary btn-sm" ng-hide="editingData[item.ProductCategoryID]" ng-click="fnModify(item)">
+                                        <button title="Cập nhật" class="btn btn-primary btn-sm" ng-hide="editProductCategory[item.ProductCategoryID]" ng-click="fnModifyPC(item)">
                                             <i class="fa fa-edit"></i>
                                         </button>
-                                        <button title="Xóa" class="btn btn-danger btn-sm" ng-hide="editingData[item.ProductCategoryID]">
+                                        <button title="Xóa" class="btn btn-danger btn-sm" ng-hide="editProductCategory[item.ProductCategoryID]" ng-click="fnDeletePC(item)">
                                             <i class="fa fa-trash"></i>
                                         </button>
-                                        <button title="Lưu" class="btn btn-primary btn-sm" ng-show="editingData[item.ProductCategoryID]" ng-click="fnUpdate(item)">
+                                        <button title="Lưu" class="btn btn-primary btn-sm" ng-show="editProductCategory[item.ProductCategoryID]" ng-click="fnUpdatePC(item)">
                                             <i class="fa fa-save"></i>
                                         </button>
-                                        <button title="Hủy" class="btn btn-default btn-sm" ng-show="editingData[item.ProductCategoryID]" ng-click="fnCancel(item)">
+                                        <button title="Hủy" class="btn btn-default btn-sm" ng-show="editProductCategory[item.ProductCategoryID]" ng-click="fnCancelPC(item)">
                                             <i class="fa fa-undo"></i>
                                         </button>
                                     </td>
@@ -238,8 +238,16 @@
                         <div class="col-md-12">
                             <div class="tabbable">
                                 <ul class="nav tab-group">
-                                    <li class="active"><a href="#about" data-toggle="tab">Danh sách</a></li>
-                                    <li><a href="#social" data-toggle="tab">Thêm mới</a></li>
+                                    <li class="active">
+                                        <a href="#about" data-toggle="tab">
+                                            <i class="fa fa-list"></i> <span class="infoSpan">Danh sách</span>                                       
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#social" data-toggle="tab">
+                                            <i class="fa fa-plus"></i> <span class="infoSpan">Thêm mới</span>          
+                                        </a>
+                                    </li>
                                 </ul>
                                 <hr style="margin-top:2px !important" />
                                 <div class="tab-content" style="overflow-y: auto;max-height: 300px;">
@@ -287,13 +295,13 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="tab-pane col-sm-12" id="social">
+                                    <div class="tab-pane" id="social">
                                         <div ng-init="cateInfo={}">
                                             <form class="form-horizontal" novalidate name="frmAddCategory" role="form" ng-submit="AddCategory()">
                                                 <div style="display:flex">
                                                     <input ng-required="true" id="txtCategoryName" ng-model="cateInfo.CategoryName"
                                                            type="text" name="categoryName" class="form-control" placeholder="Nhập tên danh mục">
-                                                    <button ng-disabled="frmAddCategory.$invalid" ng-click="CreateCategory()" style="width:30%" class="btn btn-block btn-primary btn-flat" type="button">
+                                                    <button ng-disabled="frmAddCategory.$invalid" ng-click="CreateCategory()" style="width:20%" class="btn btn-block btn-primary btn-flat" type="button">
                                                         <i class="fa fa-save"></i> Lưu
                                                     </button>
                                                 </div>

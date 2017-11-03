@@ -17,7 +17,7 @@
         $scope.pcInfo = {};
 
         ///
-        $scope.editingData = {};
+        $scope.editProductCategory = {};
         $scope.editingCaterogy = {};
 
         // show
@@ -165,7 +165,7 @@
                 $scope.showTo = result.data.ShowTo;
 
                 for (var i = 0, length = $scope.lstProductCategory.length; i < length; i++) {
-                    $scope.editingData[$scope.lstProductCategory[i].ProductCategoryID] = false;
+                    $scope.editProductCategory[$scope.lstProductCategory[i].ProductCategoryID] = false;
                 }
 
             }, function () {
@@ -176,12 +176,38 @@
         }
         $scope.ListProductCategory();
 
-
-        $scope.fnModify = function (item) {
-            $scope.editingData[item.ProductCategoryID] = true;
+        $scope.fnModifyPC = function (item) {
+            $scope.editProductCategory[item.ProductCategoryID] = true;
         };
 
-        $scope.fnUpdate = function (item) {
+        
+        $scope.fnDeletePC = function (item) {
+            var pcateName = item.ProductCategoryName;
+            var msg = "Bạn có chắc muốn xóa thể loại <strong>" + pcateName + "</strong> ?";
+            $ngBootbox.confirm(msg).then(function () {
+
+                var consfigs = {
+                    params: {
+                        id: item.ProductCategoryID
+                    }
+                };
+                var url = '/api/productcategory/delete';
+                $scope.promise = apiService.del(url, consfigs, function (result) {
+                    if (result.status === 400)
+                        notificationService.displayError(result.data);
+                    else
+                        notificationService.displaySuccess('Xóa thành công thể loại ' + pcateName);
+                    ListProductCategory();
+                }, function (result) {
+                    notificationService.displayError(result.data);
+                });
+
+                $scope.$parent.MethodShowLoading("Đang xử lý", $scope.promise);
+            });
+        };
+
+
+        $scope.fnUpdatePC = function (item) {
             if (item.ProductCategoryName === '' || item.ProductCategoryName === null) {
                 notificationService.displayError('Tên thể loại không được bỏ trống!');
                 var name = 'txtName_' + item.ProductCategoryID;
@@ -191,7 +217,7 @@
                 var url = '/api/productcategory/update';
                 $scope.promise = apiService.put(url, item, function (result) {
                     notificationService.displaySuccess(result.data);
-                    $scope.editingData[item.ProductCategoryID] = false;
+                    $scope.editProductCategory[item.ProductCategoryID] = false;
                     ListProductCategory();
                 }, function (result) {
                     notificationService.displayError(result.data);
@@ -200,8 +226,8 @@
             }
         };
 
-        $scope.fnCancel = function (item) {
-            $scope.editingData[item.ProductCategoryID] = false;
+        $scope.fnCancelPC = function (item) {
+            $scope.editProductCategory[item.ProductCategoryID] = false;
             ListProductCategory();
         };
 
@@ -218,7 +244,6 @@
             if ($scope.sortColumn === column) {
                 return $scope.reverse ? 'arrow-down' : 'arrow-up';
             }
-
             return '';
         };
 
@@ -352,7 +377,5 @@
             }
         }
 
-       
-        
     }
 })(angular.module('sms.productCategory'));

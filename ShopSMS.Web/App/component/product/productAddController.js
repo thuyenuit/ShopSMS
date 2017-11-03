@@ -9,9 +9,18 @@
     function productAddController($scope, apiService, $interval,
         $filter, $ngBootbox, $state, notificationService) {
 
-            $scope.ChooseImage = function(){
-                alert('ok');
+        $scope.moreImages = [];
+
+        $scope.ChooseImage = function () {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+                //console.log(fileUrl);
+                $scope.$apply(function () {
+                    $scope.moreImages.push(fileUrl);
+                })               
             }
+            finder.popup();       
+        }
     }
 })(angular.module('sms.product'));
 

@@ -22,7 +22,6 @@
                 tokenInfo = data;
                // $window.sessionStorage["TokenInfo"] = JSON.stringify(tokenInfo);
                 localStorageService.set("TokenInfo", JSON.stringify(tokenInfo));
-
                 this.init();
             }
 

@@ -96,7 +96,7 @@
                                         <span>Hình ảnh và mô tả sản phẩm</span>
                                     </div>
                                     <div class="col-md-9">
-                                       
+
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group col-md-3">
@@ -119,17 +119,27 @@
                                         </div>
 
                                         <div class="col-md-12">
-                                            <div class="col-md-12">
-                                                <div class="form-group" ng-click="ChooseImage()" style="border:1px solid rgba(199, 199, 199, 0.92); cursor:pointer; background-color:rgba(220, 220, 220, 0.57)">
-                                                    <h3 style="text-align:center"> Upload hình ảnh sản phẩm</h3>
-                                                    <div style="text-align:center; color:rgba(71, 116, 199, 0.67)">
-                                                        <i class="fa fa-picture-o fa-5x"></i>
+                                            <div style="border:1px solid rgba(199, 199, 199, 0.92); background-color:rgba(220, 220, 220, 0.57)">
+                                              
+                                                <div style="display:flex">
+                                                    <button ng-click="ChooseImage()" class="btn btn-block btn-primary btn-flat" type="button">
+                                                        <i class="fa fa-plus"></i> Upload hình ảnh sản phẩm
+                                                    </button>
+                                                </div>
+
+                                                <div class="timeline-item" style="overflow:auto">
+                                                    <div style="display: inline-flex">
+                                                        <div ng-repeat="img in moreImages" style="display: inline-flex;overflow-x: auto;max-width: 680px;">
+                                                            <img src="{{img}}" width="150" height="100" class="margin" />                        
+                                                        </div>                                                  
                                                     </div>
                                                 </div>
+                                                <div style="text-align:center; color:rgba(71, 116, 199, 0.67);">
+                                                </div>
                                             </div>
-                                               
                                         </div>
-                  
+
+
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <span class="control-label">Mô tả sản phẩm</span>
@@ -137,12 +147,12 @@
                                                 <textarea style="height:200px" type="text" class="class-width form-control"></textarea>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
 
                                     <div class="class-div col-md-3">
-                                       <h4>Thông tin cho SEO</h4>
-                                        <span> Tối ưu SEO trên website.</span>                                      
+                                        <h4>Thông tin cho SEO</h4>
+                                        <span> Tối ưu SEO trên website.</span>
                                     </div>
                                     <div class="col-md-9">
                                         <div class="col-md-6">
