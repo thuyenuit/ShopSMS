@@ -94,6 +94,8 @@
                                     <div class="class-div col-md-3">
                                         <h4>Mô tả chi tiết</h4>
                                         <span>Hình ảnh và mô tả sản phẩm</span>
+
+                                        <img src="{{avatar}}" width="200" height="300" class="margin" style="border: 1px solid lightgray" />
                                     </div>
                                     <div class="col-md-9">
 
@@ -129,9 +131,10 @@
 
                                                 <div class="timeline-item" style="overflow:auto">
                                                     <div style="display: inline-flex">
-                                                        <div ng-repeat="img in moreImages" style="display: inline-flex;overflow-x: auto;max-width: 680px;">
-                                                            <img src="{{img}}" width="150" height="100" class="margin" />                        
-                                                        </div>                                                  
+                                                           <div class="img__wrap" ng-repeat="img in moreImages" style="display: inline-flex;overflow-x: auto;max-width: 680px;">
+                                                                <img src="{{img}}" width="150" height="100" class="margin img__img" style="border: 1px solid lightgray" />
+                                                                <button title="Xóa" ng-click="fnRemoveImg(img)" class="img__description btn btn-danger btn-sm">X</button>
+                                                            </div>                                                                                                                                                                                                                                          
                                                     </div>
                                                 </div>
                                                 <div style="text-align:center; color:rgba(71, 116, 199, 0.67);">
@@ -139,12 +142,14 @@
                                             </div>
                                         </div>
 
+                                        <div class="clearfix"></div>
+                                        <br />
 
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <span class="control-label">Mô tả sản phẩm</span>
                                                 <span style="font-style:italic"> (Nhập thông tin mô tả chi tiết hơn để khách hàng hiểu hàng hoá của bạn)</span>
-                                                <textarea style="height:200px" type="text" class="class-width form-control"></textarea>
+                                                <textarea ng-model="productInfo.Description" ckeditor="ckeditorOptions" style="height:200px" type="text" class="class-width form-control"></textarea>
                                             </div>
                                         </div>
 
