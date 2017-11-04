@@ -1,5 +1,5 @@
 ﻿(function () {
-   
+
     angular.module('sms.common',
         ['ui.router',
             'ngMessages',
@@ -7,5 +7,6 @@
             'ngBootbox',
             'LocalStorageModule',
             'ngAnimate',
-            'cgBusy']);
+            'cgBusy',
+            'ngCkeditor']);
 })();

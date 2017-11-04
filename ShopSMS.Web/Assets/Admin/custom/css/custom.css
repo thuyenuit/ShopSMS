@@ -128,9 +128,52 @@
   border-bottom-left-radius: 1px;
 }
 
+@media (max-width: 768px) {
+  .infoSpan, .class-div {
+   display:none;
+  }
+
+  .class-width, .class-width-2 {
+   width:100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .class-width {
+   width:97%;
+  }
+   .class-width-2 {
+   width:98.5%;
+  }
+}
 
 
 
+.img__wrap {
+  position: relative;
+  /*height: 200px;
+  width: 257px;*/
+}
+
+.img__description {
+  position: absolute;
+  top: 8%;
+  /*bottom: 0;*/
+  /*left: 0;*/
+  right: 6%;
+  background: rgba(29, 106, 154, 0.72);
+  color: #fff;
+  visibility: hidden;
+  opacity: 0;
+
+  /* transition effect. not necessary */
+  transition: opacity .2s, visibility .2s;
+}
+
+.img__wrap:hover .img__description {
+  visibility: visible;
+  opacity: 1;
+}
 
 
 
