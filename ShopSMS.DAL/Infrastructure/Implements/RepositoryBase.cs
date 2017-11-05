@@ -32,7 +32,7 @@ namespace ShopSMS.DAL.Infrastructure.Implements
         }
 
         #region Implementation
-        public virtual T Add(T entity)
+        public virtual T Create(T entity)
         {
             return dbSet.Add(entity);
         }
