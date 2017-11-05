@@ -65,7 +65,7 @@ namespace ShopSMS.Web.Infrastructure.Core
                 erroLog.ErrorLogCreateDate = DateTime.Now;
                 erroLog.ErrorLogStackTrace = ex.StackTrace;
 
-                errorLogService.Add(erroLog);
+                errorLogService.Create(erroLog);
                 errorLogService.SaveChanges();
             }
             catch

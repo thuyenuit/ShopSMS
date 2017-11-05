@@ -62,5 +62,17 @@ namespace ShopSMS.Web.Infrastructure.Extensions
             category.Status = categoryVM.Status;
             category.UpdateDate = categoryVM.UpdateDate;
         }
+
+        public static void UpdateSupplier(this Supplier obj, SupplierViewModel model)
+        {
+            obj.SupplierID = model.SupplierID;
+            obj.SupplierName = model.SupplierName;
+        }
+
+        public static void UpdateProducer(this Producer obj, ProducerViewModel model)
+        {
+            obj.ProducerID = model.ProducerID;
+            obj.ProducerName = model.ProducerName;
+        }
     }
 }
