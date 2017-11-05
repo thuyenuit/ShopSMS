@@ -12,7 +12,7 @@ namespace ShopSMS.Service.Services
 {
     public interface ICategoryService
     {
-        void Add(Category category);
+        void Create(Category category);
         void Update(Category productCategory);
         void Delete(int id);
         IEnumerable<Category> Search(IDictionary<string, object> dic);
@@ -35,9 +35,9 @@ namespace ShopSMS.Service.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public void Add(Category category)
+        public void Create(Category category)
         {
-            categoryRepository.Add(category);
+            categoryRepository.Create(category);
         }
 
         public void Update(Category category)

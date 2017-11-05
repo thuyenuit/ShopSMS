@@ -6,7 +6,7 @@ namespace ShopSMS.Service.Services
 {
     public interface IErrorLogService
     {
-        void Add(ErrorLog error);
+        void Create(ErrorLog error);
 
         void SaveChanges();
     }
@@ -24,9 +24,9 @@ namespace ShopSMS.Service.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public void Add(ErrorLog error)
+        public void Create(ErrorLog error)
         {
-            errorLogRepository.Add(error);
+            errorLogRepository.Create(error);
         }
 
         public void SaveChanges()

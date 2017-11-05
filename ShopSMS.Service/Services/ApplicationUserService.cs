@@ -37,7 +37,7 @@ namespace ShopSMS.Service.Services
 
         public void Create(ApplicationUser user)
         {
-            userRepository.Add(user);
+            userRepository.Create(user);
         }
 
         public void Delete(int id)

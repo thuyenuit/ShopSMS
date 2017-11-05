@@ -8,7 +8,7 @@ namespace ShopSMS.Service.Services
 {
     public interface IProductService
     {
-        void Add(Product product);
+        void Create(Product product);
         void Update(Product product);
         void Delete(int id);
         IEnumerable<Product> GetAll();
@@ -31,9 +31,9 @@ namespace ShopSMS.Service.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public void Add(Product product)
+        public void Create(Product product)
         {
-            productRepository.Add(product);
+            productRepository.Create(product);
         }
 
         public void Delete(int id)

@@ -12,7 +12,7 @@ namespace ShopSMS.Service.Services
 
     public interface IPostService
     {
-        void Add(Post post);
+        void Create(Post post);
         void Update(Post post);
         void Delele(int id);
         IEnumerable<Post> GetAll();
@@ -33,9 +33,9 @@ namespace ShopSMS.Service.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public void Add(Post post)
+        public void Create(Post post)
         {
-            postRepository.Add(post);
+            postRepository.Create(post);
         }
 
         public void Delele(int id)

@@ -11,7 +11,7 @@ namespace ShopSMS.Service.Services
 {
     public interface IPostCategoryService
     {
-        void Add(PostCategory postCategory);
+        void Create(PostCategory postCategory);
         void Update(PostCategory postCategory);
         void Delele(int id);
         IEnumerable<PostCategory> GetAll();
@@ -32,9 +32,9 @@ namespace ShopSMS.Service.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public void Add(PostCategory postCategory)
+        public void Create(PostCategory postCategory)
         {
-            postCategoryRepository.Add(postCategory);
+            postCategoryRepository.Create(postCategory);
         }
 
         public void Delele(int id)

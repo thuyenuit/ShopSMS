@@ -49,7 +49,7 @@ namespace ShopSMS.Service.Services
 
             int? orderBy = obj.DisplayOrder;
             obj.DisplayOrder = orderBy == null ? (lstPC.Count() + 1) : orderBy;
-            productCategoryRepository.Add(obj);
+            productCategoryRepository.Create(obj);
             return true;
         }
 

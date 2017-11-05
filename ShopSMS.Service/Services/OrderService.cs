@@ -11,7 +11,7 @@ namespace ShopSMS.Service.Services
 {
     public interface IOrderService
     {
-        void Add(Order order);
+        void Create(Order order);
         void Update(Order order);
         void Delete(int id);
         IEnumerable<Order> GetAll();
@@ -33,9 +33,9 @@ namespace ShopSMS.Service.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public void Add(Order order)
+        public void Create(Order order)
         {
-            orderRepository.Add(order);
+            orderRepository.Create(order);
         }
 
         public void Delete(int id)
