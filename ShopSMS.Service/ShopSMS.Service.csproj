@@ -45,12 +45,14 @@
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\ErrorLogService.cs" />
     <Compile Include="Services\MenuGroupService.cs" />
+    <Compile Include="Services\NSXService.cs" />
     <Compile Include="Services\OrderDetailService.cs" />
     <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\PostCategoryService.cs" />
     <Compile Include="Services\PostService.cs" />
     <Compile Include="Services\ProductCategoryService.cs" />
     <Compile Include="Services\ProductService.cs" />
+    <Compile Include="Services\SupplierService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ShopSMS.Common\ShopSMS.Common.csproj">

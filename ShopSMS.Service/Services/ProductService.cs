@@ -16,6 +16,7 @@ namespace ShopSMS.Service.Services
         Product GetSingleById(int id);
         IEnumerable<Product> Search(IDictionary<string, object> dic);
         void SaveChanges();
+        string AutoGenericCode();
     }
 
     public class ProductService : IProductService
@@ -69,6 +70,11 @@ namespace ShopSMS.Service.Services
         public void Update(Product product)
         {
             productRepository.Update(product);
+        }
+
+        public string AutoGenericCode()
+        {
+            return productRepository.AutoGenericCode();
         }
     }
 }

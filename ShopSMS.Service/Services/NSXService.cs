@@ -9,52 +9,48 @@ using System.Threading.Tasks;
 
 namespace ShopSMS.Service.Services
 {
-    public interface IProducerService
+    public interface INSXService
     {
         void Create(Producer obj);
         void Update(Producer obj);
         void Delete(int id);
         IEnumerable<Producer> GetAll();
         Producer GetSingleById(int id);
-        Producer GetSingleByName(string name);
+        IEnumerable<Producer> Search(IDictionary<string, object> dic);
         void SaveChanges();
-
     }
 
-    public class ProducerService : IProducerService
+    public class NSXService : INSXService
     {
-        private readonly IProducerRepository producerRepository;
+        private readonly INCCRepository NCCRepository;
         private readonly IUnitOfWork unitOfWork;
-        public ProducerService(
-            ProducerRepository producerRepository,
-            IUnitOfWork unitOfWork) {
-            this.producerRepository = producerRepository;
+
+        public NSXService(
+            INCCRepository NCCRepository,
+            IUnitOfWork unitOfWork)
+        {
+            this.NCCRepository = NCCRepository;
             this.unitOfWork = unitOfWork;
         }
 
         public void Create(Producer obj)
         {
-            producerRepository.Create(obj);
+            NCCRepository.Create(obj);
         }
 
         public void Delete(int id)
         {
-            producerRepository.Delete(id);
+            NCCRepository.Delete(id);
         }
 
         public IEnumerable<Producer> GetAll()
         {
-            return producerRepository.GetAll();
+            return NCCRepository.GetAll();
         }
 
         public Producer GetSingleById(int id)
         {
-            return producerRepository.GetSingleById(id);
-        }
-
-        public Producer GetSingleByName(string name)
-        {
-            return GetAll().Where(x => x.ProducerName.ToUpper().Equals(name.ToUpper())).FirstOrDefault();
+            return NCCRepository.GetSingleById(id);
         }
 
         public void SaveChanges()
@@ -62,9 +58,14 @@ namespace ShopSMS.Service.Services
             unitOfWork.Commit();
         }
 
+        public IEnumerable<Producer> Search(IDictionary<string, object> dic)
+        {
+            return null; //NCCRepository.Search(dic);
+        }
+
         public void Update(Producer obj)
         {
-            producerRepository.Update(obj);
+            NCCRepository.Update(obj);
         }
     }
 }
