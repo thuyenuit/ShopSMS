@@ -9,13 +9,15 @@ using System.Threading.Tasks;
 
 namespace ShopSMS.DAL.Repositories
 {
-    public interface IProducerRepository : IRepository<Producer>
+    public interface INCCRepository : IRepository<Producer>
     {
+
     }
 
-    public class ProducerRepository : RepositoryBase<Producer>, IProducerRepository
+    public class NCCRepository : RepositoryBase<Producer>, INCCRepository
     {
-        public ProducerRepository(IDbFactory dbFactory) : base(dbFactory)
+        public NCCRepository(IDbFactory dbFactory) :
+            base(dbFactory)
         {
 
         }
