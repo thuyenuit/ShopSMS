@@ -25,31 +25,31 @@ namespace ShopSMS.Model.Model
         [MaxLength(255)]
         public string ProductName { get; set; }
 
-        [Required]
+        //[Required]
         [MaxLength(255)]
         [Column(TypeName = "varchar")]
-        public string ProductAlias { get; set; }
-
-        public int ProductCategoryID { get; set; }
+        public string ProductAlias { get; set; }      
 
         [MaxLength(500)]
-        public string ProductImage { get; set; }
+        public string Avatar { get; set; }
 
         [Column(TypeName="xml")]
-        public string ProductMoreImage { get; set; }
+        public string MoreImages { get; set; }
 
-        public decimal ProductPrice { get; set; }
+        public decimal PriceSell { get; set; }
 
-        public decimal? ProductPromotionPrice { get; set; }
+        public decimal PriceInput { get; set; }
 
-        public int? ProductWarranty { get; set; }
+        public decimal? PromotionPrice { get; set; }
 
-        public int? ProductQuantity { get; set; }
+        public int? Warranty { get; set; }
+
+        public int? Quantity { get; set; }
 
         public decimal? TaxVAT { get; set; }
 
         [MaxLength(500)]
-        public string ProductDescription { get; set; }
+        public string Description { get; set; }
 
         public bool? ProductHomeFlag { get; set; }
 
@@ -61,10 +61,12 @@ namespace ShopSMS.Model.Model
 
         public int? ProductViewCount { get; set; }
 
+        public int? ProductCategoryID { get; set; }
+
         public int? ProducerID { get; set; }
 
-        [ForeignKey("ProductCategoryID")]
-        public virtual ProductCategory ProductCategories { get; set; }
+        //[ForeignKey("ProductCategoryID")]
+        //public virtual ProductCategory ProductCategories { get; set; }
 
         public virtual IEnumerable<ProductTag> ProductTags { set; get; }
 

@@ -69,10 +69,12 @@
     <Compile Include="Model\Post.cs" />
     <Compile Include="Model\PostCategory.cs" />
     <Compile Include="Model\PostTag.cs" />
+    <Compile Include="Model\Producer.cs" />
     <Compile Include="Model\Product.cs" />
     <Compile Include="Model\ProductCategory.cs" />
     <Compile Include="Model\ProductTag.cs" />
     <Compile Include="Model\Slide.cs" />
+    <Compile Include="Model\Supplier.cs" />
     <Compile Include="Model\SystemConfig.cs" />
     <Compile Include="Model\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
