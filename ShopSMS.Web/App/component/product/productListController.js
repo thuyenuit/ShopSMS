@@ -61,6 +61,7 @@
         LoadProCategory();
 
         // list
+        $scope.editProduct = [];
         $scope.lstProduct = [];
         $scope.page = 0;
         $scope.pagesCount = 0;
@@ -92,6 +93,11 @@
                 $scope.page = result.data.Page;
                 $scope.pagesCount = result.data.TotalPages;
                 $scope.totalCount = result.data.TotalCount;
+
+                for (var i = 0, length = $scope.lstProduct.length; i < length; i++) {
+                    $scope.editProduct[$scope.lstProduct[i].ProductID] = false;
+                }
+
             }, function () {
                 notificationService.displayError('Không thể tải danh sách sản phẩm');
             });
@@ -115,6 +121,34 @@
             }
 
             return '';
+        };
+
+        // onclick Update Product
+        $scope.fnModifyProduct = function (item) {
+            $scope.editProduct[item.ProductID] = true;
+        };
+        // event Update ProductName, PriceSell
+        $scope.fnUpdateProduct = function (item) {
+            if (item.ProductName === '' || item.ProductName === null) {
+                notificationService.displayError('Vui lòng nhập tên sản phẩm!');
+                var name = 'txtProductName_' + item.ProducerID;
+                angular.element('input[name=' + name + ']').focus();
+            }
+            else {
+                var url = '/api/product/updateNameAndPriceSell';
+                $scope.promise = apiService.put(url, item, function (result) {
+                    notificationService.displaySuccess(result.data);
+                    $scope.editProducer[item.Product] = false;
+                    ListProduct();
+                }, function (result) {
+                    notificationService.displayError(result.data);
+                });
+                $scope.$parent.MethodShowLoading("Đang xử lý", $scope.promise);
+            }
+        };
+        $scope.fnCancelProduct = function (item) {
+            $scope.editProduct[item.ProductID] = false;
+            ListProduct();
         };
 
         // select multi

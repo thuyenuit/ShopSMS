@@ -338,7 +338,7 @@
                 var url = '/api/category/create';
                 $scope.promise = apiService.post(url, $scope.cateInfo, function (result) {
                     LoadCategory();
-                    console.log(result.data);
+                    //console.log(result.data);
                     notificationService.displaySuccess('Thêm mới thành công!');                 
                     $scope.pcInfo.CategoryID = result.data.CategoryID;
                     angular.element("input[id='txtCategoryName']").val('');

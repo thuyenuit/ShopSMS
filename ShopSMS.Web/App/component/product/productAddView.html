@@ -2,127 +2,161 @@
 <section class="content-header"></section>
 <section class="content">
     <div class="box">
-        <div class="box-header with-border">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="tabbable">
-                        <ul class="nav tab-group">
-                            <li class="active">
-                                <a href="#about" data-toggle="tab">
-                                    <i class="fa fa-barcode"></i> <span class="infoSpan">Thông tin sản phẩm</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#social" data-toggle="tab">
-                                    <i class="fa fa-globe"></i> <span class="infoSpan">Thông tin cho Web</span>
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="about">
-                                <div class="clear"></div>
-                                <div class="row" style="padding:5px">
-                                    <div class="class-div col-md-3">
-                                        Thông tin sản phẩm
+        <form class="form-horizontal" novalidate name="frmAddProduct" role="form" ng-submit="AddProduct()">
+            <div class="box-header with-border">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="tabbable">
+                            <div class="row">
+                                <div class="col-md-8 col-xs-6">
+                                    <ul class="nav tab-group">
+                                        <li class="active">
+                                            <a href="#about" data-toggle="tab">
+                                                <i class="fa fa-barcode"></i> <span class="infoSpan">Thông tin sản phẩm</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#social" data-toggle="tab">
+                                                <i class="fa fa-globe"></i> <span class="infoSpan">Thông tin cho Web</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-md-4 col-xs-6">
+                                    <div class="col-md-6 col-xs-6">
+                                        <button class="btn btn-block btn-primary btn-flat" type="submit">
+                                            <i class="fa fa-plus"></i> <span class="infoSpan">{{resData.btnSave}}</span>
+                                        </button>
                                     </div>
-                                    <div class="col-md-9">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <span class="control-label"> Tên sản phẩm *</span>
-                                                <input type="text" class="class-width-2 form-control" />
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <span class="control-label"> Mã sản phẩm <span style="font-style:italic"> (Tối đa 20 ký tự)</span></span>
-                                                <input type="text" class="class-width form-control" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <span class="control-label"> Số lượng</span>
-                                                <input type="text" class="class-width form-control" />
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <span class="control-label"> Giá vốn</span>
-                                                <input type="text" class="class-width form-control" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <span class="control-label"> Giá bán</span>
-                                                <input type="text" class="class-width form-control" />
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <span class="control-label"> Thể loại</span>
-                                                <input type="text" class="class-width form-control" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <span class="control-label"> Nhà sản xuất</span>
-                                                <input type="text" class="class-width form-control" />
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <span class="control-label"> Thế VAT</span>
-                                                <input type="text" class="class-width form-control" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <span class="control-label"> Thời gian bảo hành <span style="font-style:italic"> (Tháng)</span></span>
-                                                <input type="text" class="class-width form-control" />
-                                            </div>
-                                        </div>
-
+                                    <div class="col-md-6 col-xs-6">
+                                        <button class="btn btn-block btn-default btn-flat" type="button">
+                                            <i class="fa fa-plus"></i> <span class="infoSpan">{{resData.LabelCreate}}</span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane" id="social">
-                                <div class="clear"></div>
-                                <div class="row" style="padding:5px">
-                                    <div class="class-div col-md-3">
-                                        <h4>Mô tả chi tiết</h4>
-                                        <span>Hình ảnh và mô tả sản phẩm</span>
 
-                                        <img src="{{avatar}}" width="200" height="300" class="margin" style="border: 1px solid lightgray" />
-                                    </div>
-                                    <div class="col-md-9">
 
-                                        <div class="row">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="about">
+                                    <div class="clear"></div>
+                                    <div class="row" style="padding:5px">
+                                        <div class="class-div col-md-3">
+                                            <span>Thông tin sản phẩm</span>
+                                            <img src="{{avatar}}" width="200" height="300" class="margin" style="border: 1px solid lightgray" />
+                                        </div>
+                                        <div class="col-md-9">
                                             <div class="col-md-12">
-                                                <div class="form-group col-md-3">
-                                                    <input type="checkbox" />
-                                                    <span class="control-label">Hiển thị ra website</span>
-                                                </div>
-                                                <div class="form-group col-md-2">
-                                                    <input type="checkbox" />
-                                                    <span class="control-label">Nổi bật</span>
-                                                </div>
-                                                <div class="form-group col-md-2">
-                                                    <input type="checkbox" />
-                                                    <span class="control-label">Hàng mới</span>
-                                                </div>
-                                                <div class="form-group col-md-3">
-                                                    <input type="checkbox" />
-                                                    <span class="control-label">Hàng bán chạy</span>
+                                                <div class="form-group">
+                                                    <label class="control-label">Tên sản phẩm *</label>
+                                                    <input ng-model="productInfo.ProductName" type="text" class="class-width-2 form-control" placeholder="Nhập tên sản phẩm" />
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-md-12">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Mã sản phẩm</label><span style="font-style:italic"> (Tối đa 20 ký tự)</span>
+                                                    <input ng-model="productInfo.ProductCode" type="text" class="class-width form-control" placeholder="Hệ thống tự tạo nếu để trống (SP0000001)" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Số lượng</label>
+                                                    <input ui-number-mask="0" maxlength="15" ng-model="productInfo.Quantity" type="text" class="inputPrice class-width form-control" placeholder="Nhập số lượng" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Giá vốn</label>
+                                                    <input ui-number-mask="0" maxlength="23" ng-model="productInfo.PriceInput" type="text" class="inputPrice class-width form-control" placeholder="Nhập giá vốn" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label"> Giá bán</label>
+                                                    <input ui-number-mask="0" maxlength="23" ng-model="productInfo.PriceSell" type="text" class="inputPrice class-width form-control" placeholder="Nhập giá bán" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label"> Thể loại</label>
+                                                    <select ng-model="productInfo.ProductCategoryID" class="class-width form-control" ng-required=true ng-change="funChangePC()"
+                                                            ng-options="item.ProductCategoryName group by item.CategoryName for item in productCategories">
+                                                        <option value="">[Thể loại]</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label"> Nhà sản xuất</label>
+                                                    <div style="display:flex" class="class-width">
+                                                        <select name="producerID" ng-required=true class="form-control"
+                                                                ng-model="productInfo.ProducerID"
+                                                                ng-options="option.ProducerID as option.ProducerName for option in listProducer">
+                                                            <option value="">[Nhà sản xuất]</option>
+                                                        </select>
+                                                        <button title="Quản lý nhà sản xuất" data-toggle="modal" data-target="#myModalProducer"
+                                                                style="width:15%" class="btn btn-block btn-primary btn-flat" type="button">
+                                                            ...
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Thế VAT</label>
+                                                    <input ui-percentage-mask="0" maxlength="5" ng-model="productInfo.TaxVAT" type="text" class="class-width form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Thời gian bảo hành</label><span style="font-style:italic"> (Tháng)</span>
+                                                    <input ui-number-mask="0" maxlength="3" ng-model="productInfo.Warranty" type="text" class="class-width form-control" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="social">
+                                    <div class="clear"></div>
+                                    <div class="row" style="padding:5px">
+                                        <div class="class-div col-md-3">
+                                            <h4>Mô tả chi tiết</h4>
+                                            <span>Hình ảnh và mô tả sản phẩm</span>
+
+                                            <img src="{{avatar}}" width="200" height="300" class="margin" style="border: 1px solid lightgray" />
+                                        </div>
+                                        <div class="col-md-9">
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group col-md-3 col-xs-7">
+                                                        <input type="checkbox" ng-model="productInfo.ProductHomeFlag"/>
+                                                        <span class="control-label">Hiển thị ra website</span>
+                                                    </div>
+                                                    <div class="form-group col-md-2 col-xs-5">
+                                                        <input type="checkbox" ng-model="productInfo.ProductHotFlag"/>
+                                                        <span class="control-label">Nổi bật</span>
+                                                    </div>
+                                                    <div class="form-group col-md-3 col-xs-7">
+                                                        <input type="checkbox" ng-model="productInfo.ProductSellingGood"/>
+                                                        <span class="control-label">Hàng bán chạy</span>
+                                                    </div>
+                                                    <div class="form-group col-md-2 col-xs-5">
+                                                        <input type="checkbox" ng-model="productInfo.ProductNew"/>
+                                                        <span class="control-label">Hàng mới</span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
                                             <div style="border:1px solid rgba(199, 199, 199, 0.92); background-color:rgba(220, 220, 220, 0.57)">
-                                              
                                                 <div style="display:flex">
                                                     <button ng-click="ChooseImage()" class="btn btn-block btn-primary btn-flat" type="button">
                                                         <i class="fa fa-plus"></i> Upload hình ảnh sản phẩm
@@ -131,54 +165,145 @@
 
                                                 <div class="timeline-item" style="overflow:auto">
                                                     <div style="display: inline-flex">
-                                                           <div class="img__wrap" ng-repeat="img in moreImages" style="display: inline-flex;overflow-x: auto;max-width: 680px;">
-                                                                <img src="{{img}}" width="150" height="100" class="margin img__img" style="border: 1px solid lightgray" />
-                                                                <button title="Xóa" ng-click="fnRemoveImg(img)" class="img__description btn btn-danger btn-sm">X</button>
-                                                            </div>                                                                                                                                                                                                                                          
+                                                        <div class="img__wrap" ng-repeat="img in moreImages" style="display: inline-flex;overflow-x: auto;max-width: 680px;">
+                                                            <img src="{{img}}" width="150" height="100" class="margin img__img" style="border: 1px solid lightgray" />
+                                                            <button ng-click="fnRemoveImg(img)" class="img__description btn btn-danger btn-sm">X</button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div style="text-align:center; color:rgba(71, 116, 199, 0.67);">
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="clearfix"></div>
-                                        <br />
+                                            <div class="clearfix"></div>
+                                            <br />
 
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <span class="control-label">Mô tả sản phẩm</span>
-                                                <span style="font-style:italic"> (Nhập thông tin mô tả chi tiết hơn để khách hàng hiểu hàng hoá của bạn)</span>
-                                                <textarea ng-model="productInfo.Description" ckeditor="ckeditorOptions" style="height:200px" type="text" class="class-width form-control"></textarea>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Mô tả sản phẩm</label>
+                                                    <span style="font-style:italic"> (Nhập thông tin mô tả chi tiết hơn để khách hàng hiểu hàng hoá của bạn)</span>
+                                                    <textarea ng-model="productInfo.Description" ckeditor="ckeditorOptions" style="height:200px" type="text" class="class-width form-control"></textarea>
+                                                </div>
                                             </div>
                                         </div>
 
+                                        <div class="class-div col-md-3">
+                                            <h4>Thông tin cho SEO</h4>
+                                            <span> Tối ưu SEO trên website.</span>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label"> URL</label>
+                                                    <input type="text" class="class-width form-control" ng-model="producerInfo.ProductAlias"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label"> Thông tin mô tả</label>
+                                                    <input type="text" class="class-width form-control" ng-model="producerInfo.MetaDescription"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label"> Tags</label>
+                                                    <input type="text" class="class-width form-control" ng-model="producerInfo.MetaKeyword"/>
+                                                </div>
+                                            </div>
+
+                                        </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
 
-                                    <div class="class-div col-md-3">
-                                        <h4>Thông tin cho SEO</h4>
-                                        <span> Tối ưu SEO trên website.</span>
+<!--Form manager producer-->
+<div class="modal fade" id="myModalProducer" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Quản lý nhà sản xuất</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="tabbable">
+                                <ul class="nav tab-group">
+                                    <li class="active">
+                                        <a href="#listProducer" data-toggle="tab">
+                                            <i class="fa fa-list"></i> <span class="infoSpan">Danh sách nhà sản xuất</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#createProducer" data-toggle="tab">
+                                            <i class="fa fa-plus"></i> <span class="infoSpan">Thêm mới nhà sản xuất</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <hr style="margin-top:2px !important" />
+                                <div class="tab-content" style="overflow-y: auto;max-height: 300px;">
+                                    <div class="tab-pane active" id="listProducer">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead class="thead-inverse">
+                                                    <tr style="font-style:normal" class="bg-primary">
+                                                        <th style="width:80%;">
+                                                            <span>Nhà sản xuất</span>
+                                                        </th>
+                                                        <th style="width:20%;">Thao tác</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="item in listProducer">
+                                                        <td>
+                                                            <div ng-hide="editProducer[item.ProducerID]">{{item.ProducerName}}</div>
+                                                            <div ng-show="editProducer[item.ProducerID]">
+                                                                <input type="text" name="txtProducerName_{{item.ProducerID}}" class="form-control"
+                                                                       ng-model="item.ProducerName" maxlength="100" />
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <button title="Cập nhật" class="btn btn-primary btn-sm" ng-hide="editProducer[item.ProducerID]" ng-click="fnModifyProducer(item)">
+                                                                <i class="fa fa-edit"></i>
+                                                            </button>
+                                                            <button title="Xóa" class="btn btn-danger btn-sm" ng-hide="editProducer[item.ProducerID]" ng-click="fnDeleteProducer(item)">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                            <button title="Lưu" class="btn btn-primary btn-sm" ng-show="editProducer[item.ProducerID]" ng-click="fnUpdateProducer(item)">
+                                                                <i class="fa fa-save"></i>
+                                                            </button>
+                                                            <button title="Hủy" class="btn btn-default btn-sm" ng-show="editProducer[item.ProducerID]" ng-click="fnCancelProducer(item)">
+                                                                <i class="fa fa-undo"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
-                                    <div class="col-md-9">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <span class="control-label"> URL</span>
-                                                <input type="text" class="class-width form-control" />
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <span class="control-label"> Thông tin mô tả</span>
-                                                <input type="text" class="class-width form-control" />
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <span class="control-label"> Tags</span>
-                                                <input type="text" class="class-width form-control" />
-                                            </div>
+                                    <div class="tab-pane" id="createProducer">
+                                        <div ng-init="producerInfo={}">
+                                            <form class="form-horizontal" novalidate name="frmAddProducer" role="form" ng-submit="AddProducer()">
+                                                <div style="display:flex">
+                                                    <input ng-required="true" id="txtProducerName" ng-model="producerInfo.ProducerName"
+                                                           type="text" name="producerName" class="form-control" placeholder="Nhập tên nhà sản xuất">
+                                                    <button ng-disabled="frmAddProducer.$invalid" ng-click="onCreateProducer()"
+                                                            style="width:20%" class="btn btn-block btn-primary btn-flat" type="button">
+                                                        <i class="fa fa-save"></i> Lưu
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </div>
 
                                     </div>
@@ -188,10 +313,18 @@
                     </div>
                 </div>
             </div>
+            <div class="modal-footer">
+                <div class="col-md-4 col-xs-4">
+                </div>
+                <div class="col-md-4 col-xs-4" style="text-align:center">
+                    <button type="button" id="btnCloseProducer" class="btn btn-default btn-flat" data-dismiss="modal">
+                        <i class="fa fa-close"></i> Đóng
+                    </button>
+                </div>
+                <div class="col-md-4 col-xs-2">
+                </div>
+            </div>
         </div>
     </div>
-</section>
-
-
-
-
+</div>
+<!--//Form manager producer-->

@@ -4,6 +4,7 @@ using ShopSMS.Service.Services;
 using ShopSMS.Web.Infrastructure.Core;
 using ShopSMS.Web.Infrastructure.Extensions;
 using ShopSMS.Web.Models;
+using ShopSMS.Web.Provider;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,15 +43,15 @@ namespace ShopSMS.Web.Api
                     ProductID = x.ProductID,
                     ProductName = x.ProductName,
                     ProductAlias = x.ProductAlias,
-                    ProductQuantity = x.ProductQuantity,
-                    ProductPrice =x.ProductPrice,
+                    Quantity = x.Quantity,
+                    PriceSell =x.PriceSell,
+                    PriceInput = x.PriceInput,
                     ProductCode = x.ProductCode,
-                    ProductImage = x.ProductImage,
-                    ProductPromotionPrice = x.ProductPromotionPrice,
+                    Avatar = x.Avatar,
+                    PromotionPrice = x.PromotionPrice,
                     ProductViewCount = x.ProductViewCount,
-                    ProductWarranty = x.ProductWarranty,                    
-                    ProductDescription = x.ProductDescription,
-                    // = x.Categories.CategoryName,
+                    Warranty = x.Warranty,                    
+                    Description = x.Description,
                     CreateBy = x.CreateBy,
                     CreateDate = x.CreateDate,
                     UpdateBy = x.UpdateBy,
@@ -106,7 +107,7 @@ namespace ShopSMS.Web.Api
 
         [Route("create")]
         [HttpPost]
-        public HttpResponseMessage Create(HttpRequestMessage request, ProductViewModel productVM)
+        public HttpResponseMessage Create(HttpRequestMessage request, ProductViewModel model)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -117,14 +118,30 @@ namespace ShopSMS.Web.Api
                 }
                 else
                 {
-                    Product objPG = new Product();
-                    objPG.UpdateProduct(productVM);
-                    objPG.CreateDate = DateTime.Now;
+                    if (string.IsNullOrEmpty(model.ProductName))
+                    {
+                        throw new Exception("Vui lòng nhập tên sản phẩm");
+                    }
 
-                    productService.Add(objPG);
+                    Product objCheckProName = productService.GetAll()
+                                            .Where(x => x.ProductName.ToUpper().Equals(model.ProductName.ToUpper()))
+                                            .FirstOrDefault();
+                    if (objCheckProName != null)
+                    {
+                        throw new Exception(string.Format("Tên sản phẩm {0} đã tồn tại. Vui lòng kiểm tra lại!", model.ProductName));
+                    }
+
+                    model.ProductCode = productService.AutoGenericCode();
+
+                    Product objNew = new Product();
+                    objNew.UpdateProduct(model);
+                    objNew.CreateDate = DateTime.Now;
+                    objNew.CreateBy = UserInfoInstance.UserCode;
+                    objNew.Status = true;
+                    productService.Create(objNew);
                     productService.SaveChanges();
 
-                    response = request.CreateResponse(HttpStatusCode.Created, objPG);
+                    response = request.CreateResponse(HttpStatusCode.Created, "Thêm mới thành công!");
                 }
 
                 return response;
@@ -159,6 +176,50 @@ namespace ShopSMS.Web.Api
                     }
                     else
                         response = request.CreateResponse(HttpStatusCode.NotFound);
+                }
+
+                return response;
+            });
+        }
+
+        [Route("updateNameAndPriceSell")]
+        [HttpPut]
+        public HttpResponseMessage UpdateNameAndPriceSell(HttpRequestMessage request, ProductViewModel model)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = null;
+                if (!ModelState.IsValid)
+                {
+                    request.CreateErrorResponse(HttpStatusCode.BadGateway, ModelState);
+                }
+                else
+                {
+                    if (model.ProductID <= 0)
+                    {
+                        throw new Exception("Cập nhật thất bại");
+                    }
+
+                    if (string.IsNullOrEmpty(model.ProductName))
+                    {
+                        throw new Exception("Vui lòng nhập tên sản phẩm");
+                    }
+
+                    Product objCheckProName = productService.GetAll()
+                                            .Where(x => x.ProductName.ToUpper().Equals(model.ProductName.ToUpper())
+                                            && x.ProductID != model.ProductID)
+                                            .FirstOrDefault();
+                    if (objCheckProName != null)
+                    {
+                        throw new Exception(string.Format("Tên sản phẩm {0} đã tồn tại. Vui lòng kiểm tra lại!", model.ProductName));
+                    }
+
+                    Product objResult = productService.GetSingleById(model.ProductID);
+                    objResult.ProductName = model.ProductName;
+                    objResult.PriceSell = model.PriceSell;
+                    productService.Update(objResult);
+                    productService.SaveChanges();
+                    response = request.CreateResponse(HttpStatusCode.Created, "Cập nhật thành công!");
                 }
 
                 return response;

@@ -37,7 +37,7 @@
                             </button>
                         </div>
                         <div class="col-md-4 col-xs-4">
-                            <button data-toggle="modal" data-target="#myModalPC" class="btn btn-block btn-primary btn-flat" type="button">
+                            <button data-toggle="modal" data-target="#modelProductCategory" class="btn btn-block btn-primary btn-flat" type="button">
                                 <i class="fa fa-plus"></i> <span class="infoSpan">{{resData.LabelCreate}}</span>
                             </button>
                         </div>
@@ -151,7 +151,7 @@
 </section>
 
 <!--Form create product category-->
-<div class="modal fade" id="myModalPC" role="dialog">
+<div class="modal fade" id="modelProductCategory" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -177,25 +177,19 @@
                         </div>
 
                         <div class="col-md-12">
-                            <div class="form-group"
-                                 ng-class="{'has-error': frmAddPC.categoryID.$invalid && !frmAddPC.categoryID.$pristine }">
+                            <div class="form-group">
                                 <span style="font-size:14px" class="col-sm-3 control-label">Danh mục *</span>
                                 <div class="col-sm-9">
                                     <div style="display:flex">
-                                        <select name="categoryID" ng-required=true class="form-control"
+                                        <select name="categoryID" class="form-control"
                                                 ng-model="pcInfo.CategoryID"
                                                 ng-options="option.CategoryID as option.CategoryName for option in categories">
                                             <option value="">[Lựa chọn]</option>
                                         </select>
-                                        <button title="Quản lý danh mục" data-toggle="modal" data-target="#myModal" style="width:15%" class="btn btn-block btn-primary btn-flat" type="button">
+                                        <button title="Quản lý nhà sản xuất" data-toggle="modal" data-target="#modelCategory" style="width:15%" class="btn btn-block btn-primary btn-flat" type="button">
                                             ...
                                         </button>
-                                    </div>
-                                    <div style="display:flex">
-                                        <span class="has-error" ng-show="frmAddPC.categoryID.$touched && frmAddPC.categoryID.$error.required">
-                                            Vui lòng chọn danh mục!
-                                        </span>
-                                    </div>
+                                    </div>                                   
                                 </div>
                             </div>
                         </div>
@@ -212,7 +206,7 @@
                     </div>
                     <div class="col-md-2 col-xs-4">
                         <button type="button" id="btnClosePC" class="btn btn-default btn-flat" data-dismiss="modal">
-                            <i class="fa fa-save"></i> Đóng
+                            <i class="fa fa-close"></i> Đóng
                         </button>
                     </div>
                     <div class="col-md-4 col-xs-2">
@@ -224,7 +218,7 @@
 </div>
 
 <!--Form create category-->
-<div class="modal fade" id="myModal" role="dialog">
+<div class="modal fade" id="modelCategory" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -320,7 +314,7 @@
                 </div>
                 <div class="col-md-4 col-xs-4" style="text-align:center">
                     <button type="button" id="btnCloseFormCate" class="btn btn-default btn-flat" data-dismiss="modal">
-                        <i class="fa fa-save"></i> Đóng
+                        <i class="fa fa-close"></i> Đóng
                     </button>
                 </div>
                 <div class="col-md-4 col-xs-2">

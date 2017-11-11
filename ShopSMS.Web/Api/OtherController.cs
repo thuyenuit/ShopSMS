@@ -18,7 +18,8 @@ namespace ShopSMS.Web.Api
     [Authorize]
     public class OtherController : BaseApiController
     {
-        public OtherController(IErrorLogService errorLogService) : base(errorLogService)
+        public OtherController(IErrorLogService errorLogService) 
+            : base(errorLogService)
         {
         }
 

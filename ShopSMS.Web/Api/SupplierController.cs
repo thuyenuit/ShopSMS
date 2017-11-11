@@ -13,6 +13,7 @@ using System.Web.Http;
 
 namespace ShopSMS.Web.Api
 {
+    [RoutePrefix("api/supplier")]
     public class SupplierController : BaseApiController
     {
 

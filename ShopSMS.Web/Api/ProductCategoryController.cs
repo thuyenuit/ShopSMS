@@ -145,8 +145,21 @@ namespace ShopSMS.Web.Api
                 IDictionary<string, object> dic = new Dictionary<string, object>();
                 dic.Add("Status", 1);
 
-                List<ProductCategory> lstProductCategory = productCategoryService.Search(dic).ToList();
-                List<ProductCategoryViewModel> lstResponse = lstProductCategory
+                IEnumerable<ProductCategory> lstProductCategory = productCategoryService.Search(dic);
+                IEnumerable<Category> lstCategory = categoryService.GetAll().Where(x => x.Status == true);
+
+                var result = (from pc in lstProductCategory
+                              join c in lstCategory
+                              on pc.CategoryID equals c.CategoryID
+                              select new ProductCategoryViewModel
+                              {
+                                  ProductCategoryID = pc.ProductCategoryID,
+                                  ProductCategoryName = pc.ProductCategoryName,
+                                  CategoryName = c.CategoryName,
+                                  DisplayOrder = pc.DisplayOrder
+                              }).OrderBy(x=>x.ProductCategoryName).ToList();
+
+                /*List <ProductCategoryViewModel> lstResponse = lstProductCategory
                 .Where(x => x.Status == true)
                 .Select(x => new ProductCategoryViewModel
                 {
@@ -154,9 +167,9 @@ namespace ShopSMS.Web.Api
                     ProductCategoryName = x.ProductCategoryName,
                     DisplayOrder = x.DisplayOrder
                 }).OrderByDescending(x => x.DisplayOrder)
-                .ThenBy(x => x.ProductCategoryName).ToList();
+                .ThenBy(x => x.ProductCategoryName).ToList();*/
 
-                var response = request.CreateResponse(HttpStatusCode.OK, lstResponse);
+                var response = request.CreateResponse(HttpStatusCode.OK, result);
                 return response;
             });
         }
@@ -192,7 +205,7 @@ namespace ShopSMS.Web.Api
                     ProductCategory objPC = new ProductCategory();                   
                     objPC.UpdateProductCategory(productCategoryVM);
                     objPC.CreateDate = DateTime.Now;
-                    objPC.CreateBy = UserInfoInstance.UserCodeInstance;
+                    objPC.CreateBy = UserInfoInstance.UserCode;
                     objPC.Status = true;
 
                     bool check = productCategoryService.Create(objPC);
@@ -242,7 +255,7 @@ namespace ShopSMS.Web.Api
                             objProductCategory.CategoryID = productCategoryVM.CategoryID;
                             objProductCategory.DisplayOrder = productCategoryVM.DisplayOrder;
                             objProductCategory.UpdateDate = DateTime.Now;
-                            objProductCategory.UpdateBy += UserInfoInstance.UserCodeInstance + ",";
+                            objProductCategory.UpdateBy += UserInfoInstance.UserCode + ",";
                             objProductCategory.Status = productCategoryVM.IntStatusID == 1 ? true : false;
                             productCategoryService.Update(objProductCategory);
                             productCategoryService.SaveChanges();

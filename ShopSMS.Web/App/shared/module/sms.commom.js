@@ -8,5 +8,6 @@
             'LocalStorageModule',
             'ngAnimate',
             'cgBusy',
-            'ngCkeditor']);
+            'ngCkeditor',
+        'ui.utils.masks']);
 })();

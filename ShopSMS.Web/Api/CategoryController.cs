@@ -131,14 +131,14 @@ namespace ShopSMS.Web.Api
                         Category objCate = new Category();
                         objCate.UpdateCategory(categoryVM);
                         objCate.CreateDate = DateTime.Now;
-                        objCate.CreateBy = UserInfoInstance.UserCodeInstance;
+                        objCate.CreateBy = UserInfoInstance.UserCode;
                         objCate.Status = true;
                         if (objCate.DisplayOrder == null)
                         {
                             objCate.DisplayOrder = categoryService.GetAll().ToList().Count() + 1;
                         }
 
-                        categoryService.Add(objCate);
+                        categoryService.Create(objCate);
                         categoryService.SaveChanges();
                         response = request.CreateResponse(HttpStatusCode.OK, objCate);
                         return response;
@@ -179,7 +179,7 @@ namespace ShopSMS.Web.Api
                             {
                                 objDB.CategoryName = categoryVM.CategoryName;
                                 objDB.UpdateDate = DateTime.Now;
-                                objDB.UpdateBy += UserInfoInstance.UserCodeInstance + ",";
+                                objDB.UpdateBy += UserInfoInstance.UserCode + ",";
                                 categoryService.Update(objDB);
                                 categoryService.SaveChanges();
 
