@@ -8,11 +8,11 @@ namespace ShopSMS.Web.Provider
 {
     public class UserInfoInstance
     {
-        public static string UserCodeInstance { get; set; }
-        public static string UserNameInstance { get; set; }
-        public static string FullNameInstance { get; set; }
-        public static string EmailInstance { get; set; }
-        public static string PhoneInstance { get; set; }
+        public static string UserCode { get; set; }
+        public static string UserName { get; set; }
+        public static string FullName { get; set; }
+        public static string Email { get; set; }
+        public static string Phone { get; set; }
 
         public static List<ListStatus> ListStatus { get; set; }
         public static List<ListGroupMenu> ListGroupMenu { get; set; }

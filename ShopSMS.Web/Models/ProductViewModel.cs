@@ -15,27 +15,31 @@ namespace ShopSMS.Web.Models
 
         public string ProductAlias { get; set; }
 
-        public int ProductCategoryID { get; set; }
+        public int? ProductCategoryID { get; set; }
 
-        public string ProductImage { get; set; }
+        public string Avatar { get; set; }
 
-        public string ProductMoreImage { get; set; }
+        public string MoreImages { get; set; }
 
-        public decimal ProductPrice { get; set; }
+        public decimal PriceInput { get; set; }
 
-        public decimal? ProductPromotionPrice { get; set; }
+        public decimal PriceSell { get; set; }
 
-        public int? ProductWarranty { get; set; }
+        public decimal? PromotionPrice { get; set; }
 
-        public int? ProductQuantity { get; set; }
+        public int? Warranty { get; set; }
 
-        public string ProductDescription { get; set; }
+        public int? Quantity { get; set; }
 
-        public string ProductContent { get; set; }
+        public string Description { get; set; }
 
         public bool? ProductHomeFlag { get; set; }
 
         public bool? ProductHotFlag { get; set; }
+
+        public bool? ProductNew { get; set; }
+
+        public bool? ProductSellingGood { get; set; }
 
         public int? ProductViewCount { get; set; }
 
@@ -52,6 +56,8 @@ namespace ShopSMS.Web.Models
         public string MetaDescription { get; set; }
 
         public bool Status { get; set; }
+
+        public decimal? TaxVAT { get; set; }
 
         public virtual ProductCategoryViewModel ProductCategories { get; set; }
 

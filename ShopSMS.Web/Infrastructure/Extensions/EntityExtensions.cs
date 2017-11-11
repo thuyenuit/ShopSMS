@@ -26,24 +26,27 @@ namespace ShopSMS.Web.Infrastructure.Extensions
 
         public static void UpdateProduct(this Product product, ProductViewModel productVM) {
             product.ProductID = productVM.ProductID;
-            product.ProductAlias = productVM.ProductAlias;
+            product.ProductAlias = productVM.ProductAlias;          
+            product.ProductCategoryID = productVM.ProductCategoryID;
+            product.ProductCode = productVM.ProductCode;
+            product.Description = productVM.Description;
+            product.ProductHomeFlag = productVM.ProductHomeFlag;
+            product.ProductHotFlag = productVM.ProductHotFlag;
+            product.ProductSellingGood = productVM.ProductSellingGood;
+            product.Avatar = productVM.Avatar;
+            product.MoreImages = productVM.MoreImages;
+            product.ProductName = productVM.ProductName;
+            product.PriceInput = productVM.PriceInput;
+            product.PriceSell = productVM.PriceSell;
+            product.PromotionPrice = productVM.PromotionPrice;
+            product.Quantity = productVM.Quantity;
+            product.TaxVAT = productVM.TaxVAT;
+            product.ProductViewCount = productVM.ProductViewCount;
+            product.Warranty = productVM.Warranty;         
             product.CreateBy = productVM.CreateBy;
             product.CreateDate = productVM.CreateDate;
             product.MetaDescription = productVM.MetaDescription;
             product.MetaKeyword = productVM.MetaKeyword;
-            product.ProductCategoryID = productVM.ProductCategoryID;
-            product.ProductCode = productVM.ProductCode;
-            product.ProductDescription = productVM.ProductDescription;
-            product.ProductHomeFlag = productVM.ProductHomeFlag;
-            product.ProductHotFlag = productVM.ProductHotFlag;
-            product.ProductImage = productVM.ProductImage;
-            product.ProductMoreImage = productVM.ProductMoreImage;
-            product.ProductName = productVM.ProductName;
-            product.ProductPrice = productVM.ProductPrice;
-            product.ProductPromotionPrice = productVM.ProductPromotionPrice;
-            product.ProductQuantity = productVM.ProductQuantity;
-            product.ProductViewCount = productVM.ProductViewCount;
-            product.ProductWarranty = productVM.ProductWarranty;
             product.UpdateBy = productVM.UpdateBy;
             product.UpdateDate = productVM.UpdateDate;
 

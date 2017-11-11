@@ -103,11 +103,11 @@ namespace ShopSMS.Web.Provider
                         {"phoneNumber",phoneNumber }
                     });
 
-                UserInfoInstance.EmailInstance = email;
-                UserInfoInstance.FullNameInstance = user.FullName;
-                UserInfoInstance.PhoneInstance = phoneNumber;
-                UserInfoInstance.UserCodeInstance = userCode;
-                UserInfoInstance.UserNameInstance = user.UserName;
+                UserInfoInstance.Email = email;
+                UserInfoInstance.FullName = user.FullName;
+                UserInfoInstance.Phone = phoneNumber;
+                UserInfoInstance.UserCode = userCode;
+                UserInfoInstance.UserName = user.UserName;
                
                 List<ListStatus> listStatus = new List<ListStatus> {
                     //new ListStatus() { StatusID = SystemParameter.StatusID_0, StatusName = SystemParameter.StatusName_0},

@@ -16,6 +16,8 @@ namespace ShopSMS.Web.Mappings
                 cfg.CreateMap<ProductCategory, ProductCategoryViewModel>();
                 cfg.CreateMap<Product, ProductViewModel>();
                 cfg.CreateMap<Category, CategoryViewModel>();
+                cfg.CreateMap<Producer, ProducerViewModel>();
+                cfg.CreateMap<Supplier, SupplierViewModel>();
 
                 /*cfg.CreateMap<Post, PostViewModel>();
                 cfg.CreateMap<PostCategory, PostCategoryViewModel>();
