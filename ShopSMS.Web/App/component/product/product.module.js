@@ -24,6 +24,11 @@
                 url: '/edit-product?productID',
                 templateUrl: '/app/component/product/productEditView.html',
                 controller: 'productEditController'
-            });
+            }).state('productImport', {
+                 parent: 'baseView',
+                 url: '/impot-product',
+                 templateUrl: '/app/component/product/productImportView.html',
+                 controller: 'productImportController'
+             });
     }
 })();

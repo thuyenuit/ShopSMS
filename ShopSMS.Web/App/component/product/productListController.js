@@ -3,14 +3,18 @@
 (function (app) {
     app.controller('productListController', productListController);
 
-    productListController.$inject = ['$scope',
-        'apiService', '$interval', '$filter', '$ngBootbox', '$state', 'notificationService'];
+    productListController.$inject = ['$scope', '$http', '$sce',
+        'apiService', '$interval', '$filter', '$ngBootbox', '$state', 'notificationService', 'authenticationService'];
 
-    function productListController($scope, apiService, $interval,
-        $filter, $ngBootbox, $state, notificationService) {
+    function productListController($scope, $http, $sce, apiService, $interval,
+        $filter, $ngBootbox, $state, notificationService, authenticationService) {
 
         $scope.onClickAddProduct = function () {
             $state.go('productAdd');
+        };
+
+        $scope.onClickImportProduct = function () {
+            $state.go('productImport');
         };
 
         // show
@@ -39,12 +43,12 @@
         };
 
         $scope.listStatus = [];
-        $scope.listStatus.StatusID = 0;
+       // $scope.listStatus.StatusID = 0;
         function LoadStatus() {
             apiService.get('/api/other/getListStatus', null, function (result) {
                 $scope.listStatus = result.data;
-                $scope.listStatus.StatusID = 0;
-            }, function () {
+               // $scope.listStatus.StatusID = 0;
+            }, function (result) {
                 notificationService.displayError('Không thể tải danh sách trạng thái');
             });
         }
@@ -75,9 +79,13 @@
             page = page || 0;
 
             var statusId = $scope.listStatus.StatusID;
+            if (statusId === undefined || statusId === 'undefined' || statusId === null)
+                statusId = 0;
+
             var categoryID = $scope.categories.ProductCategoryID;
             if (categoryID === undefined || categoryID === 'undefined' || categoryID === null)
                 categoryID = 0;
+
             var consfig = {
                 params: {
                     page: page,
@@ -87,7 +95,7 @@
                     status: statusId
                 }
             };
-            var url = '/api/product/getall';
+            var url = '/api/product/getallpaging';
             $scope.promise = apiService.get(url, consfig, function (result) {
                 $scope.lstProduct = result.data.Items;
                 $scope.page = result.data.Page;
@@ -106,7 +114,7 @@
         }
         $scope.ListProduct();
 
-        $scope.sortColumn = 'ProductName';
+        /*$scope.sortColumn = 'ProductName';
         $scope.reverse = true; // sắp xếp giảm dần
         $scope.sortData = function (column) {
             if ($scope.sortColumn === column)
@@ -121,7 +129,7 @@
             }
 
             return '';
-        };
+        };*/
 
         // onclick Update Product
         $scope.fnModifyProduct = function (item) {
@@ -131,14 +139,14 @@
         $scope.fnUpdateProduct = function (item) {
             if (item.ProductName === '' || item.ProductName === null) {
                 notificationService.displayError('Vui lòng nhập tên sản phẩm!');
-                var name = 'txtProductName_' + item.ProducerID;
+                var name = 'txtProductName_' + item.ProductID;
                 angular.element('input[name=' + name + ']').focus();
             }
             else {
                 var url = '/api/product/updateNameAndPriceSell';
                 $scope.promise = apiService.put(url, item, function (result) {
                     notificationService.displaySuccess(result.data);
-                    $scope.editProducer[item.Product] = false;
+                    $scope.editProduct[item.ProductID] = false;
                     ListProduct();
                 }, function (result) {
                     notificationService.displayError(result.data);
@@ -232,5 +240,83 @@
             });
         }
 
+        // import product
+        $scope.files = [];
+        $scope.$on("fileSelected", function (event, args) {
+            $scope.$apply(function () {
+                $scope.files.push(args.file);
+            });
+        });
+
+        $scope.ImportProduct = ImportProduct;
+        function ImportProduct() {
+            //console.log("File chon ", $scope.files);
+            if ($scope.files.length <= 0) {
+                notificationService.displayError("Vui lòng chọn File excel cần import");
+            }
+            else {
+
+                var ext = angular.element("input[name='file']").val().match(/\.([^\.]+)$/)[1];
+
+                if (ext === 'xls' || ext === 'xlsx') {
+                    authenticationService.setHeader();
+                    var url = '/api/product/ImportExcel';
+                    $scope.promise = $http({
+                        method: "POST",
+                        url: url,
+                        headers: { 'Content-Type': undefined },
+                        transformRequest: function (data) {
+                            var formData = new FormData();
+                            for (var i = 0; i < data.files.length; i++) {
+                                formData.append("file" + i, data.files[i]);
+                            }
+                            return formData;
+                        },
+                        data: { files: $scope.files }
+                    }).then(function (result, status, headers, config) {
+                        notificationService.displaySuccess(result.data);
+                        angular.element("button[id='btnCloseImportExcel']").click();
+                        //angular.element("input[name='file']").val('');
+                        ListProduct();
+                    }, function (result, status, headers, config) {
+                        notificationService.displayError(result.data.ExceptionMessage);
+                    });
+
+                    $scope.$parent.MethodShowLoading("Đang xử lý", $scope.promise);
+                }
+                else {
+                    notificationService.displayError("File không hợp lệ. Vui lòng chọn file excel");
+                }
+            }
+
+            $scope.files = [];
+            angular.element("input[name='file']").val('');
+
+        }
+
+        $scope.ExportProduct = ExportProduct;
+        function ExportProduct() {
+            var productCategoryID = $scope.categories.ProductCategoryID;
+            if (productCategoryID === undefined || productCategoryID === 'undefined' || productCategoryID === null)
+                productCategoryID = 0;
+            var statusId = $scope.listStatus.StatusID;
+            if (statusId === undefined || statusId === 'undefined' || statusId === null)
+                statusId = 0;
+
+            var config = {
+                params: {
+                    keyword: $scope.keyWord,
+                    productCategoryId: productCategoryID,
+                    statusID: statusId
+                }
+            }
+            var url = '/api/product/exportExcel';
+            $scope.promise = apiService.get(url, config, function (result) {
+                window.open(result.data.Message)
+            }, function (result) {
+                notificationService.displayError(result.data);
+            });
+            $scope.$parent.MethodShowLoading("Đang xử lý", $scope.promise);
+        }
     }
 })(angular.module('sms.product'));
