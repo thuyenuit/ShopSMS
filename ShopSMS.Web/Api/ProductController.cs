@@ -476,15 +476,7 @@ namespace ShopSMS.Web.Api
                         }
                         else
                         {
-                            var checkName = lstProductDB.Where(x => x.ProductName.ToUpper().Equals(productName.ToUpper())).FirstOrDefault();
-                            if (checkName == null)
-                            {
-                                objNew.ProductName = productName;
-                            }
-                            else
-                            {
-                                lstListError.Add(MassageError(productCode, productName, "Tên sản phẩm đã tồn tại trong hệ thống"));
-                            }
+                           objNew.ProductName = productName;
                         }
                     }
                 }
@@ -595,7 +587,7 @@ namespace ShopSMS.Web.Api
                 #endregion
 
                 #region // Hiển thị website
-                if (sheet.Cells[i, 8].Value != null)
+                if (sheet.Cells[i, 8].Value != null && sheet.Cells[i, 8].Value != "")
                 {
                     if ((sheet.Cells[i, 8].Value.ToString() == "X" || sheet.Cells[i, 8].Value.ToString() == "x")
                         && sheet.Cells[i, 8].Value.ToString().Length == 1)
@@ -615,7 +607,7 @@ namespace ShopSMS.Web.Api
                 #endregion
 
                 #region // Hàng nổi bật
-                if (sheet.Cells[i, 9].Value != null)
+                if (sheet.Cells[i, 9].Value != null && sheet.Cells[i, 9].Value != "")
                 {
                     if ((sheet.Cells[i, 9].Value.ToString() == "X" || sheet.Cells[i, 9].Value.ToString() == "x")
                         && sheet.Cells[i, 9].Value.ToString().Length == 1)
@@ -635,7 +627,7 @@ namespace ShopSMS.Web.Api
                 #endregion
 
                 #region // Hàng bán chạy
-                if (sheet.Cells[i, 10].Value != null)
+                if (sheet.Cells[i, 10].Value != null && sheet.Cells[i, 10].Value != "")
                 {
                     if ((sheet.Cells[i, 10].Value.ToString() == "X" || sheet.Cells[i, 10].Value.ToString() == "x")
                         && sheet.Cells[i, 10].Value.ToString().Length == 1)
@@ -655,7 +647,7 @@ namespace ShopSMS.Web.Api
                 #endregion
 
                 #region // Hàng mới
-                if (sheet.Cells[i, 11].Value != null)
+                if (sheet.Cells[i, 11].Value != null && sheet.Cells[i, 11].Value != "")
                 {
                     if ((sheet.Cells[i, 11].Value.ToString() == "X" || sheet.Cells[i, 11].Value.ToString() == "x")
                         && sheet.Cells[i, 11].Value.ToString().Length == 1)
@@ -675,7 +667,7 @@ namespace ShopSMS.Web.Api
                 #endregion
 
                 #region // Trạng thái
-                if (sheet.Cells[i, 12].Value != null)
+                if (sheet.Cells[i, 12].Value != null && sheet.Cells[i, 12].Value != "")
                 {
                     if ((sheet.Cells[i, 12].Value.ToString() == "X" || sheet.Cells[i, 12].Value.ToString() == "x")
                         && sheet.Cells[i, 12].Value.ToString().Length == 1)
