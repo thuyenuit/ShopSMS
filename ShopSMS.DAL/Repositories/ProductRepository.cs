@@ -35,7 +35,7 @@ namespace ShopSMS.DAL.Repositories
             int productQuantity = Utils.GetInt(dic, "Quantity");
             decimal productPrice = Utils.GetDecimal(dic, "Price");
             string keyword = Utils.GetString(dic, "Keyword");
-            int categoryID = Utils.GetInt(dic, "CategoryID");
+            int productCategoryID = Utils.GetInt(dic, "ProductCategoryID");
             int status = Utils.GetInt(dic, "Status");
 
             IEnumerable<Product> query = DbContext.Product;
@@ -54,23 +54,27 @@ namespace ShopSMS.DAL.Repositories
             if (!string.IsNullOrEmpty(productAlias))
             {
                 query = query.Where(x=>x.ProductAlias != null)
-                        .Where(x => x.ProductAlias.ToUpper().Contains(productAlias.ToUpper()));
-            }
-               
+                             .Where(x => x.ProductAlias.ToUpper().Contains(productAlias.ToUpper()));
+            }            
             if (!string.IsNullOrEmpty(productDescription))
             {
                 query = query.Where(x=>x.Description != null)
                              .Where(x => x.Description.ToUpper().Contains(productDescription.ToUpper()));
+            }
+
+            if (productCategoryID != 0)
+            {
+                query = query.Where(x => x.ProductCategoryID.HasValue)
+                             .Where(x=>x.ProductCategoryID == productCategoryID);
             }
                
             if (productQuantity != 0)
                 query = query.Where(x => x.Quantity == productQuantity);
             if (productPrice != 0)
                 query = query.Where(x => x.PriceSell == productPrice);
-            //if (!string.IsNullOrEmpty(keyword))
-            //    query = query.Where(x => x.ProductCode.ToUpper().Contains(keyword.ToUpper()) 
-            //                    || x.ProductName.ToUpper().Contains(keyword.ToUpper())
-            //                    || x.ProductAlias.ToUpper().Contains(keyword.ToUpper()));
+            if (!string.IsNullOrEmpty(keyword))
+                query = query.Where(x => x.ProductCode.ToUpper().Contains(keyword.ToUpper()) 
+                                || x.ProductName.ToUpper().Contains(keyword.ToUpper()));
 
             return query;
         }
