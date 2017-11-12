@@ -17,29 +17,21 @@ namespace ShopSMS.Common.Common
             {
                 return def = new List<int>();
             }
-            return GetListInt(dic[key], def);
+            return GetListInt(dic[key]);
         }
-        public static List<int> GetListInt(object val, List<int> def = null)
+        public static List<int> GetListInt(object val)
         {
+            List<int> def = new List<int>();
             if (val == null)
             {
-                return def = new List<int>();
+                return def;
             }
 
             if (val is List<int>)
                 return (List<int>)val;
             else
-            {
-                try
-                {
-                    def = val.ToString().Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries)
-                        .Select(x => Int32.Parse(x)).ToList();
-                    return def;
-                }
-                catch
-                {
-                    throw new Exception("GetInt error, object is not a List Int value");
-                }
+            {             
+               throw new Exception("GetInt error, object is not a List<Int> value");
             }
 
         }
@@ -166,6 +158,19 @@ namespace ShopSMS.Common.Common
         {
             decimal temp;
             return Decimal.TryParse(val, out temp);
+        }
+
+        public static string AutoCode(string def = null)
+        {
+            string code = string.Empty;
+
+            for (int i = 0; i < 8; i++)
+            {
+
+            }
+
+
+            return def;
         }
     }
 }
