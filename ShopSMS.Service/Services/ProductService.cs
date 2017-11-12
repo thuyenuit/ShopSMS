@@ -24,6 +24,7 @@ namespace ShopSMS.Service.Services
         void SaveChanges();
         string AutoGenericCode();
         void ExportExcel(string fullPath, string fileTemplatePath, IDictionary<string, object> dic);
+        void InsertOrUpdateFromExcel(List<Product> lstFromExcel, List<Product> lstProductDB);
     }
 
     public class ProductService : IProductService
@@ -84,6 +85,44 @@ namespace ShopSMS.Service.Services
             return productRepository.AutoGenericCode();
         }
 
+        public void InsertOrUpdateFromExcel(List<Product> lstFromExcel, List<Product> lstProductDB)
+        {
+            for (int i = 0; i < lstFromExcel.Count(); i++)
+            {
+                var obj = lstFromExcel[i];
+                // Cập nhật
+                if (!string.IsNullOrEmpty(obj.ProductCode))
+                {
+                    var objResult = lstProductDB.Where(x => x.ProductCode.ToUpper().Equals(obj.ProductCode.ToUpper())).FirstOrDefault();
+                    if (objResult != null && !string.IsNullOrEmpty(obj.ProductName))
+                    {
+                        objResult.ProductName = obj.ProductName;
+                        objResult.Quantity = obj.Quantity;
+                        objResult.PriceSell = obj.PriceSell;
+                        objResult.PriceInput = obj.PriceInput;
+                        objResult.Warranty = obj.Warranty;
+                        objResult.ProductHomeFlag = obj.ProductHomeFlag;
+                        objResult.ProductHotFlag = obj.ProductHotFlag;
+                        objResult.ProductSellingGood = obj.ProductSellingGood;
+                        objResult.ProductNew = obj.ProductNew;
+                        objResult.Status = obj.Status;
+                        objResult.Description = obj.Description;
+                        objResult.MetaDescription = obj.MetaDescription;
+                        objResult.MetaKeyword = obj.MetaKeyword;
+                        objResult.UpdateDate = obj.UpdateDate;
+                        objResult.UpdateBy = objResult.UpdateBy + ", " + obj.UpdateBy;
+
+                        productRepository.Update(objResult);
+                    }
+                } //Thêm mới
+                else
+                {
+                    obj.ProductCode = AutoGenericCode();
+                    productRepository.Create(obj);               
+                }
+            }
+        }
+
         public void ExportExcel(string fullPath, string fileTemplatePath, IDictionary<string, object> dic)
         {
             FileInfo fileTemplate = new FileInfo(fileTemplatePath);
@@ -109,8 +148,8 @@ namespace ShopSMS.Service.Services
                     sheet.Cells[("B" + startRow)].Value = objProduct.ProductCode;
                     sheet.Cells[("C" + startRow)].Value = objProduct.ProductName;
                     sheet.Cells[("D" + startRow)].Value = objProduct.Quantity;
-                    sheet.Cells[("E" + startRow)].Value = objProduct.PriceInput;
-                    sheet.Cells[("F" + startRow)].Value = objProduct.PriceSell;
+                    sheet.Cells[("E" + startRow)].Value = objProduct.PriceInput.ToString("N0");
+                    sheet.Cells[("F" + startRow)].Value = objProduct.PriceSell.ToString("N0");
                     sheet.Cells[("G" + startRow)].Value = objProduct.Warranty;
                     sheet.Cells[("H" + startRow)].Value = objProduct.ProductHomeFlag.HasValue && objProduct.ProductHomeFlag == true ? "X" : "";
                     sheet.Cells[("I" + startRow)].Value = objProduct.ProductHotFlag.HasValue && objProduct.ProductHotFlag == true ? "X" : "";
@@ -134,14 +173,11 @@ namespace ShopSMS.Service.Services
                     sheet.Cells[startRow, 1, startRow, 15].Style.Border.Top.Style = ExcelBorderStyle.Thin;
                     sheet.Cells[startRow, 1, startRow, 15].Style.Border.Left.Style = ExcelBorderStyle.Thin;
                     sheet.Cells[startRow, 1, startRow, 15].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                    sheet.Cells[startRow, 1, startRow, 15].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                   
-
+                    sheet.Cells[startRow, 1, startRow, 15].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;                   
                     startRow++;
                 }
 
-                sheet.Protection.SetPassword("123456");
-                          
+                sheet.Protection.SetPassword("123456");                        
                 // Lưu file mới
                 pck.SaveAs(newFile);             
             }     
