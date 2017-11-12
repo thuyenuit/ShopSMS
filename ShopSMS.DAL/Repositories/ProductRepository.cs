@@ -34,7 +34,7 @@ namespace ShopSMS.DAL.Repositories
             string productDescription = Utils.GetString(dic, "Description");
             int productQuantity = Utils.GetInt(dic, "Quantity");
             decimal productPrice = Utils.GetDecimal(dic, "Price");
-            string keyword = Utils.GetString(dic, "Keyword");
+            string keyword = Utils.GetString(dic, "KeyWord");
             int productCategoryID = Utils.GetInt(dic, "ProductCategoryID");
             int status = Utils.GetInt(dic, "Status");
 
