@@ -61,9 +61,9 @@ namespace ShopSMS.Web.Api
 
                 IDictionary<string, object> dic = new Dictionary<string, object>();
                 dic.Add("KeyWord", keyWord);
-                if(categoryID.HasValue)
+                if (categoryID.HasValue)
                     dic.Add("CategoryID", categoryID);
-                if(status.HasValue)
+                if (status.HasValue)
                     dic.Add("Status", status);
 
                 List<Product> lstProduct = productService.Search(dic).ToList();
@@ -332,7 +332,6 @@ namespace ShopSMS.Web.Api
         [HttpPost]
         public async Task<HttpResponseMessage> ImportExcel()
         {
-            // HttpResponseMessage response = null;
             if (!Request.Content.IsMimeMultipartContent())
             {
                 return Request.CreateErrorResponse(HttpStatusCode.UnsupportedMediaType, "Định dạng không được hỗ trợ!");
@@ -349,6 +348,10 @@ namespace ShopSMS.Web.Api
 
             int categoryId = 0;
             int.TryParse(result.FormData["categoryId"], out categoryId);
+
+            List<Product> lstProductFromExcel = new List<Product>();
+            List<ListError> lstListError = new List<ListError>();
+            List<Product> lstProductDB = productService.GetAll().ToList();
 
             // băm file thành nhiều phần
             foreach (MultipartFileData fileData in result.FileData)
@@ -371,19 +374,35 @@ namespace ShopSMS.Web.Api
                 var fullPath = Path.Combine(root, fileName);
                 File.Copy(fileData.LocalFileName, fullPath, true);
 
-                var lstProduct = this.GetDataFromExcel(fullPath);
+                try
+                {
+                    lstProductFromExcel = this.GetDataFromExcel(fullPath, lstProductDB, ref lstListError);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
 
+            }
+
+            if (lstListError.Count <= 0)
+            {
+                productService.InsertOrUpdateFromExcel(lstProductFromExcel, lstProductDB);
+                productService.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Import thất bại");
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, "Import thành công!");
         }
 
-        private List<Product> GetDataFromExcel(string fullPath)
+        private List<Product> GetDataFromExcel(string fullPath, List<Product> lstProductDB, ref List<ListError> lstListError)
         {
             List<Product> lstProduct = new List<Product>();
             Product objNew = null;
 
-            List<ListError> lstListError = new List<ListError>();
             ListError objError = null;
 
             ExcelPackage package = new ExcelPackage(new FileInfo(fullPath));
@@ -396,34 +415,45 @@ namespace ShopSMS.Web.Api
             int quantity = 0;
             decimal priceInput = 0;
             decimal priceSell = 0;
-
+            int warranty = 0;
             int endRow = sheet.Dimension.End.Row;
 
+            string error = string.Empty;
             for (int i = 9; i <= endRow; i++)
             {
                 objNew = new Product();
 
-                if (sheet.Cells[i, 2].Value == null && sheet.Cells[i, 3].Value == null)
+                if ((sheet.Cells[i, 2].Value == null && sheet.Cells[i, 3].Value == null)
+                    || sheet.Cells[i, 3].Value == null)
                 {
                     continue;
                 }
 
-                #region // mã sản phẩm
+                #region // Mã sản phẩm
                 if (sheet.Cells[i, 2].Value != null)
                 {
-                    // mã sản phẩm
                     productCode = sheet.Cells[i, 2].Value.ToString();
                     lstProductCode.Add(productCode);
                     if (lstProductCode.Where(x => x.ToUpper() == productCode.ToUpper()).ToList().Count() > 1)
                     {
                         // trùng mã sản phẩm
-                        objError = new ListError();
-                        objError.ProductCode = productCode;
-                        objError.Description = "Mã sản phẩm trong file bị trùng lập";
-                        lstListError.Add(objError);
+                        lstListError.Add(MassageError(productCode, "", "Mã sản phẩm bị trùng lặp"));
                     }
                     else
-                        objNew.ProductCode = productCode;
+                    {
+                        var checkCode = lstProductDB.Where(x => x.ProductCode.ToUpper().Equals(productCode.ToUpper())).FirstOrDefault();
+                        if (checkCode != null)
+                        {
+                            if (checkCode.Status == false)
+                                continue;
+                            else
+                                objNew.ProductCode = productCode;
+                        }
+                        else
+                        {
+                            lstListError.Add(MassageError(productCode, "", "Mã sản phẩm không tồn tại"));
+                        }
+                    }
                 }
                 #endregion
 
@@ -433,17 +463,30 @@ namespace ShopSMS.Web.Api
                     // tên sản phẩm
                     productName = sheet.Cells[i, 3].Value.ToString();
                     lstProductName.Add(productName);
-                    if (lstProductCode.Where(x => x.ToUpper() == productCode.ToUpper()).ToList().Count() > 1)
+                    if (lstProductName.Where(x => x.ToUpper() == productName.ToUpper()).ToList().Count() > 1)
                     {
                         // trùng tên sản phẩm
-                        objError = new ListError();
-                        objError.ProductCode = productCode;
-                        objError.Description = "Tên sản phẩm trong file bị trùng lập";
-                        objError.ProductName = productName;
-                        lstListError.Add(objError);
+                        lstListError.Add(MassageError(productCode, productName, "Tên sản phẩm bị trùng lập"));
                     }
                     else
-                        objNew.ProductName = productCode;
+                    {
+                        if (productName.Length > 100)
+                        {
+                            lstListError.Add(MassageError(productCode, productName, "Tên sản phẩm không được vượt quá 100 ký tự"));
+                        }
+                        else
+                        {
+                            var checkName = lstProductDB.Where(x => x.ProductName.ToUpper().Equals(productName.ToUpper())).FirstOrDefault();
+                            if (checkName == null)
+                            {
+                                objNew.ProductName = productName;
+                            }
+                            else
+                            {
+                                lstListError.Add(MassageError(productCode, productName, "Tên sản phẩm đã tồn tại trong hệ thống"));
+                            }
+                        }
+                    }
                 }
                 #endregion
 
@@ -456,10 +499,8 @@ namespace ShopSMS.Web.Api
                         if (quantity < 0 || quantity > 999999)
                         {
                             // Không phải kiểu Int
-                            objError = new ListError();
-                            objError.ProductCode = productCode;
-                            objError.Description = "Số lượng không hợp lệ. Giá trị là số nguyên dương trong khoảng [0 - 999,999]";
-                            lstListError.Add(objError);
+                            error = "Số lượng không hợp lệ. Giá trị là số nguyên dương trong khoảng [0 - 999,999]";
+                            lstListError.Add(MassageError(productCode, productName, error));                       
                         }
                         else
                         {
@@ -470,10 +511,8 @@ namespace ShopSMS.Web.Api
                     else
                     {
                         // Không phải kiểu Int
-                        objError = new ListError();
-                        objError.ProductCode = productCode;
-                        objError.Description = "Số lượng không hợp lệ. Giá trị là số nguyên dương trong khoảng [0 - 999,999]";
-                        lstListError.Add(objError);
+                        error = "Số lượng không hợp lệ. Giá trị là số nguyên dương trong khoảng [0 - 999,999]";
+                        lstListError.Add(MassageError(productCode, productName, error));
                     }
                 }
                 #endregion
@@ -484,13 +523,10 @@ namespace ShopSMS.Web.Api
                     if (Utils.IsDecimal(sheet.Cells[i, 5].Value.ToString()))
                     {
                         Decimal.TryParse(sheet.Cells[i, 5].Value.ToString(), out priceInput);
-                        if (priceInput < 0 || priceInput > 9999999999999999)
+                        if (priceInput < 0 || priceInput > 999999999)
                         {
-                            objError = new ListError();
-                            objError.ProductCode = productCode;
-                            objError.ProductName = productName;
-                            objError.Description = "Giá nhập không hợp lệ. Giá trị là số nguyên dương trong khoảng [0 - 999,999,9999,999,999]";
-                            lstListError.Add(objError);
+                            error = "Giá nhập không hợp lệ.Giá trị là số nguyên dương trong khoảng[0 - 999, 999, 999]";
+                            lstListError.Add(MassageError(productCode, productName, error));                           
                         }
                         else
                         {
@@ -501,11 +537,8 @@ namespace ShopSMS.Web.Api
                     else
                     {
                         // Không phải kiểu Decimal
-                        objError = new ListError();
-                        objError.ProductCode = productCode;
-                        objError.ProductName = productName;
-                        objError.Description = "Giá nhập không hợp lệ. Giá trị là số nguyên dương trong khoảng [0 - 999,999,9999,999,999]";
-                        lstListError.Add(objError);
+                        error = "Giá nhập không hợp lệ.Giá trị là số nguyên dương trong khoảng[0 - 999, 999, 999]";
+                        lstListError.Add(MassageError(productCode, productName, error));
                     }
                 }
                 #endregion
@@ -516,13 +549,10 @@ namespace ShopSMS.Web.Api
                     if (Utils.IsDecimal(sheet.Cells[i, 6].Value.ToString()))
                     {
                         Decimal.TryParse(sheet.Cells[i, 6].Value.ToString(), out priceSell);
-                        if (priceSell < 0 || priceSell > 9999999999999999)
+                        if (priceSell < 0 || priceSell > 999999999)
                         {
-                            objError = new ListError();
-                            objError.ProductCode = productCode;
-                            objError.ProductName = productName;
-                            objError.Description = "Giá bán không hợp lệ. Giá trị là số nguyên dương trong khoảng [0 - 999,999,9999,999,999]";
-                            lstListError.Add(objError);
+                            error = "Giá bán không hợp lệ. Giá trị là số nguyên dương trong khoảng [0 - 999,999,999]";
+                            lstListError.Add(MassageError(productCode, productName, error));
                         }
                         else
                         {
@@ -533,25 +563,205 @@ namespace ShopSMS.Web.Api
                     else
                     {
                         // Không phải kiểu Decimal
-                        objError = new ListError();
-                        objError.ProductCode = productCode;
-                        objError.ProductName = productName;
-                        objError.Description = "Giá bán không hợp lệ. Giá trị là số nguyên dương trong khoảng [0 - 999,999,9999,999,999]";
-                        lstListError.Add(objError);
+                        error = "Giá bán không hợp lệ. Giá trị là số nguyên dương trong khoảng [0 - 999,999,999]";
+                        lstListError.Add(MassageError(productCode, productName, error));
                     }
                 }
                 #endregion
 
+                #region // Thời gian bảo hành
+                if (sheet.Cells[i, 7].Value != null)
+                {
+                    if (Utils.IsInt32(sheet.Cells[i, 7].Value.ToString()))
+                    {
+                        Int32.TryParse(sheet.Cells[i, 7].Value.ToString(), out warranty);
+                        if (warranty < 0 || warranty > 999)
+                        {
+                            error = "Thời gian bảo hành không hợp lệ. Giá trị là số nguyên dương trong khoảng [0 - 999]";
+                            lstListError.Add(MassageError(productCode, productName, error));
+                        }
+                        else
+                        {
+                            objNew.Warranty = warranty;
+                        }
+                        warranty = 0;
+                    }
+                    else
+                    {
+                        error = "Thời gian bảo hành không hợp lệ. Giá trị là số nguyên dương trong khoảng [0 - 999]";
+                        lstListError.Add(MassageError(productCode, productName, error));
+                    }
+                }
+                #endregion
+
+                #region // Hiển thị website
+                if (sheet.Cells[i, 8].Value != null)
+                {
+                    if ((sheet.Cells[i, 8].Value.ToString() == "X" || sheet.Cells[i, 8].Value.ToString() == "x")
+                        && sheet.Cells[i, 8].Value.ToString().Length == 1)
+                    {
+                        objNew.ProductHomeFlag = true;
+                    }
+                    else
+                    {
+                        error = "Hiển thị ra Website. Có nhập X, không để trống";
+                        lstListError.Add(MassageError(productCode, productName, error));
+                    }
+                }
+                else
+                {
+                    objNew.ProductHomeFlag = false;
+                }
+                #endregion
+
+                #region // Hàng nổi bật
+                if (sheet.Cells[i, 9].Value != null)
+                {
+                    if ((sheet.Cells[i, 9].Value.ToString() == "X" || sheet.Cells[i, 9].Value.ToString() == "x")
+                        && sheet.Cells[i, 9].Value.ToString().Length == 1)
+                    {
+                        objNew.ProductHotFlag = true;
+                    }
+                    else
+                    {
+                        error = "Hàng nổi bật. Có nhập X, không để trống";
+                        lstListError.Add(MassageError(productCode, productName, error));
+                    }
+                }
+                else
+                {
+                    objNew.ProductHotFlag = false;
+                }
+                #endregion
+
+                #region // Hàng bán chạy
+                if (sheet.Cells[i, 10].Value != null)
+                {
+                    if ((sheet.Cells[i, 10].Value.ToString() == "X" || sheet.Cells[i, 10].Value.ToString() == "x")
+                        && sheet.Cells[i, 10].Value.ToString().Length == 1)
+                    {
+                        objNew.ProductSellingGood = true;
+                    }
+                    else
+                    {
+                        error = "Hàng bán chạy. Có nhập X, không để trống";
+                        lstListError.Add(MassageError(productCode, productName, error));
+                    }
+                }
+                else
+                {
+                    objNew.ProductSellingGood = false;
+                }
+                #endregion
+
+                #region // Hàng mới
+                if (sheet.Cells[i, 11].Value != null)
+                {
+                    if ((sheet.Cells[i, 11].Value.ToString() == "X" || sheet.Cells[i, 11].Value.ToString() == "x")
+                        && sheet.Cells[i, 11].Value.ToString().Length == 1)
+                    {
+                        objNew.ProductNew = true;
+                    }
+                    else
+                    {
+                        error = "Hàng mới. Có nhập X, không để trống";
+                        lstListError.Add(MassageError(productCode, productName, error));
+                    }
+                }
+                else
+                {
+                    objNew.ProductNew = false;
+                }
+                #endregion
+
+                #region // Trạng thái
+                if (sheet.Cells[i, 12].Value != null)
+                {
+                    if ((sheet.Cells[i, 12].Value.ToString() == "X" || sheet.Cells[i, 12].Value.ToString() == "x")
+                        && sheet.Cells[i, 12].Value.ToString().Length == 1)
+                    {
+                        objNew.Status = true;
+                    }
+                    else
+                    {
+                        error = "Trạng thái. Kinh doanh nhập X, ngừng kinh doanh để trống";
+                        lstListError.Add(MassageError(productCode, productName, error));
+                    }
+                }
+                else
+                {
+                    objNew.Status = false;
+                }
+                #endregion
+
+                #region // Mô tả
+                if (sheet.Cells[i, 13].Value != null)
+                {
+                    if (sheet.Cells[i, 13].Value.ToString().Length <= 500)
+                    {
+                        objNew.Description = sheet.Cells[i, 13].Value.ToString();
+                    }
+                    else
+                    {
+                        error = "Mô tả không được vượt quá 500 ký tự";
+                        lstListError.Add(MassageError(productCode, productName, error));
+                    }
+                }
+                #endregion
+
+                #region // Thông tin mô tả
+                if (sheet.Cells[i, 14].Value != null)
+                {
+                    if (sheet.Cells[i, 14].Value.ToString().Length <= 100)
+                    {
+                        objNew.MetaDescription = sheet.Cells[i, 14].Value.ToString();
+                    }
+                    else
+                    {
+                        error = "Thông tin mô tả không được vượt quá 100 ký tự";
+                        lstListError.Add(MassageError(productCode, productName, error));
+                    }
+                }
+                #endregion
+
+                #region // Tags
+                if (sheet.Cells[i, 15].Value != null)
+                {
+                    if (sheet.Cells[i, 15].Value.ToString().Length <= 100)
+                    {
+                        objNew.MetaKeyword = sheet.Cells[i, 15].Value.ToString();
+                    }
+                    else
+                    {
+                        error = "Tags không được vượt quá 100 ký tự";
+                        lstListError.Add(MassageError(productCode, productName, error));
+                    }
+                }
+                #endregion
+
+                objNew.CreateBy = UserInfoInstance.UserCode;
+                objNew.CreateDate = DateTime.Now;
+                objNew.UpdateBy = UserInfoInstance.UserCode;
+                objNew.UpdateDate = DateTime.Now;
                 lstProduct.Add(objNew);
             }
 
             return lstProduct;
         }
 
+        private ListError MassageError(string productCode, string productName, string description)
+        {
+            ListError obj = new ListError();
+            obj.ProductCode = productCode;
+            obj.ProductName = productName;
+            obj.Description = description;
+            return obj;
+        }
+
         [Route("exportExcelNoTemplate")]
-        [HttpGet]    
+        [HttpGet]
         public async Task<HttpResponseMessage> ExportExcelNoTemplate(HttpRequestMessage request)
-        {           
+        {
             string fileName = string.Concat("Product_" + DateTime.Now.ToString("yyyyMMddhhmmsss") + ".xlsx");
             var folderReport = ConfigHelper.GetByKey("ReportFolder");
             string filePath = HttpContext.Current.Server.MapPath(folderReport);
@@ -585,7 +795,7 @@ namespace ShopSMS.Web.Api
             // Nơi chứa file Report
             string filePath = HttpContext.Current.Server.MapPath(ParameterFileInfo.ReportFolder);
             // Nơi chứa file Template
-            string fileTemplatePath = HttpContext.Current.Server.MapPath(ParameterFileInfo.TemplateFolder +  "TemplateProduct.xlsx");
+            string fileTemplatePath = HttpContext.Current.Server.MapPath(ParameterFileInfo.TemplateFolder + "TemplateProduct.xlsx");
 
             if (!Directory.Exists(filePath))
             {
@@ -600,21 +810,21 @@ namespace ShopSMS.Web.Api
 
                 IDictionary<string, object> dic = new Dictionary<string, object>();
                 dic.Add("Keyword", keyword);
-                if(productCategoryId.HasValue)
+                if (productCategoryId.HasValue)
                     dic.Add("ProductCategoryID", productCategoryId);
-                if(statusID.HasValue)
+                if (statusID.HasValue)
                     dic.Add("Status", statusID);
 
                 productService.ExportExcel(fullPath, fileTemplatePath, dic);
 
                 string newfullPath = Path.Combine(ParameterFileInfo.ReportFolder, fileName);
-                return request.CreateErrorResponse(HttpStatusCode.OK, newfullPath);            
+                return request.CreateErrorResponse(HttpStatusCode.OK, newfullPath);
             }
             catch (Exception ex)
             {
                 return request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
             }
         }
-             
+
     }
 }
