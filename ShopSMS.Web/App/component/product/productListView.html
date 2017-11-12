@@ -14,7 +14,7 @@
         <div class="col-md-3 col-xs-4">
             <div class="btn-group" style="margin-left:-7px">
                 <button type="button" class="btn btn-primary btn-flat dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                    <span class="infoSpan">Excel </span><span class="caret"></span>
+                    <i class="fa fa-duplicate"></i> <span class="infoSpan">Excel </span><span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <ul class="dropdown-menu" role="menu" style="border:1px solid #808080; min-width:0px !important">
@@ -127,7 +127,11 @@
 
                                 <td style="text-align:center;">{{ item.ProductCategoryName }}</td>
                                 <td>{{ item.ProducerName }}</td>
-                                <td>{{ item.ProductDescription }}</td>
+                                <td>
+                                    <div title="Xem hình ảnh" style="border-radius:50%; border:1px solid #b1a1a1; cursor:pointer" ng-click="onShowMoreImages(item)">
+                                        <img src="{{item.Avatar}}" width="10" height="10" class="margin"/>
+                                    </div>
+                                </td>
                                 <td>
                                     <a style="font-size:16px" title="Cập nhật tên và giá" ng-hide="editProduct[item.ProductID]" ng-click="fnModifyProduct(item)">
                                         <i class="fa fa-edit"></i>

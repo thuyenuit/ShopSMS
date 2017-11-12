@@ -318,5 +318,10 @@
             });
             $scope.$parent.MethodShowLoading("Đang xử lý", $scope.promise);
         }
+
+        // show image
+        $scope.onShowMoreImages = function (item) {
+            console.log(item);
+        };
     }
 })(angular.module('sms.product'));

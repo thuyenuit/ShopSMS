@@ -62,7 +62,7 @@ namespace ShopSMS.Web.Api
                 IDictionary<string, object> dic = new Dictionary<string, object>();
                 dic.Add("KeyWord", keyWord);
                 if (categoryID.HasValue)
-                    dic.Add("CategoryID", categoryID);
+                    dic.Add("ProductCategoryID", categoryID);
                 if (status.HasValue)
                     dic.Add("Status", status);
 
