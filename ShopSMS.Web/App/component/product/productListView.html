@@ -1,181 +1,178 @@
 ﻿
 <section class="content-header">
-
-    <div class="col-md-8 col-xs-6" style="margin-top:-5px">
-        <label style="font-size:25px">Sản phẩm</label>
-    </div>
-    <div class="col-md-4 col-xs-6" style="margin-top:-5px">
-        <div class="col-md-5 col-xs-4">
-            <button ng-click="onClickAddProduct()" class="btn btn-block btn-primary btn-flat" type="button">
+    <div class="content-header-custom">
+        <label class="label-for">Sản phẩm</label>
+        <div class="pull-right">
+            <a ng-click="onClickAddProduct()" class="btn btn-primary btn-flat">
                 <i class="fa fa-plus"></i><span class="infoSpan"> Thêm mới</span>
-            </button>
+            </a>
+            <a class="btn btn-primary btn-flat dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-duplicate"></i><span class="infoSpan"> Excel </span><span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </a>
+            <ul class="dropdown-menu dropdown-excel" role="menu">
+                <li>
+                    <a data-toggle="modal" data-target="#importExcel">
+                        <i class="fa fa-upload"></i><span class="infoSpan">Nhập Excel</span>
+                    </a>
+                </li>
+                <li><a ng-click="ExportProduct()"><i class="fa fa-download"></i><span class="infoSpan">Xuất Excel</span> </a></li>
+            </ul>
+            <a id="btnDeleteMulti" ng-show="selectDelete" class="btn btn-danger btn-flat btn-flat" ng-click="deleteMulti()">
+                <i class="fa fa-trash"></i><span class="infoSpan"> Xóa</span>
+            </a>
+           
         </div>
-
-        <div class="col-md-3 col-xs-4">
-            <div class="btn-group" style="margin-left:-7px">
-                <button type="button" class="btn btn-primary btn-flat dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                    <i class="fa fa-duplicate"></i> <span class="infoSpan">Excel </span><span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu" role="menu" style="border:1px solid #808080; min-width:0px !important">
-                    <li><a style="cursor:pointer" data-toggle="modal" data-target="#importExcel"><i class="fa fa-upload"></i><span class="infoSpan">Nhập Excel</span></a></li>
-                    <li><a style="cursor:pointer" ng-click="ExportProduct()"><i class="fa fa-download"></i><span class="infoSpan">Xuất Excel</span> </a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="col-md-4 col-xs-4">
-            <button ng-click="deleteMulti()" id="btnDeleteMulti" ng-show="selectDelete" class="btn btn-block btn-danger btn-flat" type="button">
-                <i class="fa fa-trash"></i> <span class="infoSpan"> Xóa</span>
-            </button>
-        </div>
+       
     </div>
 </section>
 
+<section class="content-custom">
+    <div class="row">
+            <div class="box col-md-12">
+                <div class="box-header">
+                    <div class="frmSearch">
+                        <input type="text" class="inputSearch form-control" ng-model="keyWord" placeholder="Nhập mã hoặc tên sản phẩm để tìm kiếm">
+                        <div class="clearfixCustom"></div>
+                        <select name="categoryID" ng-required=true class="selectCategory form-control"
+                                ng-model="categories.ProductCategoryID" ng-change="onChangePCategory()"
+                                ng-options="option.ProductCategoryID as option.ProductCategoryName for option in categories">
+                            <option value="">[Thể loại]</option>
+                        </select>
+                        <div class="clearfixCustom"></div>
+                        <select name="statusID" class="selectStatus form-control" ng-model="listStatus.StatusID" ng-change="onChangeStatus()"
+                                ng-options="option.StatusID as option.StatusName for option in listStatus">
+                            <option value="">[Trạng thái]</option>
+                        </select>
+                        <div class="clearfixCustom"></div>
+                        <button class="btnSearch btn btn-block btn-default btn-flat" type="button" ng-click="onSearch()">
+                            <i class="fa fa-search"></i> <span class="infoSpan">Tìm kiếm</span>
+                        </button>
+                    </div>
+                    <!--<div class="col-md-2">
+                       
+                    </div>
+                    <div class="col-md-2">
+                      
+                    </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="box">
-            <div class="box-header with-border">
-                <div class="col-md-6">
-                    <input type="text" class="form-control" ng-model="keyWord" placeholder="Nhập mã hoặc tên sản phẩm để tìm kiếm">
+                    <div class="col-md-2">
+                       
+                    </div>-->
                 </div>
-                <div class="col-md-2">
-                    <select name="categoryID" ng-required=true class="form-control"
-                            ng-model="categories.ProductCategoryID" ng-change="onChangePCategory()"
-                            ng-options="option.ProductCategoryID as option.ProductCategoryName for option in categories">
-                        <option value="">[Thể loại]</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <select name="statusID" class="form-control" ng-model="listStatus.StatusID" ng-change="onChangeStatus()"
-                            ng-options="option.StatusID as option.StatusName for option in listStatus">
-                        <option value="">[Trạng thái]</option>
-                    </select>
-                </div>
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-inverse">
+                                <tr style="font-style:normal" class="bg-primary">
+                                    <th style="">
+                                        <input type="checkbox" name="all" ng-model="checkall" ng-click="selectAll()" />
+                                    </th>
+                                    <th style="">
+                                        <span>STT</span>
+                                    </th>
+                                    <th>
+                                        <span>Sản phẩm</span>
+                                    </th>
+                                    <th>
+                                        <span>Mã sản phẩm</span>
+                                    </th>
+                                    <th>
+                                        <span>SL</span>
+                                    </th>
+                                    <th>
+                                        <span>Giá bán</span>
+                                    </th>
+                                    <th>
+                                        <!--ng-click="sortData('CategoryName')"-->
+                                        <span>Thể loại</span> <!--<div ng-class="getSortClass('CategoryName')"></div>-->
+                                    </th>
+                                    <th><span>Nhà sản xuất</span></th>
+                                    <th width="3%"><span>Hình</span></th>
+                                    <th width="7%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in lstProduct | orderBy:sortColumn:reverse">
+                                    <td style="text-align:center;">
+                                        <input type="checkbox" ng-if="item.Status == true" name="all" ng-model="item.checked" />
+                                    </td>
+                                    <td style="text-align:center;">{{ $index + 1 }}</td>
+                                    <td>
+                                        <div ng-hide="editProduct[item.ProductID]">
+                                            <a ui-sref="productEdit({productID:item.ProductID})" ng-style="item.Status == false && {'color':'red'}">
+                                                {{ item.ProductName}}
+                                            </a>
+                                        </div>
+                                        <div ng-show="editProduct[item.ProductID]">
+                                            <input type="text" name="txtProductName_{{item.ProductID}}" class="form-control"
+                                                   ng-model="item.ProductName" maxlength="100" />
+                                        </div>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        {{ item.ProductCode}}
+                                    </td>
+                                    <td style="text-align:center;">
+                                        {{ item.Quantity}}
+                                    </td>
+                                    <td style="text-align:right">
+                                        <div ng-hide="editProduct[item.ProductID]">
+                                            {{ item.PriceSell | number:0}}
+                                        </div>
+                                        <div ng-show="editProduct[item.ProductID]">
+                                            <input type="text" name="txtPriceSell_{{item.ProducerID}}" class="inputPrice form-control"
+                                                   ui-number-mask="0" maxlength="23" ng-model="item.PriceSell" />
+                                        </div>
+                                    </td>
 
-                <div class="col-md-2">
-                    <button class="btn btn-block btn-default btn-flat" type="button" ng-click="onSearch()">
-                        <i class="fa fa-search"></i> <span class="infoSpan">Tìm kiếm</span>
-                    </button>
-                </div>
-            </div>
-            <div class="box-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
-                        <thead class="thead-inverse">
-                            <tr style="font-style:normal" class="bg-primary">
-                                <th style="">
-                                    <input type="checkbox" name="all" ng-model="checkall" ng-click="selectAll()" />
-                                </th>
-                                <th style="">
-                                    <span>STT</span>
-                                </th>
-                                <th>
-                                    <span>Sản phẩm</span>
-                                </th>
-                                <th>
-                                    <span>Mã sản phẩm</span>
-                                </th>
-                                <th>
-                                    <span>SL</span>
-                                </th>
-                                <th>
-                                    <span>Giá bán</span>
-                                </th>
-                                <th>
-                                    <!--ng-click="sortData('CategoryName')"-->
-                                    <span>Thể loại</span> <!--<div ng-class="getSortClass('CategoryName')"></div>-->
-                                </th>
-                                <th><span>Nhà sản xuất</span></th>
-                                <th width="3%"><span>Hình</span></th>
-                                <th width="7%"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="item in lstProduct | orderBy:sortColumn:reverse">
-                                <td style="text-align:center;">
-                                    <input type="checkbox" ng-if="item.Status == true" name="all" ng-model="item.checked" />
-                                </td>
-                                <td style="text-align:center;">{{ $index + 1 }}</td>
-                                <td>
-                                    <div ng-hide="editProduct[item.ProductID]">
-                                        <a ui-sref="productEdit({productID:item.ProductID})" ng-style="item.Status == false && {'color':'red'}">
-                                            {{ item.ProductName}}
+                                    <td style="text-align:center;">{{ item.ProductCategoryName }}</td>
+                                    <td>{{ item.ProducerName }}</td>
+                                    <td>
+                                        <div title="Xem hình ảnh" style="border-radius:50%; border:1px solid #b1a1a1; cursor:pointer" ng-click="onShowMoreImages(item)">
+                                            <img src="{{item.Avatar}}" width="10" height="10" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a style="font-size:16px" title="Cập nhật tên và giá" ng-hide="editProduct[item.ProductID]" ng-click="fnModifyProduct(item)">
+                                            <i class="fa fa-edit"></i>
                                         </a>
-                                    </div>
-                                    <div ng-show="editProduct[item.ProductID]">
-                                        <input type="text" name="txtProductName_{{item.ProductID}}" class="form-control"
-                                               ng-model="item.ProductName" maxlength="100" />
-                                    </div>
-                                </td>
-                                <td style="text-align:center;">
-                                    {{ item.ProductCode}}
-                                </td>
-                                <td style="text-align:center;">
-                                    {{ item.Quantity}}
-                                </td>
-                                <td style="text-align:right">
-                                    <div ng-hide="editProduct[item.ProductID]">
-                                        {{ item.PriceSell | number:0}}
-                                    </div>
-                                    <div ng-show="editProduct[item.ProductID]">
-                                        <input type="text" name="txtPriceSell_{{item.ProducerID}}" class="inputPrice form-control"
-                                               ui-number-mask="0" maxlength="23" ng-model="item.PriceSell" />
-                                    </div>
-                                </td>
 
-                                <td style="text-align:center;">{{ item.ProductCategoryName }}</td>
-                                <td>{{ item.ProducerName }}</td>
-                                <td>
-                                    <div title="Xem hình ảnh" style="border-radius:50%; border:1px solid #b1a1a1; cursor:pointer" ng-click="onShowMoreImages(item)">
-                                        <img src="{{item.Avatar}}" width="10" height="10" class="margin"/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <a style="font-size:16px" title="Cập nhật tên và giá" ng-hide="editProduct[item.ProductID]" ng-click="fnModifyProduct(item)">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
+                                        <a style="font-size:16px" title="Lưu" ng-show="editProduct[item.ProductID]" ng-click="fnUpdateProduct(item)">
+                                            <i class="fa fa-save"></i>
+                                        </a>
 
-                                    <a style="font-size:16px" title="Lưu" ng-show="editProduct[item.ProductID]" ng-click="fnUpdateProduct(item)">
-                                        <i class="fa fa-save"></i>
-                                    </a>
+                                        <a style="font-size:16px" title="Hủy" ng-show="editProduct[item.ProductID]" ng-click="fnCancelProduct(item)">
+                                            <i class="fa fa-undo"></i>
+                                        </a>
 
-                                    <a style="font-size:16px" title="Hủy" ng-show="editProduct[item.ProductID]" ng-click="fnCancelProduct(item)">
-                                        <i class="fa fa-undo"></i>
-                                    </a>
+                                        <a style="color:deeppink;font-size:16px" title="Ngừng kinh doanh" ng-hide="editProduct[item.ProductID]" ng-click="fnStopProduct(item)">
+                                            <i class="fa fa-pause"></i>
+                                        </a>
 
-                                    <a style="color:deeppink;font-size:16px" title="Ngừng kinh doanh" ng-hide="editProduct[item.ProductID]" ng-click="fnStopProduct(item)">
-                                        <i class="fa fa-pause"></i>
-                                    </a>
-
-                                    <a style="color:red;font-size:16px" title="Xóa hẳn sản phẩm" ng-hide="editProduct[item.ProductID]" ng-click="fnDeleteProduct(item)">
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                </td>
-                                <!--<td style="text-align:center;font-style:normal">
-                                    <span ng-class="{'label label-success': item.Status == true, 'label label-danger': item.Status == false}">
-                                        {{ item.Status | statusFilter}}
-                                    </span>
-                                </td>-->
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="box-footer clearfix">
-                <div class="col-md-7">
-                    <div class="col-md-3">
-                        Hiện thị <select ng-change="changeShow()" ng-model="valueShow"
-                                         ng-options="option.value as option.name for option in options"></select>
+                                        <a style="color:red;font-size:16px" title="Xóa hẳn sản phẩm" ng-hide="editProduct[item.ProductID]" ng-click="fnDeleteProduct(item)">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                    <!--<td style="text-align:center;font-style:normal">
+                                        <span ng-class="{'label label-success': item.Status == true, 'label label-danger': item.Status == false}">
+                                            {{ item.Status | statusFilter}}
+                                        </span>
+                                    </td>-->
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <pager-directive page="{{page}}" custom-path="{{customPath}}" pages-count="{{pagesCount}}" total-count="{{totalCount}}" search-func="ListProduct(page)"></pager-directive>
+                <div class="box-footer clearfix">
+                    <div style="display:flex">
+                        <pager-directive page="{{page}}" custom-path="{{customPath}}" pages-count="{{pagesCount}}" total-count="{{totalCount}}" search-func="ListProduct(page)"></pager-directive>
+                        <div class="clearfixCustom"></div>
+                        <select style="width:auto; height:30px" class="form-control" ng-change="changeShow()" ng-model="valueShow" ng-options="option.value as option.name for option in options"></select>
+                    </div>
+                </div>
             </div>
-        </div>
     </div>
-</div>
-
+</section>
 
 <!--Import Excel-->
 <div class="modal fade" id="importExcel" role="dialog">
@@ -226,6 +223,7 @@
     </div>
 </div>
 <!--// Import Excel-->
+
 <button  data-toggle="modal" name="btnshowImages" data-target="#myModalImages" type="button" hidden></button>
 <!--Form manager Images-->
 <div class="modal fade" id="myModalImages" role="dialog">
