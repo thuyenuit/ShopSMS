@@ -1853,7 +1853,7 @@ a {
     border-top-right-radius: 0;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
-    padding: 10px;
+    padding: 0 10px;
 }
 
 .no-header .box-body {

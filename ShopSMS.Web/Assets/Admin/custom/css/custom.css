@@ -3,8 +3,8 @@
     color: red !important;
 }
 
-.inputPrice{
-    text-align:right;
+.inputPrice {
+    text-align: right;
 }
 
 .table > thead:first-child > tr:first-child > th {
@@ -29,7 +29,7 @@
     border-right: 5px solid transparent;
     border-bottom: 10px solid white;
     display: inline-block;
-    margin-left:2px;
+    margin-left: 2px;
 }
 
 .arrow-down {
@@ -39,94 +39,103 @@
     border-right: 5px solid transparent;
     border-top: 10px solid white;
     display: inline-block;
-    margin-left:2px;
+    margin-left: 2px;
 }
 
-.tab-group, 
+.tab-group,
 .tab-group-vertical {
-   position: relative;
-   display: inline-block;
-   vertical-align: middle;
-   zoom: 1; /* Fix for IE7 */
-   *display: inline; /* Fix for IE7 */
-}
-
-.tab-group > li, 
-.tab-group-vertical > li {
-    border: 1px solid #428bca;
-    border-radius: 1px;
     position: relative;
-    float: left;
-}
-.tab-group > li.active > a, 
-.tab-group > li.active > a:hover, 
-.tab-group > li.active > a:focus,
-.tab-group-vertical > li.active > a, 
-.tab-group-vertical > li.active > a:hover, 
-.tab-group-vertical > li.active > a:focus {
-    background-color: #428bca;
-    color: #fff;
-}
-.tab-group > li > a,
-.tab-group-vertical > li > a {
-    border-radius: 0;
-}
-.tab-group > li > a:hover,
-.tab-group-vertical > li > a:hover {
-    border-radius: 1px;
+    display: inline-block;
+    vertical-align: middle;
+    zoom: 1; /* Fix for IE7 */
+    *display: inline; /* Fix for IE7 */
 }
 
-.tab-group li + li {
-    margin-left: -1px;
-}
+    .tab-group > li,
+    .tab-group-vertical > li {
+        border: 1px solid #428bca;
+        border-radius: 1px;
+        position: relative;
+        float: left;
+    }
 
-.tab-group > li:not(:first-child):not(:last-child),
-.tab-group > li:not(:first-child):not(:last-child) > a:hover {
-  border-radius: 0;
-}
-.tab-group > li:first-child,
-.tab-group > li:first-child > a:hover {
-    margin-left: 0;
-}
-.tab-group > li:first-child:not(:last-child),
-.tab-group > li:first-child:not(:last-child) > a:hover {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.tab-group > li:last-child:not(:first-child),
-.tab-group > li:last-child:not(:first-child) > a:hover {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
+        .tab-group > li.active > a,
+        .tab-group > li.active > a:hover,
+        .tab-group > li.active > a:focus,
+        .tab-group-vertical > li.active > a,
+        .tab-group-vertical > li.active > a:hover,
+        .tab-group-vertical > li.active > a:focus {
+            background-color: #428bca;
+            color: #fff;
+        }
 
-.tab-group-vertical > li {
-    display: block;
-    float: none;
-    width: 100%;
-    max-width: 100%;
-    text-align:center;
-}
-.tab-group-vertical > li + li {
-    margin-top: -1px;
-    margin-left: 0px;
-}
+        .tab-group > li > a,
+        .tab-group-vertical > li > a {
+            border-radius: 0;
+        }
 
-.tab-group-vertical > li:not(:first-child):not(:last-child),
-.tab-group-vertical > li:not(:first-child):not(:last-child) > a:hover {
-  border-radius: 0;
-}
-.tab-group-vertical > li:first-child:not(:last-child),
-.tab-group-vertical > li:first-child:not(:last-child) > a:hover {
-  border-top-right-radius: 1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.tab-group-vertical > li:last-child:not(:first-child),
-.tab-group-vertical > li:last-child:not(:first-child) > a:hover {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-left-radius: 1px;
-}
+            .tab-group > li > a:hover,
+            .tab-group-vertical > li > a:hover {
+                border-radius: 1px;
+            }
+
+    .tab-group li + li {
+        margin-left: -1px;
+    }
+
+    .tab-group > li:not(:first-child):not(:last-child),
+    .tab-group > li:not(:first-child):not(:last-child) > a:hover {
+        border-radius: 0;
+    }
+
+    .tab-group > li:first-child,
+    .tab-group > li:first-child > a:hover {
+        margin-left: 0;
+    }
+
+        .tab-group > li:first-child:not(:last-child),
+        .tab-group > li:first-child:not(:last-child) > a:hover {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+    .tab-group > li:last-child:not(:first-child),
+    .tab-group > li:last-child:not(:first-child) > a:hover {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .tab-group-vertical > li {
+        display: block;
+        float: none;
+        width: 100%;
+        max-width: 100%;
+        text-align: center;
+    }
+
+        .tab-group-vertical > li + li {
+            margin-top: -1px;
+            margin-left: 0px;
+        }
+
+        .tab-group-vertical > li:not(:first-child):not(:last-child),
+        .tab-group-vertical > li:not(:first-child):not(:last-child) > a:hover {
+            border-radius: 0;
+        }
+
+        .tab-group-vertical > li:first-child:not(:last-child),
+        .tab-group-vertical > li:first-child:not(:last-child) > a:hover {
+            border-top-right-radius: 1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .tab-group-vertical > li:last-child:not(:first-child),
+        .tab-group-vertical > li:last-child:not(:first-child) > a:hover {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 1px;
+        }
 
 .header-cont {
     width: 100%;
@@ -134,57 +143,108 @@
     top: 50px;
 }
 
-@media (max-width: 768px) {
-  .infoSpan, .class-div {
-   display:none;
-  }
-
-  .class-width, .class-width-2 {
-   width:100%;
-  }
-
-  .header-cont {
-    width: 100%;
-    position: initial;
-    top: 100px;
+.content-custom {
+    margin-top: 5px;
 }
+
+.btnSearch {
+    width: 10%;
+}
+.clearfixCustom {
+    width:0.5%;
+}
+
+.frmSearch {
+    display:flex;
+}
+
+.dropdown-excel {
+    border:1px solid #808080; 
+    min-width:0px !important;
+}
+
+.dropdown-excel > li > a {
+    cursor:pointer;
+}
+
+.content-header-custom {
+    margin-top:-5px;
+}
+.label-for {
+    font-size:25px;
+}
+
+@media (max-width: 768px) {
+    .infoSpan, .class-div {
+        display: none;
+    }
+
+    .hidden-title {
+        display: none;
+    }
+
+    .class-width, .class-width-2 {
+        width: 100%;
+    }
+
+    .header-cont {
+        width: 100%;
+        position: initial;
+        top: 100px;
+    }
+
+    .inputSearch, .selectCategory, .selectStatus {
+        width: 30%;
+    }
 }
 
 @media (min-width: 768px) {
-  .class-width {
-   width:97%;
-  }
-   .class-width-2 {
-   width:98.5%;
-  }
+    .class-width {
+        width: 97%;
+    }
+
+    .class-width-2 {
+        width: 98.5%;
+    }
+
+    .inputSearch {
+        width: 50%;
+    }
+
+    .selectCategory {
+        width: 20%;
+    }
+
+    .selectStatus {
+         width: 20%;
+    }
 }
 
 
 
 .img__wrap {
-  position: relative;
-  /*height: 200px;
+    position: relative;
+    /*height: 200px;
   width: 257px;*/
 }
 
 .img__description {
-  position: absolute;
-  top: 8%;
-  /*bottom: 0;*/
-  /*left: 0;*/
-  right: 6%;
-  background: rgba(29, 106, 154, 0.72);
-  color: #fff;
-  visibility: hidden;
-  opacity: 0;
-
-  /* transition effect. not necessary */
-  transition: opacity .2s, visibility .2s;
+    position: absolute;
+    top: 8%;
+    /*bottom: 0;*/
+    /*left: 0;*/
+    right: 6%;
+    background: rgba(29, 106, 154, 0.72);
+    color: #fff;
+    visibility: hidden;
+    opacity: 0;
+    /* transition effect. not necessary */
+    transition: opacity .2s, visibility .2s;
 }
 
 .img__wrap:hover .img__description {
-  visibility: visible;
-  opacity: 1;
+    visibility: visible;
+    opacity: 1;
 }
 
 
