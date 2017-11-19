@@ -12,13 +12,11 @@
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     type :"POST"
                 }).then(function (response) {
-
                     userInfo = {
                         accessToken: response.data.access_token,
                         userName: userName,
                         userCode: response.data.userCode,
                         fullName: response.data.fullName
-
                     };
                     authenticationService.setTokenInfo(userInfo);
                     authData.authenticationData.IsAuthenticated = true;

@@ -48,17 +48,7 @@
                         <button class="btnSearch btn btn-block btn-default btn-flat" type="button" ng-click="onSearch()">
                             <i class="fa fa-search"></i> <span class="infoSpan">Tìm kiếm</span>
                         </button>
-                    </div>
-                    <!--<div class="col-md-2">
-                       
-                    </div>
-                    <div class="col-md-2">
-                      
-                    </div>
-
-                    <div class="col-md-2">
-                       
-                    </div>-->
+                    </div>                
                 </div>
                 <div class="box-body">
                     <div class="table-responsive">
@@ -89,7 +79,7 @@
                                     </th>
                                     <th><span>Nhà sản xuất</span></th>
                                     <th width="3%"><span>Hình</span></th>
-                                    <th width="7%"></th>
+                                    <th width="10%">Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -99,25 +89,34 @@
                                     </td>
                                     <td style="text-align:center;">{{ $index + 1 }}</td>
                                     <td>
-                                        <div ng-hide="editProduct[item.ProductID]">
-                                            <a ui-sref="productEdit({productID:item.ProductID})" ng-style="item.Status == false && {'color':'red'}">
+                                        <div ng-hide="item.Status == false">
+                                            <div ng-hide="editProduct[item.ProductID]">
+                                                <a ui-sref="productEdit({productID:item.ProductID})" ng-style="item.Status == false && {'color':'red'}">
+                                                    {{ item.ProductName}}
+                                                </a>
+                                            </div>
+                                        </div>                                       
+
+                                        <div ng-hide="item.Status == true">
+                                            <a ng-style="item.Status == false && {'color':'red'}">
                                                 {{ item.ProductName}}
                                             </a>
                                         </div>
+
                                         <div ng-show="editProduct[item.ProductID]">
                                             <input type="text" name="txtProductName_{{item.ProductID}}" class="form-control"
                                                    ng-model="item.ProductName" maxlength="100" />
                                         </div>
                                     </td>
                                     <td style="text-align:center;">
-                                        {{ item.ProductCode}}
+                                       <span ng-style="item.Status == false && {'color':'red'}">{{ item.ProductCode}}</span> 
                                     </td>
                                     <td style="text-align:center;">
-                                        {{ item.Quantity}}
+                                        <span ng-style="item.Status == false && {'color':'red'}">{{ item.Quantity}}</span> 
                                     </td>
                                     <td style="text-align:right">
                                         <div ng-hide="editProduct[item.ProductID]">
-                                            {{ item.PriceSell | number:0}}
+                                            <span ng-style="item.Status == false && {'color':'red'}">{{ item.PriceSell | number:0}}</span>                                           
                                         </div>
                                         <div ng-show="editProduct[item.ProductID]">
                                             <input type="text" name="txtPriceSell_{{item.ProducerID}}" class="inputPrice form-control"
@@ -125,33 +124,46 @@
                                         </div>
                                     </td>
 
-                                    <td style="text-align:center;">{{ item.ProductCategoryName }}</td>
-                                    <td>{{ item.ProducerName }}</td>
+                                    <td style="text-align:center;">                                 
+                                        <span ng-style="item.Status == false && {'color':'red'}">{{ item.ProductCategoryName }}</span> 
+                                    </td>
+                                    <td>
+                                        <span ng-style="item.Status == false && {'color':'red'}">{{item.ProducerName}}</span>                                       
+                                    </td>
                                     <td>
                                         <div title="Xem hình ảnh" style="border-radius:50%; border:1px solid #b1a1a1; cursor:pointer" ng-click="onShowMoreImages(item)">
                                             <img src="{{item.Avatar}}" width="10" height="10" />
                                         </div>
                                     </td>
                                     <td>
-                                        <a style="font-size:16px" title="Cập nhật tên và giá" ng-hide="editProduct[item.ProductID]" ng-click="fnModifyProduct(item)">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-
-                                        <a style="font-size:16px" title="Lưu" ng-show="editProduct[item.ProductID]" ng-click="fnUpdateProduct(item)">
-                                            <i class="fa fa-save"></i>
-                                        </a>
-
-                                        <a style="font-size:16px" title="Hủy" ng-show="editProduct[item.ProductID]" ng-click="fnCancelProduct(item)">
-                                            <i class="fa fa-undo"></i>
-                                        </a>
-
-                                        <a style="color:deeppink;font-size:16px" title="Ngừng kinh doanh" ng-hide="editProduct[item.ProductID]" ng-click="fnStopProduct(item)">
-                                            <i class="fa fa-pause"></i>
-                                        </a>
-
-                                        <a style="color:red;font-size:16px" title="Xóa hẳn sản phẩm" ng-hide="editProduct[item.ProductID]" ng-click="fnDeleteProduct(item)">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
+                                        <div style="display:flex">
+                                            <div ng-hide="item.Status == false">
+                                                <a style="font-size:16px" title="Cập nhật tên và giá" ng-hide="editProduct[item.ProductID]" ng-click="fnModifyProduct(item)">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                            </div>
+                                            <div style="margin-left:2px" ng-hide="item.Status == false">
+                                                <a style="font-size:16px" title="Lưu" ng-show="editProduct[item.ProductID]" ng-click="fnUpdateProduct(item)">
+                                                    <i class="fa fa-save"></i>
+                                                </a>
+                                            </div>
+                                            <div style="margin-left:2px">
+                                                <a style="font-size:16px" title="Hủy" ng-show="editProduct[item.ProductID]" ng-click="fnCancelProduct(item)">
+                                                    <i class="fa fa-undo"></i>
+                                                </a>
+                                            </div>
+                                            <div style="margin-left:2px" ng-hide="item.Status == false">
+                                                <a style="color:deeppink;font-size:16px" title="Ngừng kinh doanh" ng-hide="editProduct[item.ProductID]" ng-click="fnStopProduct(item)">
+                                                    <i class="fa fa-pause"></i>
+                                                </a>
+                                            </div>
+                                            <div style="margin-left:4px">
+                                                <a style="color:red;font-size:16px" title="Xóa hẳn sản phẩm" ng-hide="editProduct[item.ProductID]" ng-click="fnDeleteProduct(item)">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </div> 
+                                        </div>
+                                      
                                     </td>
                                     <!--<td style="text-align:center;font-style:normal">
                                         <span ng-class="{'label label-success': item.Status == true, 'label label-danger': item.Status == false}">

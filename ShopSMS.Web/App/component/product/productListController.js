@@ -133,7 +133,13 @@
 
         // onclick Update Product
         $scope.fnModifyProduct = function (item) {
-            $scope.editProduct[item.ProductID] = true;
+            if (item.Status === false) {
+                notificationService.displayWarning('Sảm phẩm đã ngừng kinh doanh.');
+            }
+            else {
+                $scope.editProduct[item.ProductID] = true;
+            }
+           
         };
         // event Update ProductName, PriceSell
         $scope.fnUpdateProduct = function (item) {

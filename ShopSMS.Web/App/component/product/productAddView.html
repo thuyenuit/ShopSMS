@@ -11,12 +11,12 @@
                                 <div class="col-md-8 col-xs-6">
                                     <ul class="nav tab-group">
                                         <li class="active">
-                                            <a href="#about" data-toggle="tab">
+                                            <a data-toggle="tab" ng-click="showTab1()" style="cursor:pointer">
                                                 <i class="fa fa-barcode"></i> <span class="infoSpan">Thông tin sản phẩm</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#social" data-toggle="tab">
+                                            <a data-toggle="tab" ng-click="showTab2()" style="cursor:pointer">
                                                 <i class="fa fa-globe"></i> <span class="infoSpan">Thông tin cho Web</span>
                                             </a>
                                         </li>
@@ -37,9 +37,8 @@
                                 </div>
                             </div>
 
-
                             <div class="tab-content">
-                                <div class="tab-pane active" id="about">
+                                <div class="tab-pane active" id="tab1">
                                     <div class="clear"></div>
                                     <div class="row" style="padding:5px">
                                         <div class="class-div col-md-3">
@@ -98,10 +97,6 @@
                                                                 ng-options="option.ProducerID as option.ProducerName for option in listProducer">
                                                             <option value="">[Nhà sản xuất]</option>
                                                         </select>
-                                                        <button title="Quản lý nhà sản xuất" data-toggle="modal" data-target="#myModalProducer"
-                                                                style="width:15%" class="btn btn-block btn-primary btn-flat" type="button">
-                                                            ...
-                                                        </button>
                                                     </div>
 
                                                 </div>
@@ -123,7 +118,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="social">
+                                <div class="tab-pane" id="tab2">
                                     <div class="clear"></div>
                                     <div class="row" style="padding:5px">
                                         <div class="class-div col-md-3">

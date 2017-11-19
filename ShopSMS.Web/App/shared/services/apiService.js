@@ -22,6 +22,7 @@
                 }, function (error) {
                     if (error.status === 401) {
                         notificationService.displayError('Authenticate is required.');
+                        authenticationService.removeToken();
                     }
                     else if (failed !== null) {
                         failed(error);
@@ -37,6 +38,7 @@
                }, function (error) {
                    if (error.status === 401) {
                        notificationService.displayError('Authenticate is required.');
+                       authenticationService.removeToken();
                    }
                    else if (failed !== null) {
                        failed(error);
@@ -51,6 +53,7 @@
             }, function (error) {
                 if (error.status === 401) {
                     notificationService.displayError('Authenticate is required.');
+                    authenticationService.removeToken();
                 }
                 else if (failed !== null) {
                     failed(error);
@@ -66,6 +69,7 @@
             }, function (error) {
                 if (error.status === 401) {
                     notificationService.displayError('Authenticate is required.');
+                    authenticationService.removeToken();
                 }
                 else if (failed !== null) {
                     failed(error);

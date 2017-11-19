@@ -26,6 +26,11 @@
                         }
                     };
 
+                    $scope.ShowItem = function (item)
+                    {
+                        console.log(item);
+                    }
+
                     $scope.range = function () {
                         if (!$scope.pagesCount) { return []; }
                         var step = 2;

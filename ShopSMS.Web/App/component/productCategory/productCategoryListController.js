@@ -179,7 +179,6 @@
         $scope.fnModifyPC = function (item) {
             $scope.editProductCategory[item.ProductCategoryID] = true;
         };
-
         
         $scope.fnDeletePC = function (item) {
             var pcateName = item.ProductCategoryName;

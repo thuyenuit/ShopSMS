@@ -5,6 +5,7 @@
         ['sms.product',
         'sms.productCategory',
         'sms.category',
+        'sms.other',
         'sms.common']).config(config).config(configAuthentication);
 
     config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];
@@ -29,8 +30,6 @@
         $urlRouterProvider.otherwise('/login');
         $locationProvider.html5Mode(true);
         $locationProvider.hashPrefix('!');
-
-
     }
 
     configAuthentication.$inject = ['$httpProvider'];

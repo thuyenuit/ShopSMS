@@ -1,8 +1,6 @@
 ﻿
-    <div ng-hide="(!pagesCount || pagesCount < 2)" style="display:inline;cursor:pointer">
-       
-        <div class="col-md-5">
-            <ul class="pagination pagination-sm no-margin pull-right">
+    <div ng-hide="(!pagesCount || pagesCount < 2)" style="display:flex;cursor:pointer; width:auto">       
+            <ul class="pagination pagination-sm no-margin">
                 <li><a ng-hide="page == 0" ng-click="search(0)"><<</a></li>
                 <li><a ng-hide="page == 0" ng-click="search(page-1)"><</a></li>
                 <li ng-repeat="n in range()" ng-class="{active: n == page}">
@@ -12,7 +10,11 @@
                 <li><a ng-hide="page == pagesCount - 1" ng-click="search(pagePlus(1))">></a></li>
                 <li><a ng-hide="page == pagesCount - 1" ng-click="search(pagesCount - 1)">>></a></li>
             </ul>
-        </div>
-        
-        
+            <!--<div class="clearfixCustom"></div>-->
+            <!--<select class="form-control" style="width:auto; height:30px" ng-change="ShowItem(this)">
+                <option value="5">10</option>
+                <option value="6">25</option>
+                <option value="7">50</option>
+                <option value="8">100</option>
+            </select>-->      
     </div>

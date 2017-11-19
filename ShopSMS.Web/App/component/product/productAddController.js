@@ -181,7 +181,19 @@
             }
         }
 
-      
+        $scope.showTab1 = function () {
+            if ($("#tab2").hasClass("active")){
+                $("#tab2").removeClass("active");
+            }
+            $("#tab1").addClass("active");
+        }
+
+        $scope.showTab2 = function () {
+            if ($("#tab1").hasClass("active")) {
+                $("#tab1").removeClass("active");
+            }
+            $("#tab2").addClass("active");
+        }
     }
 })(angular.module('sms.product'));
 

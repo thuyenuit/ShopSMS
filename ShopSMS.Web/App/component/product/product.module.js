@@ -15,13 +15,13 @@
             })
             .state('productAdd', {
                 parent: 'baseView',
-                url: '/add-product',
+                url: '/list-product/add-product',
                 templateUrl: '/app/component/product/productAddView.html',
                 controller: 'productAddController'
             })
             .state('productEdit', {
                 parent: 'baseView',
-                url: '/edit-product?productID',
+                url: '/list-product/edit-product?productID',
                 templateUrl: '/app/component/product/productEditView.html',
                 controller: 'productEditController'
             }).state('productImport', {
