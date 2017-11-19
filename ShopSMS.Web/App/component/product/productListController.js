@@ -248,6 +248,7 @@
             });
         });
 
+        $scope.listErrores = {};
         $scope.ImportProduct = ImportProduct;
         function ImportProduct() {
             //console.log("File chon ", $scope.files);
@@ -261,6 +262,7 @@
                 if (ext === 'xls' || ext === 'xlsx') {
                     authenticationService.setHeader();
                     var url = '/api/product/ImportExcel';
+                    angular.element("button[id='btnCloseImportExcel']").click();
                     $scope.promise = $http({
                         method: "POST",
                         url: url,
@@ -274,12 +276,21 @@
                         },
                         data: { files: $scope.files }
                     }).then(function (result, status, headers, config) {
-                        notificationService.displaySuccess(result.data);
-                        angular.element("button[id='btnCloseImportExcel']").click();
-                        //angular.element("input[name='file']").val('');
+                        notificationService.displaySuccess(result.data);                       
                         ListProduct();
                     }, function (result, status, headers, config) {
-                        notificationService.displayError(result.data.ExceptionMessage);
+
+                        if (result.status === 304) {                         
+                            if ($scope.listErrores.length > 0)
+                            {
+                                $scope.listErrores = result.data;
+                                angular.element("button[name='btnShowError']").click();
+                            }                          
+                        }
+                        else {
+                            notificationService.displayError(result.data.ExceptionMessage);
+                        }
+                       
                     });
 
                     $scope.$parent.MethodShowLoading("Đang xử lý", $scope.promise);
@@ -322,6 +333,8 @@
         // show image
         $scope.onShowMoreImages = function (item) {
             console.log(item);
+            //angular.element("button[id='btnCloseImportExcel']").click();
+            angular.element("button[name='btnshowImages']").click();
         };
     }
 })(angular.module('sms.product'));

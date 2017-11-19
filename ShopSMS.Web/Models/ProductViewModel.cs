@@ -59,10 +59,24 @@ namespace ShopSMS.Web.Models
 
         public decimal? TaxVAT { get; set; }
 
-        public virtual ProductCategoryViewModel ProductCategories { get; set; }
+        public string ProductCategoryName { get; set; }
+
+        public int? ProducerID { get; set; }
+
+        public string ProducerName { get; set; }
+
+        //public virtual ProductCategoryViewModel ProductCategories { get; set; }
 
         //public virtual IEnumerable<ProductTagViewModel> ProductTags { set; get; }
 
         //public virtual IEnumerable<OrderDetail> OrderDetails { set; get; }
+    }
+
+    public class ListError
+    {
+        public int OrderInExcel { get; set; }
+        public string ProductCode { get; set; }
+        public string ProductName { get; set; }
+        public string Description { get; set; }
     }
 }

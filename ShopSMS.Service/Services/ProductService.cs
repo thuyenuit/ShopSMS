@@ -114,6 +114,10 @@ namespace ShopSMS.Service.Services
 
                         productRepository.Update(objResult);
                     }
+                    else
+                    {
+                        productRepository.Create(obj);
+                    }
                 } //Thêm mới
                 else
                 {

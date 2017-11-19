@@ -53,16 +53,21 @@ namespace ShopSMS.Web.App_Start
 
             #region // repository
             builder.RegisterAssemblyTypes(typeof(ProductRepository).Assembly)
-                .Where(x => x.Name.EndsWith("Repository")).AsImplementedInterfaces().InstancePerRequest();
+                .Where(x => x.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces().InstancePerRequest();
             builder.RegisterAssemblyTypes(typeof(ProductCategoryRepository).Assembly)
-               .Where(x => x.Name.EndsWith("Repository")).AsImplementedInterfaces().InstancePerRequest();
+               .Where(x => x.Name.EndsWith("Repository"))
+               .AsImplementedInterfaces().InstancePerRequest();
+
             #endregion
 
             #region // service
             builder.RegisterAssemblyTypes(typeof(ProductService).Assembly)
-                .Where(x => x.Name.EndsWith("Service")).AsImplementedInterfaces().InstancePerRequest();
+                .Where(x => x.Name.EndsWith("Service"))
+                .AsImplementedInterfaces().InstancePerRequest();
             builder.RegisterAssemblyTypes(typeof(ProductCategoryService).Assembly)
-                .Where(x => x.Name.EndsWith("Service")).AsImplementedInterfaces().InstancePerRequest();
+                .Where(x => x.Name.EndsWith("Service"))
+                .AsImplementedInterfaces().InstancePerRequest();
             #endregion
 
             Autofac.IContainer container = builder.Build();

@@ -385,14 +385,15 @@ namespace ShopSMS.Web.Api
 
             }
 
-            if (lstListError.Count <= 0)
+            if (lstListError.Count > 0)
             {
-                productService.InsertOrUpdateFromExcel(lstProductFromExcel, lstProductDB);
-                productService.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.NotModified, lstListError);
             }
             else
             {
-                throw new Exception("Import thất bại");
+                productService.InsertOrUpdateFromExcel(lstProductFromExcel, lstProductDB);
+                productService.SaveChanges();
+                
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, "Import thành công!");
@@ -402,8 +403,6 @@ namespace ShopSMS.Web.Api
         {
             List<Product> lstProduct = new List<Product>();
             Product objNew = null;
-
-            ListError objError = null;
 
             ExcelPackage package = new ExcelPackage(new FileInfo(fullPath));
             ExcelWorksheet sheet = package.Workbook.Worksheets[1];
@@ -451,7 +450,8 @@ namespace ShopSMS.Web.Api
                         }
                         else
                         {
-                            lstListError.Add(MassageError(productCode, "", "Mã sản phẩm không tồn tại"));
+                            objNew.ProductCode = productCode;
+                            // lstListError.Add(MassageError(productCode, "", "Mã sản phẩm không tồn tại"));
                         }
                     }
                 }
