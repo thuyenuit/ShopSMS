@@ -1,31 +1,405 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model ShopSMS.Web.ViewModelClient.HomeViewModel
+@{
+    ViewBag.Title = "TBMobile - Cửa hàng điện thoại, Tablet, Laptop, Phụ kiện chính hãng";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div id="content">
+        <div class="container">
+            <div class="">
+                <div id="main-slider">
+                    <div class="item">
+                        <img class="img-responsive" src="~/Assets/Client/img/main-slider1.jpg" alt="">
+                    </div>
+                    <div class="item">
+                        <img class="img-responsive" src="~/Assets/Client/img/main-slider2.jpg" alt="">
+                    </div>
+                    <div class="item">
+                        <img class="img-responsive" src="~/Assets/Client/img/main-slider3.jpg" alt="">
+                    </div>
+                    <div class="item">
+                        <img class="img-responsive" src="~/Assets/Client/img/main-slider4.jpg" alt="">
+                    </div>
+                </div>
+                <!-- /#main-slider -->
+            </div>
+        </div>
+        <div class="container">
+            <div class="box info-bar">
+                <div class="row">
+                    <div class="col-sm-12 col-md-4 products-showing">
+                        Hiển thị <strong>12</strong> của <strong>25</strong> sản phẩm
+                    </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+                    <div class="col-sm-12 col-md-8  products-number-sort">
+                        <div class="row">
+                            <form class="form-inline">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="products-number">
+                                        <strong>Hiển thị</strong>
+                                        <a href="#" class="btn btn-default btn-sm btn-primary">12</a>
+                                        <a href="#" class="btn btn-default btn-sm">24</a>
+                                        <a href="#" class="btn btn-default btn-sm">Tất cả</a> sản phẩm
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="products-sort-by">
+                                        <strong>Sắp xếp theo</strong>
+                                        <select name="sort-by" class="form-control">
+                                            <option>Giá tiền</option>
+                                            <option>Tên sản phẩm</option>
+                                            @*<option>Sales first</option>*@
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row products">
+                <div class="col-md-4 col-sm-4">
+                    <div class="product">
+                        <div class="flip-container">
+                            <div class="flipper">
+                                <div class="front">
+                                    <a href="detail.html">
+                                        <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                                    </a>
+                                </div>
+                                <div class="back" style="background-color:#fff">
+                                    <div class="col-md-12 col-xs-12" style="border-bottom:1px solid #7773738c">
+                                        <h4 class="pull-left">IPhone 6S</h4>
+                                        <h4 class="pull-right" style="color:orangered;font-weight:bold">12.000.000đ</h4>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12" style="padding:10px">
+                                        <span>Màn hình: 5.5", Full HD</span>
+                                        <br />
+                                        <span>HĐH: Android 7.0</span>
+                                        <br />
+                                        <span>CPU: Exynos, 8 nhân</span>
+                                        <br />
+                                        <span>GPU: Mali-G71 MP2</span>
+                                        <br />
+                                        <span>RAM: 3 GB, ROM: 32 GB</span>
+                                        <br />
+                                        <span>Camera: 13 MP, Selfie: 13 MP</span>
+                                        <br />
+                                        <span>PIN: 3600mAh</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="detail.html" class="invisible">
+                            <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                        </a>
+                        <div class="text" style="padding:10px;padding-bottom:0px">
+                            <span style="text-align:left;font-size:18px; font-weight:bold">Iphone 6S</span>
+                            <strong style="color:orangered;" class="price pull-right">12.000.000đ </strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="product">
+                        <div class="flip-container">
+                            <div class="flipper">
+                                <div class="front">
+                                    <a href="detail.html">
+                                        <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                                    </a>
+                                </div>
+                                <div class="back" style="background-color:#fff">
+                                    <div class="col-md-12 col-xs-12" style="border-bottom:1px solid #7773738c">
+                                        <h4 class="pull-left">IPhone 6S</h4>
+                                        <h4 class="pull-right" style="color:orangered;font-weight:bold">12.000.000đ</h4>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12" style="padding:10px">
+                                        <span>Màn hình: 5.5", Full HD</span>
+                                        <br />
+                                        <span>HĐH: Android 7.0</span>
+                                        <br />
+                                        <span>CPU: Exynos, 8 nhân</span>
+                                        <br />
+                                        <span>GPU: Mali-G71 MP2</span>
+                                        <br />
+                                        <span>RAM: 3 GB, ROM: 32 GB</span>
+                                        <br />
+                                        <span>Camera: 13 MP, Selfie: 13 MP</span>
+                                        <br />
+                                        <span>PIN: 3600mAh</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="detail.html" class="invisible">
+                            <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                        </a>
+                        <div class="text" style="padding:10px;padding-bottom:0px">
+                            <span style="text-align:left;font-size:18px; font-weight:bold">Iphone 6S</span>
+                            <strong style="color:orangered;" class="price pull-right">12.000.000đ </strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="product">
+                        <div class="flip-container">
+                            <div class="flipper">
+                                <div class="front">
+                                    <a href="detail.html">
+                                        <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                                    </a>
+                                </div>
+                                <div class="back" style="background-color:#fff">
+                                    <div class="col-md-12 col-xs-12" style="border-bottom:1px solid #7773738c">
+                                        <h4 class="pull-left">IPhone 6S</h4>
+                                        <h4 class="pull-right" style="color:orangered;font-weight:bold">12.000.000đ</h4>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12" style="padding:10px">
+                                        <span>Màn hình: 5.5", Full HD</span>
+                                        <br />
+                                        <span>HĐH: Android 7.0</span>
+                                        <br />
+                                        <span>CPU: Exynos, 8 nhân</span>
+                                        <br />
+                                        <span>GPU: Mali-G71 MP2</span>
+                                        <br />
+                                        <span>RAM: 3 GB, ROM: 32 GB</span>
+                                        <br />
+                                        <span>Camera: 13 MP, Selfie: 13 MP</span>
+                                        <br />
+                                        <span>PIN: 3600mAh</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="detail.html" class="invisible">
+                            <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                        </a>
+                        <div class="text" style="padding:10px;padding-bottom:0px">
+                            <span style="text-align:left;font-size:18px; font-weight:bold">Iphone 6S</span>
+                            <strong style="color:orangered;" class="price pull-right">12.000.000đ </strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="product">
+                        <div class="flip-container">
+                            <div class="flipper">
+                                <div class="front">
+                                    <a href="detail.html">
+                                        <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                                    </a>
+                                </div>
+                                <div class="back" style="background-color:#fff">
+                                    <div class="col-md-12 col-xs-12" style="border-bottom:1px solid #7773738c">
+                                        <h4 class="pull-left">IPhone 6S</h4>
+                                        <h4 class="pull-right" style="color:orangered;font-weight:bold">12.000.000đ</h4>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12" style="padding:10px">
+                                        <span>Màn hình: 5.5", Full HD</span>
+                                        <br />
+                                        <span>HĐH: Android 7.0</span>
+                                        <br />
+                                        <span>CPU: Exynos, 8 nhân</span>
+                                        <br />
+                                        <span>GPU: Mali-G71 MP2</span>
+                                        <br />
+                                        <span>RAM: 3 GB, ROM: 32 GB</span>
+                                        <br />
+                                        <span>Camera: 13 MP, Selfie: 13 MP</span>
+                                        <br />
+                                        <span>PIN: 3600mAh</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="detail.html" class="invisible">
+                            <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                        </a>
+                        <div class="text" style="padding:10px;padding-bottom:0px">
+                            <span style="text-align:left;font-size:18px; font-weight:bold">Iphone 6S</span>
+                            <strong style="color:orangered;" class="price pull-right">12.000.000đ </strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="product">
+                        <div class="flip-container">
+                            <div class="flipper">
+                                <div class="front">
+                                    <a href="detail.html">
+                                        <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                                    </a>
+                                </div>
+                                <div class="back" style="background-color:#fff">
+                                    <div class="col-md-12 col-xs-12" style="border-bottom:1px solid #7773738c">
+                                        <h4 class="pull-left">IPhone 6S</h4>
+                                        <h4 class="pull-right" style="color:orangered;font-weight:bold">12.000.000đ</h4>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12" style="padding:10px">
+                                        <span>Màn hình: 5.5", Full HD</span>
+                                        <br />
+                                        <span>HĐH: Android 7.0</span>
+                                        <br />
+                                        <span>CPU: Exynos, 8 nhân</span>
+                                        <br />
+                                        <span>GPU: Mali-G71 MP2</span>
+                                        <br />
+                                        <span>RAM: 3 GB, ROM: 32 GB</span>
+                                        <br />
+                                        <span>Camera: 13 MP, Selfie: 13 MP</span>
+                                        <br />
+                                        <span>PIN: 3600mAh</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="detail.html" class="invisible">
+                            <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                        </a>
+                        <div class="text" style="padding:10px;padding-bottom:0px">
+                            <span style="text-align:left;font-size:18px; font-weight:bold">Iphone 6S</span>
+                            <strong style="color:orangered;" class="price pull-right">12.000.000đ </strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="product">
+                        <div class="flip-container">
+                            <div class="flipper">
+                                <div class="front">
+                                    <a href="detail.html">
+                                        <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                                    </a>
+                                </div>
+                                <div class="back" style="background-color:#fff">
+                                    <div class="col-md-12 col-xs-12" style="border-bottom:1px solid #7773738c">
+                                        <h4 class="pull-left">IPhone 6S</h4>
+                                        <h4 class="pull-right" style="color:orangered;font-weight:bold">12.000.000đ</h4>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12" style="padding:10px">
+                                        <span>Màn hình: 5.5", Full HD</span>
+                                        <br />
+                                        <span>HĐH: Android 7.0</span>
+                                        <br />
+                                        <span>CPU: Exynos, 8 nhân</span>
+                                        <br />
+                                        <span>GPU: Mali-G71 MP2</span>
+                                        <br />
+                                        <span>RAM: 3 GB, ROM: 32 GB</span>
+                                        <br />
+                                        <span>Camera: 13 MP, Selfie: 13 MP</span>
+                                        <br />
+                                        <span>PIN: 3600mAh</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="detail.html" class="invisible">
+                            <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                        </a>
+                        <div class="text" style="padding:10px;padding-bottom:0px">
+                            <span style="text-align:left;font-size:18px; font-weight:bold">Iphone 6S</span>
+                            <strong style="color:orangered;" class="price pull-right">12.000.000đ </strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="product">
+                        <div class="flip-container">
+                            <div class="flipper">
+                                <div class="front">
+                                    <a href="detail.html">
+                                        <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                                    </a>
+                                </div>
+                                <div class="back" style="background-color:#fff">
+                                    <div class="col-md-12 col-xs-12" style="border-bottom:1px solid #7773738c">
+                                        <h4 class="pull-left">IPhone 6S</h4>
+                                        <h4 class="pull-right" style="color:orangered;font-weight:bold">12.000.000đ</h4>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12" style="padding:10px">
+                                        <span>Màn hình: 5.5", Full HD</span>
+                                        <br />
+                                        <span>HĐH: Android 7.0</span>
+                                        <br />
+                                        <span>CPU: Exynos, 8 nhân</span>
+                                        <br />
+                                        <span>GPU: Mali-G71 MP2</span>
+                                        <br />
+                                        <span>RAM: 3 GB, ROM: 32 GB</span>
+                                        <br />
+                                        <span>Camera: 13 MP, Selfie: 13 MP</span>
+                                        <br />
+                                        <span>PIN: 3600mAh</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="detail.html" class="invisible">
+                            <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                        </a>
+                        <div class="text" style="padding:10px;padding-bottom:0px">
+                            <span style="text-align:left;font-size:18px; font-weight:bold">Iphone 6S</span>
+                            <strong style="color:orangered;" class="price pull-right">12.000.000đ </strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="product">
+                        <div class="flip-container">
+                            <div class="flipper">
+                                <div class="front">
+                                    <a href="detail.html">
+                                        <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                                    </a>
+                                </div>
+                                <div class="back" style="background-color:#fff">
+                                    <div class="col-md-12 col-xs-12" style="border-bottom:1px solid #7773738c">
+                                        <h4 class="pull-left">IPhone 6S</h4>
+                                        <h4 class="pull-right" style="color:orangered;font-weight:bold">12.000.000đ</h4>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12" style="padding:10px">
+                                        <span>Màn hình: 5.5", Full HD</span>
+                                        <br />
+                                        <span>HĐH: Android 7.0</span>
+                                        <br />
+                                        <span>CPU: Exynos, 8 nhân</span>
+                                        <br />
+                                        <span>GPU: Mali-G71 MP2</span>
+                                        <br />
+                                        <span>RAM: 3 GB, ROM: 32 GB</span>
+                                        <br />
+                                        <span>Camera: 13 MP, Selfie: 13 MP</span>
+                                        <br />
+                                        <span>PIN: 3600mAh</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="detail.html" class="invisible">
+                            <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                        </a>
+                        <div class="text" style="padding:10px;padding-bottom:0px">
+                            <span style="text-align:left;font-size:18px; font-weight:bold">Iphone 6S</span>
+                            <strong style="color:orangered;" class="price pull-right">12.000.000đ </strong>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+
+</body>
+</html>

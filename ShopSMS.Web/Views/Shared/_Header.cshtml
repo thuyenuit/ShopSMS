@@ -1,0 +1,153 @@
+﻿ <!-- *** TOPBAR *** -->
+<div id="top">
+    <div class="container">
+        <div class="col-md-6 offer" data-animate="fadeInDown">
+            <a href="#" class="btn btn-success btn-sm" data-animate-hover="shake">Hotline: 01672102464</a>
+        </div>
+        <div class="col-md-6" data-animate="fadeInDown">
+            <ul class="menu">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#login-modal">Đăng nhập</a>
+                </li>
+                <li>
+                    <a href="register.html">Đăng ký</a>
+                </li>
+                <li>
+                    <a href="contact.html">Liên hệ</a>
+                </li>
+                <li>
+                    <a href="#">Thông tin tài khoản</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="Login" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="Login">Đăng nhập</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="customer-orders.html" method="post">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="email-modal" placeholder="Tài khoản">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="password-modal" placeholder="Mật khẩu">
+                        </div>
+
+                        <p class="text-center">
+                            <button class="btn btn-primary"><i class="fa fa-sign-in"></i> Đăng nhập</button>
+                        </p>
+
+                    </form>
+
+                    <p class="text-center text-muted">Bạn chưa có tài khoản?</p>
+                    <p class="text-center text-muted">
+                        <a href="register.html"><strong>Đăng ký ngay!</strong></a>
+                        Nó được thực hiện dễ dàng trong 1 phút
+                        <span> và cho phép bạn truy cập vào các chương trình giảm giá đặc biệt và nhiều hơn nữa!</span>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- *** TOP BAR END *** -->
+<!-- *** NAVBAR *** -->
+<div class="navbar navbar-default yamm" role="navigation" id="navbar">
+    <div class="container">
+        <div class="navbar-header">
+
+            <a class="navbar-brand home" href="index.html" data-animate-hover="bounce">
+                <img src="~/Assets/Client/img/logo.png" alt="Obaju logo" class="hidden-xs">
+                <img src="~/Assets/Client/img/logo-small.png" alt="Obaju logo" class="visible-xs"><span class="sr-only">Obaju - go to homepage</span>
+            </a>
+            <div class="navbar-buttons">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
+                    <span class="sr-only">Toggle navigation</span>
+                    <i class="fa fa-align-justify"></i>
+                </button>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search">
+                    <span class="sr-only">Toggle search</span>
+                    <i class="fa fa-search"></i>
+                </button>
+                <a class="btn btn-default navbar-toggle" href="basket.html">
+                    <i class="fa fa-shopping-cart"></i>  <span class="hidden-xs">3 items in cart</span>
+                </a>
+            </div>
+        </div>
+        <!--/.navbar-header -->
+
+        <div class="navbar-collapse collapse" id="navigation">
+            <ul class="nav navbar-nav navbar-left">
+                <li class="dropdown tabPhone" >
+                    <a href="dtdd-1">Điện thoại</a>
+                </li>                
+                <li class="dropdown tabTablet">
+                    <a href="dtdd-2" >Tablet</a>
+                </li>
+                <li class="dropdown tabLaptop">
+                    <a href="dtdd-3">Laptop</a>
+                </li>
+                <li class="dropdown tabPK">
+                    <a href="dtdd-4">Phụ kiện</a>
+                </li>
+            </ul>
+
+        </div>
+        <!--/.nav-collapse -->
+
+        <div class="navbar-buttons">
+            <div class="navbar-collapse collapse right" id="basket-overview">
+                <a href="basket.html" class="btn btn-primary navbar-btn"><i class="fa fa-shopping-cart"></i><span class="hidden-sm">3 Sản phẩm</span></a>
+            </div>
+            <!--/.nav-collapse -->
+            <div class="navbar-collapse collapse right" id="search-not-mobile">
+                <button type="button" class="btn navbar-btn btn-primary" data-toggle="collapse" data-target="#search">
+                    <span class="sr-only">Toggle search</span>
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="collapse clearfix" id="search">
+            <form class="navbar-form" role="search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Từ khóa">
+                    <span class="input-group-btn">
+
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+
+                    </span>
+                </div>
+            </form>
+
+        </div>
+        <!--/.nav-collapse -->
+
+    </div>
+    <!-- /.container -->
+</div>
+<!-- *** NAVBAR END *** -->
+
+<script>
+
+    function view_Phone() {
+        $(".tabPhone").addClass("active");
+    }
+    function view_Tablet() {
+        alert('ok 2');
+        window.location.href = "/CCategory/Index?PCategory=1";
+    }
+    function view_Laptop() {
+        alert('ok');
+        window.location.href = "/CCategory/Index/3";
+    }
+    function view_PK() {
+        window.location.href = "/CCategory/Index/4";
+    }
+</script>

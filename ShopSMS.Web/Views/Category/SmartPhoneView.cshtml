@@ -1,0 +1,828 @@
+﻿
+@{
+    ViewBag.Title = "Điện thoại, smartphone chính hãng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #hienthiSP:after, #hienthiGia:after, #hienthiOrderBy:after {
+        content: '';
+        width: 0;
+        height: 0;
+        border-top: 6px solid #288ad6;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 1px;
+    }
+
+    .choose-filter{
+        border-radius: 5px;
+        background-color: blue;
+        padding: 5px;
+        color: #fff;
+        margin: 2px;
+        text-decoration: none !important;
+    }
+
+    .choose-filter a:hover, choose-filter a:focus, 
+    .choose-filter-2 a:hover, choose-filter-2 a:focus{
+        color: #fff !important;
+        text-decoration: none !important;
+    }
+
+    .choose-filter-2 {
+        border-radius: 5px;
+        background-color: #c10017;
+        padding: 5px;
+        color: #fff;
+        margin: 2px;
+        text-decoration: none !important;
+    }
+</style>
+
+<div id="content">
+    <div class="container">
+        <div class="col-md-12">
+            <ul style="margin-top:-20px;display: block;height: 40px;background: #fff;border-right: 1px solid #f5f5f5;width: 100%;">
+                <li style="display: inline-block;height: 40px;width: auto;
+                        vertical-align: top;font-size: 12px;position: relative; white-space: nowrap;">
+                    <h1 style="display: inline-block;vertical-align: top;line-height: 40px;
+padding-left: 10px;font-size: 13px;font-weight: bold;color: #666;margin-top:-0px">
+                        Điện thoại:
+                    </h1>
+                    <a style="color: #288ad6;
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 10px;
+    line-height: 40px;" href="#">Iphone (Apple)</a>
+                    <a style="color: #288ad6;
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 10px;
+    line-height: 40px;" href="#">Samsung</a>
+                    <a style="color: #288ad6;
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 10px;
+    line-height: 40px;" href="#">OPPO</a>
+                    <span id="hienthiSP" onclick="showOrHide()" style="display: inline-block;
+    overflow: hidden;
+    font-size: 12px;
+    color: #288ad6;
+    padding-left: 10px;
+    cursor: pointer;
+    line-height: 40px;">Hãng khác</span>
+                    <div id="popupHang" style="display:none;    overflow: visible;
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    box-shadow: 0 10px 10px 0 rgba(0,0,0,.1);
+    padding: 5px 10px;
+    position: absolute;
+    right: -45%;
+    top: 40px;
+    z-index: 11;width: 300px;">
+                        <div style="border-bottom:1px solid red">
+                            <label data-id="80" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <input type="checkbox" name="hang-0" value="0"/>
+                                <a href="/dtdd-apple-iphone" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                    Tất cả hãng
+                                </a>
+                            </label>
+                        </div>
+
+                        <aside style="float: left; overflow: hidden;width: 50%;padding: 10px 0;">
+                            <label data-id="80" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <input type="checkbox" name="hang-1"  value="1" default="iPhone (Apple)"/>
+                                <a href="/dtdd-apple-iphone" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+
+                                    iPhone (Apple)
+                                </a>
+                            </label>
+                            <label data-id="2" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <input type="checkbox" name="hang-2"  value="2" default="Samsung"/>
+                                <a href="/dtdd-samsung" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                    Samsung
+                                </a>
+                            </label>
+                            <label data-id="1971" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <input type="checkbox" name="hang-3"  value="3" default="OPPO"/>
+                                <a href="/dtdd-oppo" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+
+                                    OPPO
+                                </a>
+                            </label>
+                            <label data-id="3" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <input type="checkbox" name="hang-4" value="4" default="Sony"/>
+                                <a href="/dtdd-sony" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+
+                                    Sony
+                                </a>
+                            </label>
+                            <label data-id="1" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <input type="checkbox" name="hang-5" value="5"/>
+                                <a href="/dtdd-nokia" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                    Nokia
+                                </a>
+                            </label>
+                            <label data-id="14" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <input type="checkbox" name="hang-6" value="6"/>
+                                <a href="/dtdd-htc" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                    HTC
+                                </a>
+                            </label>
+                            <label data-id="111" style="display: block;padding: 5px 0 6px;cursor: pointer;">
+                                <input type="checkbox" name="hang-7" value="7"/>
+                                <a href="/dtdd-asus-zenfone" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                    Asus (Zenfone)
+                                </a>
+                            </label>
+                            <label data-id="4" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <input type="checkbox" name="hang-8" value="8"/>
+                                <a href="/dtdd-motorola" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                    Motorola
+                                </a>
+                            </label>
+                            <label data-id="113" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <input type="checkbox" name="hang-9" value="9"/>
+                                <a href="/dtdd-lenovo" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+
+                                    Lenovo
+                                </a>
+                            </label>
+                        </aside>
+                        <aside style="float: left; overflow: hidden;width: 50%;padding: 10px 0;">
+                            <label data-id="80" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <input type="checkbox" name="hang-10"  value="10"/>
+                                <a href="/dtdd-apple-iphone" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                    iPhone (Apple) 2
+                                </a>
+                            </label>
+                            <label data-id="2" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <input type="checkbox" name="hang-11"  value="11"/>
+                                <a href="/dtdd-samsung" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                    Samsung 2
+                                </a>
+                            </label>
+                            <label data-id="1971" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <input type="checkbox" name="hang-12" value="12"/>
+                                <a href="/dtdd-oppo" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                    OPPO 2
+                                </a>
+                            </label>                         
+                        </aside>
+                        <div class="clearfix"></div>
+                        <button type="button" class="form-control btn-primary" id="btnSeachCategory">Tìm kiếm</button>
+                    </div>
+                </li>
+                <li style="display: inline-block;height: 40px;width: auto;
+                        vertical-align: top;font-size: 12px;position: relative; white-space: nowrap;">
+                    <a style="color: #288ad6;display: inline-block;vertical-align: top;padding-left: 10px; line-height: 40px;" href="#">
+                        Dưới 1 triệu
+                    </a>
+                    <a style="color: #288ad6;
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 10px;
+    line-height: 40px;" href="#">Từ 1 - 3 triệu</a>
+                    <a style="color: #288ad6;
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 10px;
+    line-height: 40px;" href="#">Từ 3 - 7 triệu</a>
+                    <span id="hienthiGia" onclick="showOrHideGia()" style="display: inline-block;
+    overflow: hidden;
+    font-size: 12px;
+    color: #288ad6;
+    padding-left: 10px;
+    cursor: pointer;
+    line-height: 40px;">Giá khác</span>
+                    <div id="popupGia" style="display:none;    overflow: visible;
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    box-shadow: 0 10px 10px 0 rgba(0,0,0,.1);
+    padding: 5px 10px;
+    position: absolute;
+    right: -18%;
+    top: 40px;
+    z-index: 11;width: 140px;">
+                        <div style="border-bottom:1px solid red">
+                            <label data-id="80" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <input type="radio" name="price1" value="1" />
+                                <a href="/dtdd-apple-iphone" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                    Tất cả mức giá
+                                </a>
+                            </label>
+                        </div>
+                        <aside id="formPrice" style="float: left; overflow: hidden;padding: 10px 0;">
+                            <label data-id="80" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <input type="radio" name="price1" value="2" />
+                                <a href="/dtdd-apple-iphone" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                    Dưới 1 triệu
+                                </a>
+                            </label>
+                            <label data-id="2" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <input type="radio" name="price1" value="3" />
+                                <a href="/dtdd-samsung" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                    Từ 1 - 3 triệu
+                                </a>
+                            </label>
+                            <label data-id="1971" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <input type="radio" name="price1" value="4" />
+                                <a href="/dtdd-oppo" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+
+                                    Từ 3 - 7 triệu
+                                </a>
+                            </label>
+                            <label data-id="3" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <input type="radio" name="price1" value="5" />
+                                <a href="/dtdd-sony" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                    Từ 7 - 10 triệu
+                                </a>
+                            </label>
+                            <label data-id="1" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <input type="radio" name="price1" value="6" />
+                                <a href="/dtdd-nokia" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                    Từ 10 - 15 triệu
+                                </a>
+                            </label>
+                            <label data-id="14" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <input type="radio" name="price1" value="7" />
+                                <a href="/dtdd-htc" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                    Trên 15 triệu
+                                </a>
+                            </label>
+                        </aside>
+
+                        <div class="clearfix"></div>
+                        <button style="display:none" type="button" class="form-control btn-primary" id="searchByPrice">Tìm kiếm</button>
+                    </div>
+                </li>
+
+                <li style="display: inline-block;height: 40px;width: auto;
+                        vertical-align: top;font-size: 12px;position: relative; white-space: nowrap;">
+                    <label data-id="113" style="display: block;padding: 7px 5px;cursor: pointer;color: #288ad6">
+                        <input type="checkbox" />
+                        <a href="/dtdd-lenovo" class="prevent" style="pointer-events: none;color: #288ad6;display: inline;padding: 0;margin: 0;line-height: normal;">
+                            Sản phẩm mới
+                        </a>
+                    </label>
+                </li>
+                <li style="display: inline-block;height: 40px;width: auto;
+                        vertical-align: top;font-size: 12px;position: relative; white-space: nowrap;">
+                    <span id="hienthiOrderBy" onclick="showOrHideOrderBy()" style="display: inline-block;
+    overflow: hidden;
+    font-size: 12px;
+    color: #288ad6;
+    cursor: pointer;
+    line-height: 40px;">Sắp xếp</span>
+                    <div id="popupOrderBy" style="display:none;    overflow: visible;
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    box-shadow: 0 10px 10px 0 rgba(0,0,0,.1);
+    padding: 5px 10px;
+    position: absolute;
+    right: -18%;
+    top: 40px;
+    z-index: 11;width: 160px;">
+                        <aside id="formPrice" style="float: left; overflow: hidden;padding: 10px 0;">
+                            <label data-id="80" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <a href="/dtdd-apple-iphone" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                    Giá thấp đến cao
+                                </a>
+                            </label>
+                            <label data-id="2" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <a href="/dtdd-samsung" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                    Giá cao đến thấp
+                                </a>
+                            </label>
+                            <label data-id="1971" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                                <a href="/dtdd-oppo" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+
+                                    Theo tên sản phẩm
+                                </a>
+                            </label>
+                        </aside>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-12 choosedfilter" style="margin-bottom:10px">
+            <a href="javascript:;" id="abc1" onclick="RemoveFilter(1)" class="choose-filter">
+                Iphone
+                <span style=""> X</span>
+            </a>
+            <a href="javascript:;" id="abc2" onclick="RemoveFilter(2)" class="choose-filter">
+                Iphone2
+                <span style=""> X</span>
+            </a>
+            <a href="javascript:;" id="abc3" onclick="RemoveFilter(3)" class="choose-filter">
+                Iphone3
+                <span style=""> X</span>
+            </a>
+            <a href="/dien-thoai" class="choose-filter-2">
+                Xóa tất cả
+                <span style=""> X</span>
+            </a>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row products">
+                <div class="col-md-4 col-sm-4">
+                    <div class="product">
+                        <div class="flip-container">
+                            <div class="flipper">
+                                <div class="front">
+                                    <a href="detail.html">
+                                        <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                                    </a>
+                                </div>
+                                <div class="back" style="background-color:#fff">
+                                    <div class="col-md-12 col-xs-12" style="border-bottom:1px solid #7773738c">
+                                        <h4 class="pull-left">IPhone 6S</h4>
+                                        <h4 class="pull-right" style="color:orangered;font-weight:bold">12.000.000đ</h4>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12" style="padding:10px">
+                                        <span>Màn hình: 5.5", Full HD</span>
+                                        <br />
+                                        <span>HĐH: Android 7.0</span>
+                                        <br />
+                                        <span>CPU: Exynos, 8 nhân</span>
+                                        <br />
+                                        <span>GPU: Mali-G71 MP2</span>
+                                        <br />
+                                        <span>RAM: 3 GB, ROM: 32 GB</span>
+                                        <br />
+                                        <span>Camera: 13 MP, Selfie: 13 MP</span>
+                                        <br />
+                                        <span>PIN: 3600mAh</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="detail.html" class="invisible">
+                            <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                        </a>
+                        <div class="text" style="padding:10px;padding-bottom:0px">
+                            <span style="text-align:left;font-size:18px; font-weight:bold">Iphone 6S</span>
+                            <strong style="color:orangered;" class="price pull-right">12.000.000đ </strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="product">
+                        <div class="flip-container">
+                            <div class="flipper">
+                                <div class="front">
+                                    <a href="detail.html">
+                                        <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                                    </a>
+                                </div>
+                                <div class="back" style="background-color:#fff">
+                                    <div class="col-md-12 col-xs-12" style="border-bottom:1px solid #7773738c">
+                                        <h4 class="pull-left">IPhone 6S</h4>
+                                        <h4 class="pull-right" style="color:orangered;font-weight:bold">12.000.000đ</h4>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12" style="padding:10px">
+                                        <span>Màn hình: 5.5", Full HD</span>
+                                        <br />
+                                        <span>HĐH: Android 7.0</span>
+                                        <br />
+                                        <span>CPU: Exynos, 8 nhân</span>
+                                        <br />
+                                        <span>GPU: Mali-G71 MP2</span>
+                                        <br />
+                                        <span>RAM: 3 GB, ROM: 32 GB</span>
+                                        <br />
+                                        <span>Camera: 13 MP, Selfie: 13 MP</span>
+                                        <br />
+                                        <span>PIN: 3600mAh</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="detail.html" class="invisible">
+                            <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                        </a>
+                        <div class="text" style="padding:10px;padding-bottom:0px">
+                            <span style="text-align:left;font-size:18px; font-weight:bold">Iphone 6S</span>
+                            <strong style="color:orangered;" class="price pull-right">12.000.000đ </strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="product">
+                        <div class="flip-container">
+                            <div class="flipper">
+                                <div class="front">
+                                    <a href="detail.html">
+                                        <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                                    </a>
+                                </div>
+                                <div class="back" style="background-color:#fff">
+                                    <div class="col-md-12 col-xs-12" style="border-bottom:1px solid #7773738c">
+                                        <h4 class="pull-left">IPhone 6S</h4>
+                                        <h4 class="pull-right" style="color:orangered;font-weight:bold">12.000.000đ</h4>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12" style="padding:10px">
+                                        <span>Màn hình: 5.5", Full HD</span>
+                                        <br />
+                                        <span>HĐH: Android 7.0</span>
+                                        <br />
+                                        <span>CPU: Exynos, 8 nhân</span>
+                                        <br />
+                                        <span>GPU: Mali-G71 MP2</span>
+                                        <br />
+                                        <span>RAM: 3 GB, ROM: 32 GB</span>
+                                        <br />
+                                        <span>Camera: 13 MP, Selfie: 13 MP</span>
+                                        <br />
+                                        <span>PIN: 3600mAh</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="detail.html" class="invisible">
+                            <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                        </a>
+                        <div class="text" style="padding:10px;padding-bottom:0px">
+                            <span style="text-align:left;font-size:18px; font-weight:bold">Iphone 6S</span>
+                            <strong style="color:orangered;" class="price pull-right">12.000.000đ </strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="product">
+                        <div class="flip-container">
+                            <div class="flipper">
+                                <div class="front">
+                                    <a href="detail.html">
+                                        <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                                    </a>
+                                </div>
+                                <div class="back" style="background-color:#fff">
+                                    <div class="col-md-12 col-xs-12" style="border-bottom:1px solid #7773738c">
+                                        <h4 class="pull-left">IPhone 6S</h4>
+                                        <h4 class="pull-right" style="color:orangered;font-weight:bold">12.000.000đ</h4>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12" style="padding:10px">
+                                        <span>Màn hình: 5.5", Full HD</span>
+                                        <br />
+                                        <span>HĐH: Android 7.0</span>
+                                        <br />
+                                        <span>CPU: Exynos, 8 nhân</span>
+                                        <br />
+                                        <span>GPU: Mali-G71 MP2</span>
+                                        <br />
+                                        <span>RAM: 3 GB, ROM: 32 GB</span>
+                                        <br />
+                                        <span>Camera: 13 MP, Selfie: 13 MP</span>
+                                        <br />
+                                        <span>PIN: 3600mAh</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="detail.html" class="invisible">
+                            <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                        </a>
+                        <div class="text" style="padding:10px;padding-bottom:0px">
+                            <span style="text-align:left;font-size:18px; font-weight:bold">Iphone 6S</span>
+                            <strong style="color:orangered;" class="price pull-right">12.000.000đ </strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="product">
+                        <div class="flip-container">
+                            <div class="flipper">
+                                <div class="front">
+                                    <a href="detail.html">
+                                        <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                                    </a>
+                                </div>
+                                <div class="back" style="background-color:#fff">
+                                    <div class="col-md-12 col-xs-12" style="border-bottom:1px solid #7773738c">
+                                        <h4 class="pull-left">IPhone 6S</h4>
+                                        <h4 class="pull-right" style="color:orangered;font-weight:bold">12.000.000đ</h4>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12" style="padding:10px">
+                                        <span>Màn hình: 5.5", Full HD</span>
+                                        <br />
+                                        <span>HĐH: Android 7.0</span>
+                                        <br />
+                                        <span>CPU: Exynos, 8 nhân</span>
+                                        <br />
+                                        <span>GPU: Mali-G71 MP2</span>
+                                        <br />
+                                        <span>RAM: 3 GB, ROM: 32 GB</span>
+                                        <br />
+                                        <span>Camera: 13 MP, Selfie: 13 MP</span>
+                                        <br />
+                                        <span>PIN: 3600mAh</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="detail.html" class="invisible">
+                            <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                        </a>
+                        <div class="text" style="padding:10px;padding-bottom:0px">
+                            <span style="text-align:left;font-size:18px; font-weight:bold">Iphone 6S</span>
+                            <strong style="color:orangered;" class="price pull-right">12.000.000đ </strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="product">
+                        <div class="flip-container">
+                            <div class="flipper">
+                                <div class="front">
+                                    <a href="detail.html">
+                                        <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                                    </a>
+                                </div>
+                                <div class="back" style="background-color:#fff">
+                                    <div class="col-md-12 col-xs-12" style="border-bottom:1px solid #7773738c">
+                                        <h4 class="pull-left">IPhone 6S</h4>
+                                        <h4 class="pull-right" style="color:orangered;font-weight:bold">12.000.000đ</h4>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12" style="padding:10px">
+                                        <span>Màn hình: 5.5", Full HD</span>
+                                        <br />
+                                        <span>HĐH: Android 7.0</span>
+                                        <br />
+                                        <span>CPU: Exynos, 8 nhân</span>
+                                        <br />
+                                        <span>GPU: Mali-G71 MP2</span>
+                                        <br />
+                                        <span>RAM: 3 GB, ROM: 32 GB</span>
+                                        <br />
+                                        <span>Camera: 13 MP, Selfie: 13 MP</span>
+                                        <br />
+                                        <span>PIN: 3600mAh</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="detail.html" class="invisible">
+                            <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                        </a>
+                        <div class="text" style="padding:10px;padding-bottom:0px">
+                            <span style="text-align:left;font-size:18px; font-weight:bold">Iphone 6S</span>
+                            <strong style="color:orangered;" class="price pull-right">12.000.000đ </strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <div class="product">
+                        <div class="flip-container">
+                            <div class="flipper">
+                                <div class="front">
+                                    <a href="detail.html">
+                                        <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                                    </a>
+                                </div>
+                                <div class="back" style="background-color:#fff">
+                                    <div class="col-md-12 col-xs-12" style="border-bottom:1px solid #7773738c">
+                                        <h4 class="pull-left">IPhone 6S</h4>
+                                        <h4 class="pull-right" style="color:orangered;font-weight:bold">12.000.000đ</h4>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12" style="padding:10px">
+                                        <span>Màn hình: 5.5", Full HD</span>
+                                        <br />
+                                        <span>HĐH: Android 7.0</span>
+                                        <br />
+                                        <span>CPU: Exynos, 8 nhân</span>
+                                        <br />
+                                        <span>GPU: Mali-G71 MP2</span>
+                                        <br />
+                                        <span>RAM: 3 GB, ROM: 32 GB</span>
+                                        <br />
+                                        <span>Camera: 13 MP, Selfie: 13 MP</span>
+                                        <br />
+                                        <span>PIN: 3600mAh</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="detail.html" class="invisible">
+                            <img src="~/Assets/Client/img/product1.jpg" alt="" class="img-responsive">
+                        </a>
+                        <div class="text" style="padding:10px;padding-bottom:0px">
+                            <span style="text-align:left;font-size:18px; font-weight:bold">Iphone 6S</span>
+                            <strong style="color:orangered;" class="price pull-right">12.000.000đ </strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="pages">
+
+                <p class="loadMore">
+                    <a href="#" class="btn btn-primary btn-lg"><i class="fa fa-chevron-down"></i> Load more</a>
+                </p>
+
+                <ul class="pagination">
+                    <li>
+                        <a href="#">&laquo;</a>
+                    </li>
+                    <li class="active">
+                        <a href="#">1</a>
+                    </li>
+                    <li>
+                        <a href="#">2</a>
+                    </li>
+                    <li>
+                        <a href="#">3</a>
+                    </li>
+                    <li>
+                        <a href="#">4</a>
+                    </li>
+                    <li>
+                        <a href="#">5</a>
+                    </li>
+                    <li>
+                        <a href="#">&raquo;</a>
+                    </li>
+                </ul>
+            </div>
+
+
+        </div>
+        <!-- /.col-md-9 -->
+    </div>
+
+    <div style="display:none">
+        <input id="selectSP" type="hidden"/>
+        <input id="selectPrice" type="hidden"/>
+        <input id="selectTxtPrice" type="hidden" />
+        
+    </div>
+    <!-- /.container -->
+</div>
+
+<script>
+
+    $(document).click(function (event) {
+        if (($(event.target).closest("#hienthiSP").html() == null
+            || $(event.target).closest("#hienthiSP").html() == "undefined")
+            && ($(event.target).closest("#popupHang").html() == null
+            || $(event.target).closest("#popupHang").html() == "undefined")) {
+            $("#popupHang").css("display", "none");
+        }
+
+        if (($(event.target).closest("#hienthiGia").html() == null
+            || $(event.target).closest("#hienthiGia").html() == "undefined")
+            && ($(event.target).closest("#popupGia").html() == null
+            || $(event.target).closest("#popupGia").html() == "undefined")) {
+            $("#popupGia").css("display", "none");
+        }
+
+        if (($(event.target).closest("#hienthiOrderBy").html() == null
+            || $(event.target).closest("#hienthiOrderBy").html() == "undefined")
+            && ($(event.target).closest("#popupOrderBy").html() == null
+            || $(event.target).closest("#popupOrderBy").html() == "undefined")) {
+            $("#popupOrderBy").css("display", "none");
+        }
+
+        if ($('#popupGia').find('input[name="price1"]').is(':checked')) {
+            $("#searchByPrice").css("display", "inline-block");
+        }
+    });
+
+    $("#searchByPrice").click(function () {
+        $('#popupGia').find('input[name="price1"]').each(function () {
+            if ($(this).is(':checked')) {
+                var valCheck = $(this).val();
+                if (valCheck != 1 && valCheck > 1) {
+                    var txt = '';
+                    if (valCheck == 2) {
+                        txt = 'Dưới 1 triệu';
+                    }
+                    else if (valCheck == 3) {
+                        txt = 'Từ 1 - 3 triệu';
+                    }
+                    else if (valCheck == 4) {
+                        txt = 'Từ 3 - 7 triệu';
+                    }
+                    else if (valCheck == 5) {
+                        txt = 'Từ 7 - 10 triệu';
+                    }
+                    else if (valCheck == 6) {
+                        txt = 'Từ 10 - 15 triệu';
+                    }
+                    else if (valCheck == 7) {
+                        txt = 'Trên 15 triệu';
+                    }
+
+                    $("#selectPrice").val(valCheck);
+                    $("#selectTxtPrice").val(txt);
+
+                    GenericChooseFilter();
+                }                
+            }
+        });
+    });
+
+    $("#btnSeachCategory").click(function () {
+        var valSelected = '';
+        $('#popupHang').find('input[name^="hang-"]').each(function () {
+            if ($(this).is(':checked')) {
+                valSelected += $(this).val() + ',';
+            }
+        });
+
+        $("#selectSP").val(valSelected);
+        GenericChooseFilter();
+    });   
+
+    function GenericChooseFilter() {
+        var textHtml = '';
+        var showAll = 0;
+
+        var selectedSP =$("#selectSP").val();
+        if(selectedSP != '' && selectedSP != 'undefined' && selectedSP != null)
+        {
+            var arraySP = selectedSP.split(',');
+            for (var i = 0; i < arraySP.length -1; i++)
+            {
+                showAll++;
+                var tensp = $('#popupHang').find('input[name="hang-' + arraySP[i] + '"]').attr("default");
+
+                var id = 'abc' + arraySP[i];
+                textHtml += "<a href='javascript:;' id='" + id + "' onclick='RemoveFilter(" + arraySP[i] + ")' class='choose-filter'>";
+                textHtml += tensp;
+                textHtml += "<span> X</span></a>";
+            }
+        }
+
+
+        var valPrice = $("#selectPrice").val();
+        if (valPrice != 1 && valPrice > 1)
+        {
+            showAll++;
+            var txt = $("#selectTxtPrice").val();
+
+            var id = 'abc' + valPrice;
+            var textHtml2 = "<a href='javascript:;' id='" + id + "' onclick='RemoveFilter(" + valPrice + ")' class='choose-filter'>";
+            textHtml2 += txt;
+            textHtml2 += "<span> X</span></a>";
+            textHtml += textHtml2;
+        }
+
+        if (showAll >= 2) {
+            textHtml += "<a href='/dien-thoai' class='choose-filter-2'> Xóa tất cả <span> X</span></a>";
+        }
+
+        $(".choosedfilter").html(textHtml);
+    }
+
+    function showOrHideGia() {
+
+        if ($('#popupGia').hasClass("showGia")) {
+            $("#popupGia").removeClass("showGia");
+            $("#popupGia").css("display", "none");
+        }
+        else {
+            $("#popupGia").addClass("showGia");
+            $('#popupGia').css("display", "inline-block");
+        }
+    }
+
+    function showOrHide() {
+
+        if ($('#popupHang').hasClass("showSP")) {
+            $("#popupHang").removeClass("showSP");
+            $("#popupHang").css("display", "none");
+        }
+        else {
+            $("#popupHang").addClass("showSP");
+            $('#popupHang').css("display", "inline-block");
+        }
+    }
+
+    function showOrHideOrderBy() {
+        if ($('#popupOrderBy').hasClass("showOrderBy")) {
+            $("#popupOrderBy").removeClass("showOrderBy");
+            $("#popupOrderBy").css("display", "none");
+        }
+        else {
+            $("#popupOrderBy").addClass("showOrderBy");
+            $('#popupOrderBy').css("display", "inline-block");
+        }
+    }
+
+    function RemoveFilter(val) {
+        $("#abc" + val).remove();
+    }
+
+</script>
+
+
