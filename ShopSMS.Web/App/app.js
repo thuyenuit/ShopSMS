@@ -27,7 +27,7 @@
                 templateUrl: '/app/component/home/homeView.html',
                 controller: 'homeController'
             });
-        $urlRouterProvider.otherwise('/login');
+        //$urlRouterProvider.otherwise('/login');
         $locationProvider.html5Mode(true);
         $locationProvider.hashPrefix('!');
     }

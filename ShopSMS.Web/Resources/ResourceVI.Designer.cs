@@ -79,6 +79,51 @@ namespace ShopSMS.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Danh mục.
+        /// </summary>
+        internal static string Category {
+            get {
+                return ResourceManager.GetString("Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thêm mới thành công.
+        /// </summary>
+        internal static string Create_Success {
+            get {
+                return ResourceManager.GetString("Create_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Không tồn tại.
+        /// </summary>
+        internal static string Does_Not_Exist {
+            get {
+                return ResourceManager.GetString("Does_Not_Exist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File dữ liệu không hợp lệ.
+        /// </summary>
+        internal static string File_Data_Not_Invalid {
+            get {
+                return ResourceManager.GetString("File_Data_Not_Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import excel thành công.
+        /// </summary>
+        internal static string Import_Excel_Success {
+            get {
+                return ResourceManager.GetString("Import_Excel_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thêm mới.
         /// </summary>
         internal static string LabelCreate {
@@ -111,6 +156,51 @@ namespace ShopSMS.Web.Resources {
         internal static string LabelUpdate {
             get {
                 return ResourceManager.GetString("LabelUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (Chưa có).
+        /// </summary>
+        internal static string Not_Yet {
+            get {
+                return ResourceManager.GetString("Not_Yet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vui lòng nhập tên sản phẩm.
+        /// </summary>
+        internal static string Please_Enter_Product_Name {
+            get {
+                return ResourceManager.GetString("Please_Enter_Product_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sản phẩm.
+        /// </summary>
+        internal static string Product {
+            get {
+                return ResourceManager.GetString("Product", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thể loại.
+        /// </summary>
+        internal static string Product_Category {
+            get {
+                return ResourceManager.GetString("Product_Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cập nhật thành công.
+        /// </summary>
+        internal static string Update_Success {
+            get {
+                return ResourceManager.GetString("Update_Success", resourceCulture);
             }
         }
     }

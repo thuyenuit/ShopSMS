@@ -46,11 +46,13 @@ namespace ShopSMS.Web.Infrastructure.Core
             {
                 LogError(dbEx);
                 reponse = requestMessage.CreateResponse(HttpStatusCode.BadRequest, dbEx.InnerException.Message);
+                throw new Exception(dbEx.InnerException.Message);
             }
             catch (Exception ex)
             {
                 LogError(ex);
                 reponse = requestMessage.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
+                throw new Exception(ex.Message);
             }
 
             return reponse;

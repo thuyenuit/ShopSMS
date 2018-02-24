@@ -116,7 +116,7 @@ namespace ShopSMS.Web.Api
                     }
                 }*/
 
-                lstResponse = lstResponse.OrderByDescending(x => x.DisplayOrder)
+                lstResponse = lstResponse.OrderBy(x => x.CategoryName)
                                         .ThenBy(x => x.ProductCategoryName).ToList();
                 int totalRow = lstResponse.Count();
                 IEnumerable<ProductCategoryViewModel> lstResult = lstResponse.Skip((page) * pageSize).Take(pageSize);
@@ -173,6 +173,34 @@ namespace ShopSMS.Web.Api
                 return response;
             });
         }
+
+        [Route("getByCategoryId")]
+        [HttpGet]
+        public HttpResponseMessage getByCategoryId(HttpRequestMessage request, int categoryId)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                if(categoryId <= 0)
+                {
+                    return request.CreateResponse(HttpStatusCode.NotFound, "Tải danh sách thể loại thất bại.");
+                }
+
+                IDictionary<string, object> dic = new Dictionary<string, object>();
+                dic.Add("CategoryID", categoryId);
+
+                var lstProductCategory = productCategoryService.Search(dic).Where(x=>x.Status == true).ToList();
+
+                var result = lstProductCategory.Select(x => new ProductCategoryViewModel
+                {
+                    ProductCategoryID = x.ProductCategoryID,
+                    ProductCategoryName = x.ProductCategoryName,
+                    DisplayOrder = x.DisplayOrder
+                }).OrderBy(x=>x.DisplayOrder).ToList();
+
+                var response = request.CreateResponse(HttpStatusCode.OK, result);
+                return response;
+            });
+        }        
 
         [Route("getbyid")]
         [Authorize]

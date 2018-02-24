@@ -9,6 +9,8 @@ using System.Linq;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System.Drawing;
+using OfficeOpenXml.DataValidation.Contracts;
+using ShopSMS.Common.Common;
 
 namespace ShopSMS.Service.Services
 {
@@ -22,21 +24,34 @@ namespace ShopSMS.Service.Services
         Product GetSingleById(int id);
         IEnumerable<Product> Search(IDictionary<string, object> dic);
         void SaveChanges();
-        string AutoGenericCode();
+        string AutoGenericCode(int def, List<Product> listProduct);
         void ExportExcel(string fullPath, string fileTemplatePath, IDictionary<string, object> dic);
-        void InsertOrUpdateFromExcel(List<Product> lstFromExcel, List<Product> lstProductDB);
+        void InsertOrUpdateFromExcel(List<Product> lstFromExcel, List<Product> lstProductDB, int ProductCategoryID);
+        void DownLoadTemplate(string fullPath, string fileTemplatePath);
     }
 
     public class ProductService : IProductService
     {
         private readonly IProductRepository productRepository;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IProductCategoryRepository productCategoryRepository;
+        private readonly ICategoryRepository categoryRepository;
+        private readonly ISupplierRepository supplierRepository;
+        private readonly INSXService NSXService;
 
         public ProductService(
             IProductRepository productRepository,
+            IProductCategoryRepository productCategoryRepository,
+            ICategoryRepository categoryRepository,
+            ISupplierRepository supplierRepository,
+            INSXService NSXService,
             IUnitOfWork unitOfWork)
         {
             this.productRepository = productRepository;
+            this.productCategoryRepository = productCategoryRepository;
+            this.categoryRepository = categoryRepository;
+            this.supplierRepository = supplierRepository;
+            this.NSXService = NSXService;
             this.unitOfWork = unitOfWork;
         }
 
@@ -80,22 +95,27 @@ namespace ShopSMS.Service.Services
             productRepository.Update(product);
         }
 
-        public string AutoGenericCode()
+        public string AutoGenericCode(int def, List<Product> listProduct)
         {
-            return productRepository.AutoGenericCode();
+            return productRepository.AutoGenericCode(def, listProduct);
         }
 
-        public void InsertOrUpdateFromExcel(List<Product> lstFromExcel, List<Product> lstProductDB)
-        {
+        public void InsertOrUpdateFromExcel(List<Product> lstFromExcel, List<Product> lstProductDB, int productCategoryID)
+        {        
+            Product objCheckCode = null;
+            int index = 0;
             for (int i = 0; i < lstFromExcel.Count(); i++)
             {
                 var obj = lstFromExcel[i];
+                obj.ProductCategoryID = productCategoryID;
+
                 // Cập nhật
                 if (!string.IsNullOrEmpty(obj.ProductCode))
                 {
-                    var objResult = lstProductDB.Where(x => x.ProductCode.ToUpper().Equals(obj.ProductCode.ToUpper())).FirstOrDefault();
+                    var objResult = lstProductDB.FirstOrDefault(x => x.ProductCode.ToUpper().Equals(obj.ProductCode.ToUpper()));
                     if (objResult != null && !string.IsNullOrEmpty(obj.ProductName))
                     {
+                        objResult.ProductCategoryID = obj.ProductCategoryID;
                         objResult.ProductName = obj.ProductName;
                         objResult.Quantity = obj.Quantity;
                         objResult.PriceSell = obj.PriceSell;
@@ -114,14 +134,38 @@ namespace ShopSMS.Service.Services
 
                         productRepository.Update(objResult);
                     }
-                    else
+                    else if(objResult == null)
                     {
                         productRepository.Create(obj);
                     }
-                } //Thêm mới
+                }
                 else
                 {
-                    obj.ProductCode = AutoGenericCode();
+                    index++;
+                    obj.ProductCode = AutoGenericCode(index, lstProductDB);
+                    objCheckCode = lstProductDB.Where(x => x.ProductCode == obj.ProductCode).FirstOrDefault();
+
+                    while (objCheckCode != null)
+                    {
+                        index++;
+                        obj.ProductCode = AutoGenericCode(index, lstProductDB);
+                        objCheckCode = lstProductDB.Where(x => x.ProductCode == obj.ProductCode).FirstOrDefault();
+                    };
+
+                    if (objCheckCode == null)
+                    {
+                        objCheckCode = lstFromExcel.Where(x=>x.ProductCode != null)
+                                                    .Where(x => x.ProductCode == obj.ProductCode)
+                                                    .FirstOrDefault();
+                        while (objCheckCode != null)
+                        {
+                            index++;
+                            obj.ProductCode = AutoGenericCode(index, lstProductDB);
+                            objCheckCode = lstProductDB.Where(x => x.ProductCode == obj.ProductCode).FirstOrDefault();
+                        };
+
+                    }
+                
                     productRepository.Create(obj);               
                 }
             }
@@ -132,59 +176,98 @@ namespace ShopSMS.Service.Services
             FileInfo fileTemplate = new FileInfo(fileTemplatePath);
             FileInfo newFile = new FileInfo(fullPath);
 
+            List<Producer> lstNSX = NSXService.GetAll().ToList();
+            Producer objProducer = null;
             List<Product> lstResult = Search(dic).ToList();
             Product objProduct = null;
-
+                      
             using (ExcelPackage pck = new ExcelPackage(newFile, fileTemplate))
             {
                 // Lấy sheet thứ 1
                 ExcelWorksheet sheet = pck.Workbook.Worksheets[1];
 
+
+
                 int startRow = 9;
                 int index = 0;
+           
                 for (int i = 0; i < lstResult.Count; i++)
                 {
                     objProduct = lstResult[i];
+                    if (objProduct.ProducerID.HasValue && objProduct.ProducerID.Value > 0)
+                    {
+                        objProducer = lstNSX.Where(x => x.ProducerID == objProduct.ProducerID).FirstOrDefault();
+                    }
+                    
                     index++;
                     // STT
-                    sheet.Cells[("A" + startRow)].Value = index;
+                    sheet.SetValue(("A" + startRow), index);
                     // Mã SP
-                    sheet.Cells[("B" + startRow)].Value = objProduct.ProductCode;
-                    sheet.Cells[("C" + startRow)].Value = objProduct.ProductName;
-                    sheet.Cells[("D" + startRow)].Value = objProduct.Quantity;
-                    sheet.Cells[("E" + startRow)].Value = objProduct.PriceInput.ToString("N0");
-                    sheet.Cells[("F" + startRow)].Value = objProduct.PriceSell.ToString("N0");
-                    sheet.Cells[("G" + startRow)].Value = objProduct.Warranty;
-                    sheet.Cells[("H" + startRow)].Value = objProduct.ProductHomeFlag.HasValue && objProduct.ProductHomeFlag == true ? "X" : "";
-                    sheet.Cells[("I" + startRow)].Value = objProduct.ProductHotFlag.HasValue && objProduct.ProductHotFlag == true ? "X" : "";
-                    sheet.Cells[("J" + startRow)].Value = objProduct.ProductSellingGood.HasValue && objProduct.ProductSellingGood == true ? "X" : "";
-                    sheet.Cells[("K" + startRow)].Value = objProduct.ProductNew.HasValue && objProduct.ProductNew == true ? "X" : ""; ;
-                    sheet.Cells[("L" + startRow)].Value = objProduct.Status ? "X" : "";
-                    sheet.Cells[("M" + startRow)].Value = objProduct.Description;
-                    sheet.Cells[("N" + startRow)].Value = objProduct.MetaDescription;
-                    sheet.Cells[("O" + startRow)].Value = objProduct.MetaKeyword;
+                    sheet.SetValue(("B" + startRow), objProduct.ProductCode);
+                    sheet.SetValue(("C" + startRow), objProduct.ProductName);
+                    sheet.SetValue(("D" + startRow), objProduct.Quantity);
+                    sheet.SetValue(("E" + startRow), objProduct.PriceInput.ToString("N0"));
+                    sheet.SetValue(("F" + startRow), objProduct.PriceSell.ToString("N0"));
+                    sheet.SetValue(("G" + startRow), objProducer != null ? objProducer.ProducerName : "");
+                    sheet.SetValue(("H" + startRow), objProduct.Warranty);
+                    sheet.SetValue(("I" + startRow), objProduct.ProductHomeFlag.HasValue && objProduct.ProductHomeFlag == true ? "X" : "");
+                    sheet.SetValue(("J" + startRow), objProduct.ProductHotFlag.HasValue && objProduct.ProductHotFlag == true ? "X" : "");
+                    sheet.SetValue(("K" + startRow), objProduct.ProductSellingGood.HasValue && objProduct.ProductSellingGood == true ? "X" : "");
+                    sheet.SetValue(("L" + startRow), objProduct.ProductNew.HasValue && objProduct.ProductNew == true ? "X" : "");
+                    sheet.SetValue(("M" + startRow), objProduct.Status ? "X" : "");
+                    sheet.SetValue(("N" + startRow), objProduct.Description);
+                    sheet.SetValue(("O" + startRow), objProduct.MetaDescription);
+                    sheet.SetValue(("P" + startRow), objProduct.MetaKeyword);
 
                     if (!objProduct.Status)
                     {
                         sheet.Cells[startRow, 1, startRow, 15].Style.Font.Strike = true;
                         sheet.Cells[startRow, 1, startRow, 15].Style.Font.Color.SetColor(Color.Red);
-                        sheet.Cells[startRow, 1, startRow, 15].Style.Locked = true;
+                        //sheet.Cells[startRow, 1, startRow, 15].Style.Locked = true;
                     }
                     else {
-                        sheet.Cells[startRow, 1, startRow, 15].Style.Locked = false;
+                        //sheet.Cells[startRow, 1, startRow, 15].Style.Locked = false;
                     }
 
-                    sheet.Cells[startRow, 1, startRow, 15].Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                    sheet.Cells[startRow, 1, startRow, 15].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                    sheet.Cells[startRow, 1, startRow, 15].Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                    sheet.Cells[startRow, 1, startRow, 15].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;                   
+                    objProducer = null;
                     startRow++;
                 }
 
-                sheet.Protection.SetPassword("123456");                        
+                List<string> lstNSXName = lstNSX.Select(x => x.ProducerName).ToList();
+               
+                sheet.ListValidationExcel("G", 9, 500, lstNSXName);
+                sheet.RenderBorderAll(8, 1, 509, 16, ExcelBorderStyle.Thin);
+                List<DataImageValidatation> lstDataImage = new List<DataImageValidatation>();
+                lstDataImage.Add(new DataImageValidatation {PathFile = @"F:\Troll Pictures\Troll Pictures\44645_316025975209315_1696254844_n.jpg", Row =1, Column =2 });
+                //lstDataImage.Add(new DataImageValidatation {PathFile = @"F:\Troll Pictures\Troll Pictures\294935_537302912984840_1891609347_n.jpg", Row = 2, Column = 2 });
+                sheet.InsertPicture(lstDataImage);
+                //InsertPicture(this ExcelWorksheet sheet, List < DataImageValidatation > lstDataImage)
+
+                //sheet.Protection.SetPassword("123456");                        
                 // Lưu file mới
                 pck.SaveAs(newFile);             
             }     
+        }
+
+        public void DownLoadTemplate(string fullPath, string fileTemplatePath)
+        {
+            FileInfo fileTemplate = new FileInfo(fileTemplatePath);
+            FileInfo newFile = new FileInfo(fullPath);
+
+            using (ExcelPackage pck = new ExcelPackage(newFile, fileTemplate))
+            {
+                // Lấy sheet thứ 1
+                ExcelWorksheet sheet = pck.Workbook.Worksheets[1];          
+
+                List<string> lstNSXName = NSXService.GetAll().Select(x => x.ProducerName).ToList();
+
+                if (lstNSXName.Count() > 0)
+                {
+                    sheet.ListValidationExcel("G", 9, 500, lstNSXName);
+                }                        
+                // Lưu file mới
+                pck.SaveAs(newFile);
+            }
         }
     }
 }

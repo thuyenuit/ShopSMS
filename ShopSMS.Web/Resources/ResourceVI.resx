@@ -135,4 +135,34 @@
   <data name="LabelUpdate" xml:space="preserve">
     <value>Cập nhật</value>
   </data>
+  <data name="Not_Yet" xml:space="preserve">
+    <value>(Chưa có)</value>
+  </data>
+  <data name="Create_Success" xml:space="preserve">
+    <value>Thêm mới thành công</value>
+  </data>
+  <data name="Please_Enter_Product_Name" xml:space="preserve">
+    <value>Vui lòng nhập tên sản phẩm</value>
+  </data>
+  <data name="Update_Success" xml:space="preserve">
+    <value>Cập nhật thành công</value>
+  </data>
+  <data name="Import_Excel_Success" xml:space="preserve">
+    <value>Import excel thành công</value>
+  </data>
+  <data name="File_Data_Not_Invalid" xml:space="preserve">
+    <value>File dữ liệu không hợp lệ</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Danh mục</value>
+  </data>
+  <data name="Does_Not_Exist" xml:space="preserve">
+    <value>Không tồn tại</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Sản phẩm</value>
+  </data>
+  <data name="Product_Category" xml:space="preserve">
+    <value>Thể loại</value>
+  </data>
 </root>

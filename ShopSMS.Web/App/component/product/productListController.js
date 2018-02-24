@@ -53,16 +53,41 @@
             });
         }
         LoadStatus();
+      
+        $scope.listPCategories = {};
+        $scope.listCategories = {};
+        function LoadCategory() {
+            apiService.get('/api/category/getallNoPage', null, function (result) {
+                $scope.listCategories = result.data;
+            }, function () {
+                notificationService.displayError('Không thể tải danh sách danh mục');
+            });
+        }
+        LoadCategory();
 
-        $scope.categories = [];
-        function LoadProCategory() {
-            apiService.get('/api/productcategory/getallNoPage', null, function (result) {
-                $scope.categories = result.data;
+        $scope.funChangeCategory = function funChangeCategory() {
+            var categoryId = $scope.listCategories.CategoryID;
+            if (categoryId > 0) {
+                LoadProductCategory(categoryId);
+            }
+            else {
+                $scope.listPCategories = {};
+            }
+        }
+
+        $scope.LoadProductCategory = LoadProductCategory;
+        function LoadProductCategory(categoryId) {
+            var consfig = {
+                params: {
+                    categoryId: categoryId
+                }
+            };
+            apiService.get('/api/productcategory/getByCategoryId', consfig, function (result) {
+                $scope.listPCategories = result.data;
             }, function () {
                 notificationService.displayError('Không thể tải danh sách thể loại');
             });
         }
-        LoadProCategory();
 
         // list
         $scope.editProduct = [];
@@ -82,7 +107,7 @@
             if (statusId === undefined || statusId === 'undefined' || statusId === null)
                 statusId = 0;
 
-            var categoryID = $scope.categories.ProductCategoryID;
+            var categoryID = $scope.productCategoryID;
             if (categoryID === undefined || categoryID === 'undefined' || categoryID === null)
                 categoryID = 0;
 
@@ -246,74 +271,10 @@
             });
         }
 
-        // import product
-        $scope.files = [];
-        $scope.$on("fileSelected", function (event, args) {
-            $scope.$apply(function () {
-                $scope.files.push(args.file);
-            });
-        });
-
-        $scope.listErrores = {};
-        $scope.ImportProduct = ImportProduct;
-        function ImportProduct() {
-            //console.log("File chon ", $scope.files);
-            if ($scope.files.length <= 0) {
-                notificationService.displayError("Vui lòng chọn File excel cần import");
-            }
-            else {
-
-                var ext = angular.element("input[name='file']").val().match(/\.([^\.]+)$/)[1];
-
-                if (ext === 'xls' || ext === 'xlsx') {
-                    authenticationService.setHeader();
-                    var url = '/api/product/ImportExcel';
-                    angular.element("button[id='btnCloseImportExcel']").click();
-                    $scope.promise = $http({
-                        method: "POST",
-                        url: url,
-                        headers: { 'Content-Type': undefined },
-                        transformRequest: function (data) {
-                            var formData = new FormData();
-                            for (var i = 0; i < data.files.length; i++) {
-                                formData.append("file" + i, data.files[i]);
-                            }
-                            return formData;
-                        },
-                        data: { files: $scope.files }
-                    }).then(function (result, status, headers, config) {
-                        notificationService.displaySuccess(result.data);                       
-                        ListProduct();
-                    }, function (result, status, headers, config) {
-
-                        if (result.status === 304) {                         
-                            if ($scope.listErrores.length > 0)
-                            {
-                                $scope.listErrores = result.data;
-                                angular.element("button[name='btnShowError']").click();
-                            }                          
-                        }
-                        else {
-                            notificationService.displayError(result.data.ExceptionMessage);
-                        }
-                       
-                    });
-
-                    $scope.$parent.MethodShowLoading("Đang xử lý", $scope.promise);
-                }
-                else {
-                    notificationService.displayError("File không hợp lệ. Vui lòng chọn file excel");
-                }
-            }
-
-            $scope.files = [];
-            angular.element("input[name='file']").val('');
-
-        }
-
+        // Export product
         $scope.ExportProduct = ExportProduct;
         function ExportProduct() {
-            var productCategoryID = $scope.categories.ProductCategoryID;
+            var productCategoryID = $scope.productCategoryID;
             if (productCategoryID === undefined || productCategoryID === 'undefined' || productCategoryID === null)
                 productCategoryID = 0;
             var statusId = $scope.listStatus.StatusID;
@@ -329,12 +290,12 @@
             }
             var url = '/api/product/exportExcel';
             $scope.promise = apiService.get(url, config, function (result) {
-                window.open(result.data.Message)
+                window.open(result.data.Message);
             }, function (result) {
                 notificationService.displayError(result.data);
             });
             $scope.$parent.MethodShowLoading("Đang xử lý", $scope.promise);
-        }
+        }    
 
         // show image
         $scope.onShowMoreImages = function (item) {

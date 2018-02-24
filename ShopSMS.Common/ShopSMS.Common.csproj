@@ -37,6 +37,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,15 +48,18 @@
   <ItemGroup>
     <Compile Include="Common\ConfigHelper.cs" />
     <Compile Include="Common\ListObject.cs" />
+    <Compile Include="Common\ListDataValidatation.cs" />
     <Compile Include="Common\ParameterFileInfo.cs" />
     <Compile Include="Common\ReportHelper.cs" />
     <Compile Include="Common\SystemParameter.cs" />
     <Compile Include="Common\Utils.cs" />
+    <Compile Include="Excel\TBExcelPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

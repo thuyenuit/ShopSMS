@@ -29,4 +29,10 @@ namespace ShopSMS.Common.Common
         public string Icon { get; set; }
         public int? OrderBy { get; set; }
     }
+
+    public class Items
+    {
+        public int Value { get; set; }
+        public string Text { get; set; }
+    }
 }

@@ -5,60 +5,116 @@
 
     function productImportController(apiService, $http, authenticationService, $scope, notificationService, $state, commonService) {
 
-        $scope.files = [];
-        $scope.categoryId = 5;
-        $scope.ImportProduct = ImportProduct;
-        //$scope.flatFolders = [];
-        //listen for the file selected event
+        $scope.listPCategories = {};
+        $scope.listCategories = {};
+        function LoadCategory() {
+            apiService.get('/api/category/getallNoPage', null, function (result) {
+                $scope.listCategories = result.data;
+                console.log(result.data);
+            }, function () {
+                notificationService.displayError('Không thể tải danh sách danh mục');
+            });
+        }
+        LoadCategory();
+
+        $scope.funChangeCategory = function funChangeCategory() {
+            var categoryId = $scope.categoryID;
+            console.log(categoryId);
+            if (categoryId > 0) {
+                LoadProductCategory(categoryId);
+            }
+            else {
+                $scope.listPCategories = {};
+            }
+        }
+        
+        $scope.LoadProductCategory = LoadProductCategory;
+        function LoadProductCategory(categoryId) {
+            var consfig = {
+                params: {
+                    categoryId: categoryId
+                }
+            };
+            apiService.get('/api/productcategory/getByCategoryId', consfig, function (result) {
+                $scope.listPCategories = result.data;
+            }, function () {
+                notificationService.displayError('Không thể tải danh sách thể loại');
+            });
+        }
+
+        // tải file mẫu
+        $scope.DownloadTemplate = DownloadTemplate;
+        function DownloadTemplate() {
+            var url = '/api/product/downloadTemplate';
+            $("#btnCloseImportExcel").click();
+            $scope.promise = apiService.get(url, null, function (result) {
+                window.open(result.data.Message);
+            }, function (result) {
+                notificationService.displayError(result.data);
+            });
+            $scope.$parent.MethodShowLoading("Đang xử lý", $scope.promise);
+        }
+      
+        $scope.files = [];      
         $scope.$on("fileSelected", function (event, args) {
             $scope.$apply(function () {
-                //add the file object to the scope's files collection
                 $scope.files.push(args.file);
             });
         });
 
+        $scope.listErrores = {};
+        $scope.filename = '';
+        $scope.ImportProduct = ImportProduct;
         function ImportProduct() {
-            console.log("AA", $scope.files)
-            authenticationService.setHeader();
-            $http({
-                method: 'POST',
-                url: "/api/Product/ImportExcel",
-                //IMPORTANT!!! You might think this should be set to 'multipart/form-data' 
-                // but this is not true because when we are sending up files the request 
-                // needs to include a 'boundary' parameter which identifies the boundary 
-                // name between parts in this multi-part request and setting the Content-type 
-                // manually will not set this boundary parameter. For whatever reason, 
-                // setting the Content-type to 'false' will force the request to automatically
-                // populate the headers properly including the boundary parameter.
-                headers: { 'Content-Type': undefined },
-                //This method will allow us to change how the data is sent up to the server
-                // for which we'll need to encapsulate the model data in 'FormData'
-                transformRequest: function (data) {
-                    var formData = new FormData();
-                    //need to convert our json object to a string version of json otherwise
-                    // the browser will do a 'toString()' on the object which will result 
-                    // in the value '[Object object]' on the server.
-                    formData.append("categoryId", angular.toJson(data.categoryId));
-                    //now add all of the assigned files
-                    console.log("Do dai", data.files.length);
-                    for (var i = 0; i < data.files.length; i++) {
-                        //add each file to the form data and iteratively name them
-                        formData.append("file" + i, data.files[i]);
-                    }
-                    console.log("Log", formData);
-                    return formData;
-                },
-                //Create an object that contains the model and files which will be transformed
-                // in the above transformRequest method
-                data: { files: $scope.files }
-            }).then(function (result, status, headers, config) {
-                notificationService.displaySuccess(result.data);
-                $state.go('products');
-            },
-            function (data, status, headers, config) {
-                notificationService.displayError(data);
-            });
-        }        
+            if ($scope.files.length <= 0) {
+                notificationService.displayError("Vui lòng chọn File excel cần import");
+            }
+            else {
+
+                var ext = angular.element("input[name='file']").val().match(/\.([^\.]+)$/)[1];
+
+                if (ext === 'xls' || ext === 'xlsx') {
+                    authenticationService.setHeader();
+                    var url = '/api/product/ImportExcel';                   
+                    $scope.promise = $http({
+                        method: "POST",
+                        url: url,
+                        headers: { 'Content-Type': undefined },
+                        transformRequest: function (data) {
+                            var formData = new FormData();
+                            formData.append("categoryID", $scope.categoryID);
+                            formData.append("productCategoryID", $scope.productCategoryID);
+                            
+                            for (var i = 0; i < data.files.length; i++) {
+                                formData.append("file" + i, data.files[i]);
+                            }
+                            return formData;
+                        },
+                        data: { files: $scope.files }
+                    }).then(function (result, status, headers, config) {
+                        notificationService.displaySuccess(result.data);                      
+                    }, function (result, status, headers, config) {
+
+                        if (result.status === 502) {
+                             $scope.listErrores = result.data;
+                             $("button[name='btnShowError']").click();
+                        }
+                        else {
+                            notificationService.displayError(result.data.ExceptionMessage);
+                        }
+
+                    });
+
+                    $scope.$parent.MethodShowLoading("Đang xử lý", $scope.promise);
+                }
+                else {
+                    notificationService.displayError("File không hợp lệ. Vui lòng chọn file excel");
+                }
+            }
+
+            $scope.files = [];
+            angular.element("input[name='file']").val('');
+        }      
     }
 
 })(angular.module('sms.product'));

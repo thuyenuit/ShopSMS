@@ -13,7 +13,7 @@ namespace ShopSMS.DAL.Repositories
     public interface IProductRepository : IRepository<Product>
     {
         IEnumerable<Product> Search(IDictionary<string, object> dic);
-        string AutoGenericCode();
+        string AutoGenericCode(int def, List<Product> listProduct);
     }
 
     public class ProductRepository : RepositoryBase<Product>, IProductRepository
@@ -53,48 +53,45 @@ namespace ShopSMS.DAL.Repositories
                 query = query.Where(x => x.ProductCode.ToUpper().Contains(productCode.ToUpper()));
             if (!string.IsNullOrEmpty(productAlias))
             {
-                query = query.Where(x=>x.ProductAlias != null)
+                query = query.Where(x => x.ProductAlias != null)
                              .Where(x => x.ProductAlias.ToUpper().Contains(productAlias.ToUpper()));
-            }            
+            }
             if (!string.IsNullOrEmpty(productDescription))
             {
-                query = query.Where(x=>x.Description != null)
+                query = query.Where(x => x.Description != null)
                              .Where(x => x.Description.ToUpper().Contains(productDescription.ToUpper()));
             }
 
             if (productCategoryID != 0)
             {
                 query = query.Where(x => x.ProductCategoryID.HasValue)
-                             .Where(x=>x.ProductCategoryID == productCategoryID);
+                             .Where(x => x.ProductCategoryID == productCategoryID);
             }
-               
+
             if (productQuantity != 0)
                 query = query.Where(x => x.Quantity == productQuantity);
             if (productPrice != 0)
                 query = query.Where(x => x.PriceSell == productPrice);
             if (!string.IsNullOrEmpty(keyword))
-                query = query.Where(x => x.ProductCode.ToUpper().Contains(keyword.ToUpper()) 
+                query = query.Where(x => x.ProductCode.ToUpper().Contains(keyword.ToUpper())
                                 || x.ProductName.ToUpper().Contains(keyword.ToUpper()));
 
             return query;
         }
-      
-        public string AutoGenericCode()
+
+        public string AutoGenericCode(int def, List<Product> listProduct)
         {
             string code = string.Empty;
-
-            List<Product> lstDB = DbContext.Product.ToList();
-            int hauto = (lstDB.Count() + 1).ToString().Length;      
+            int hauto = (listProduct.Count() + 1).ToString().Length;
             int trungto = 6 - hauto;
-                                   
+
             for (int i = 0; i < trungto; i++)
             {
                 code += "0";
             }
-            code = code + (lstDB.Count() + 1);
-            code = "SP" + DateTime.Now.Year + code;
-
-            return code; // SP2017000001
+            code = code + (listProduct.Count() + 1 + def);
+            code = "SP" + code;
+            return code;
         }
     }
 }

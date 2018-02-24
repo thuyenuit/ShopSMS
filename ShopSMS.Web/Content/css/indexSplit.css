@@ -1,0 +1,720 @@
+/* chung */
+.split.crop {
+  width: 182px;
+  height: 160px;
+}
+.crop {
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+}
+.crop .content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin-top: 10px;
+  margin-bottom: auto;
+  text-align: center;
+}
+/* chung */
+
+/* sanphambanchay */
+
+/* sanpham1 */
+.split.crop .image1 {
+  background: url("../img/sanphambanchay/galaxys7.jpg");
+}
+.crop:hover .left.image1 {
+  left: -50%;
+}
+
+.crop:hover .right.image1 {
+  right: -50%;
+}
+
+.crop .image1 {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+.crop .left.image1, .crop .right.image1 {
+  width: 50%;
+}
+
+.crop .left.image1 {
+  left: 0;
+  background-position: 0% 50%;
+  -webkit-transition: left 0.3s ease;
+  -moz-transition: left 0.3s ease;
+  -o-transition: left 0.3s ease;
+  -ms-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+}
+.crop .right.image1 {
+  right: 0;
+  background-position: 100%;
+  -webkit-transition: right 0.3s ease;
+  -moz-transition: right 0.3s ease;
+  -o-transition: right 0.3s ease;
+  -ms-transition: right 0.3s ease;
+  transition: right 0.3s ease;
+}
+/* sanpham1 */
+
+/* sanpham2 */
+.split.crop .image2 {
+  background: url("../img/sanphambanchay/iphone7Plus128.png");
+}
+.crop:hover .left.image2 {
+  left: -50%;
+}
+
+.crop:hover .right.image2 {
+  right: -50%;
+}
+
+.crop .image2 {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+.crop .left.image2, .crop .right.image2 {
+  width: 50%;
+}
+
+.crop .left.image2 {
+  left: 0;
+  background-position: 0% 50%;
+  -webkit-transition: left 0.3s ease;
+  -moz-transition: left 0.3s ease;
+  -o-transition: left 0.3s ease;
+  -ms-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+}
+.crop .right.image2 {
+  right: 0;
+  background-position: 100%;
+  -webkit-transition: right 0.3s ease;
+  -moz-transition: right 0.3s ease;
+  -o-transition: right 0.3s ease;
+  -ms-transition: right 0.3s ease;
+  transition: right 0.3s ease;
+}
+/* sanpham2 */
+
+/* sanpham3*/
+.split.crop .image3 {
+  background: url("../img/sanphambanchay/tivi.jpg");
+}
+.crop:hover .left.image3 {
+  left: -50%;
+}
+
+.crop:hover .right.image3 {
+  right: -50%;
+}
+
+.crop .image3 {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+.crop .left.image3, .crop .right.image3 {
+  width: 50%;
+}
+
+.crop .left.image3 {
+  left: 0;
+  background-position: 0% 50%;
+  -webkit-transition: left 0.3s ease;
+  -moz-transition: left 0.3s ease;
+  -o-transition: left 0.3s ease;
+  -ms-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+}
+.crop .right.image3 {
+  right: 0;
+  background-position: 100%;
+  -webkit-transition: right 0.3s ease;
+  -moz-transition: right 0.3s ease;
+  -o-transition: right 0.3s ease;
+  -ms-transition: right 0.3s ease;
+  transition: right 0.3s ease;
+}
+/* sanpham3 */
+/* sanpham4*/
+.split.crop .image4 {
+  background: url("../img/sanphambanchay/tulanh.jpg");
+}
+.crop:hover .left.image4 {
+  left: -50%;
+}
+
+.crop:hover .right.image4 {
+  right: -50%;
+}
+
+.crop .image4 {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+.crop .left.image4, .crop .right.image4 {
+  width: 50%;
+}
+
+.crop .left.image4 {
+  left: 0;
+  background-position: 0% 50%;
+  -webkit-transition: left 0.3s ease;
+  -moz-transition: left 0.3s ease;
+  -o-transition: left 0.3s ease;
+  -ms-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+}
+.crop .right.image4 {
+  right: 0;
+  background-position: 100%;
+  -webkit-transition: right 0.3s ease;
+  -moz-transition: right 0.3s ease;
+  -o-transition: right 0.3s ease;
+  -ms-transition: right 0.3s ease;
+  transition: right 0.3s ease;
+}
+/* sanpham4 */
+/* sanpham5*/
+.split.crop .image5 {
+  background: url("../img/sanphambanchay/asus.png");
+}
+.crop:hover .left.image5 {
+  left: -50%;
+}
+
+.crop:hover .right.image5 {
+  right: -50%;
+}
+
+.crop .image5 {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+.crop .left.image5, .crop .right.image5 {
+  width: 50%;
+}
+
+.crop .left.image5 {
+  left: 0;
+  background-position: 0% 50%;
+  -webkit-transition: left 0.3s ease;
+  -moz-transition: left 0.3s ease;
+  -o-transition: left 0.3s ease;
+  -ms-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+}
+.crop .right.image5 {
+  right: 0;
+  background-position: 100%;
+  -webkit-transition: right 0.3s ease;
+  -moz-transition: right 0.3s ease;
+  -o-transition: right 0.3s ease;
+  -ms-transition: right 0.3s ease;
+  transition: right 0.3s ease;
+}
+/* sanpham5 */
+/* sanpham6*/
+.split.crop .image6 {
+  background: url("../img/sanphambanchay/iphone5s16.jpg");
+}
+.crop:hover .left.image6 {
+  left: -50%;
+}
+
+.crop:hover .right.image6 {
+  right: -50%;
+}
+
+.crop .image6 {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+.crop .left.image6, .crop .right.image6 {
+  width: 50%;
+}
+
+.crop .left.image6 {
+  left: 0;
+  background-position: 0% 50%;
+  -webkit-transition: left 0.3s ease;
+  -moz-transition: left 0.3s ease;
+  -o-transition: left 0.3s ease;
+  -ms-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+}
+.crop .right.image6 {
+  right: 0;
+  background-position: 100%;
+  -webkit-transition: right 0.3s ease;
+  -moz-transition: right 0.3s ease;
+  -o-transition: right 0.3s ease;
+  -ms-transition: right 0.3s ease;
+  transition: right 0.3s ease;
+}
+/* sanpham6 */
+/* sanpham7*/
+.split.crop .image7 {
+  background: url("../img/sanphambanchay/galaxyj7prime.jpg");
+}
+.crop:hover .left.image7 {
+  left: -50%;
+}
+
+.crop:hover .right.image7 {
+  right: -50%;
+}
+
+.crop .image7 {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+.crop .left.image7, .crop .right.image7 {
+  width: 50%;
+}
+
+.crop .left.image7 {
+  left: 0;
+  background-position: 0% 50%;
+  -webkit-transition: left 0.3s ease;
+  -moz-transition: left 0.3s ease;
+  -o-transition: left 0.3s ease;
+  -ms-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+}
+.crop .right.image7 {
+  right: 0;
+  background-position: 100%;
+  -webkit-transition: right 0.3s ease;
+  -moz-transition: right 0.3s ease;
+  -o-transition: right 0.3s ease;
+  -ms-transition: right 0.3s ease;
+  transition: right 0.3s ease;
+}
+/* sanpham7 */
+/* sanpham8*/
+.split.crop .image8 {
+  background: url("../img/sanphambanchay/ipadair2.jpg");
+}
+.crop:hover .left.image8 {
+  left: -50%;
+}
+
+.crop:hover .right.image8 {
+  right: -50%;
+}
+
+.crop .image8 {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+.crop .left.image8, .crop .right.image8 {
+  width: 50%;
+}
+
+.crop .left.image8 {
+  left: 0;
+  background-position: 0% 50%;
+  -webkit-transition: left 0.3s ease;
+  -moz-transition: left 0.3s ease;
+  -o-transition: left 0.3s ease;
+  -ms-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+}
+.crop .right.image8 {
+  right: 0;
+  background-position: 100%;
+  -webkit-transition: right 0.3s ease;
+  -moz-transition: right 0.3s ease;
+  -o-transition: right 0.3s ease;
+  -ms-transition: right 0.3s ease;
+  transition: right 0.3s ease;
+}
+/* sanpham8 */
+/* sanphambanchay */
+
+/* sanphammoinhat */
+
+/* sanpham4*/
+.split.crop .image9 {
+  background: url("../img/sanphammoinhat/asusxanh.jpg");
+}
+.crop:hover .left.image9 {
+  left: -50%;
+}
+
+.crop:hover .right.image9 {
+  right: -50%;
+}
+
+.crop .image9 {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+.crop .left.image9, .crop .right.image9 {
+  width: 50%;
+}
+
+.crop .left.image9 {
+  left: 0;
+  background-position: 0% 50%;
+  -webkit-transition: left 0.3s ease;
+  -moz-transition: left 0.3s ease;
+  -o-transition: left 0.3s ease;
+  -ms-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+}
+.crop .right.image9 {
+  right: 0;
+  background-position: 100%;
+  -webkit-transition: right 0.3s ease;
+  -moz-transition: right 0.3s ease;
+  -o-transition: right 0.3s ease;
+  -ms-transition: right 0.3s ease;
+  transition: right 0.3s ease;
+}
+/* sanpham4 */
+/* sanpham5*/
+.split.crop .image10 {
+  background: url("../images/sanphammoinhat/j5prime.png");
+}
+.crop:hover .left.image10 {
+  left: -50%;
+}
+
+.crop:hover .right.image10 {
+  right: -50%;
+}
+
+.crop .image10 {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+.crop .left.image10, .crop .right.image10 {
+  width: 50%;
+}
+
+.crop .left.image10 {
+  left: 0;
+  background-position: 0% 50%;
+  -webkit-transition: left 0.3s ease;
+  -moz-transition: left 0.3s ease;
+  -o-transition: left 0.3s ease;
+  -ms-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+}
+.crop .right.image10 {
+  right: 0;
+  background-position: 100%;
+  -webkit-transition: right 0.3s ease;
+  -moz-transition: right 0.3s ease;
+  -o-transition: right 0.3s ease;
+  -ms-transition: right 0.3s ease;
+  transition: right 0.3s ease;
+}
+/* sanpham5 */
+/* sanpham6*/
+.split.crop .image11 {
+  background: url("../images/sanphammoinhat/s7.jpg");
+}
+.crop:hover .left.image11 {
+  left: -50%;
+}
+
+.crop:hover .right.image11 {
+  right: -50%;
+}
+
+.crop .image11 {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+.crop .left.image11, .crop .right.image11 {
+  width: 50%;
+}
+
+.crop .left.image11 {
+  left: 0;
+  background-position: 0% 50%;
+  -webkit-transition: left 0.3s ease;
+  -moz-transition: left 0.3s ease;
+  -o-transition: left 0.3s ease;
+  -ms-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+}
+.crop .right.image11 {
+  right: 0;
+  background-position: 100%;
+  -webkit-transition: right 0.3s ease;
+  -moz-transition: right 0.3s ease;
+  -o-transition: right 0.3s ease;
+  -ms-transition: right 0.3s ease;
+  transition: right 0.3s ease;
+}
+/* sanpham6 */
+/* sanpham7*/
+.split.crop .image12 {
+  background: url("../images/sanphammoinhat/tulanhaqua.jpg");
+}
+.crop:hover .left.image12 {
+  left: -50%;
+}
+
+.crop:hover .right.image12 {
+  right: -50%;
+}
+
+.crop .image12 {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+.crop .left.image12, .crop .right.image12 {
+  width: 50%;
+}
+
+.crop .left.image12 {
+  left: 0;
+  background-position: 0% 50%;
+  -webkit-transition: left 0.3s ease;
+  -moz-transition: left 0.3s ease;
+  -o-transition: left 0.3s ease;
+  -ms-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+}
+.crop .right.image12 {
+  right: 0;
+  background-position: 100%;
+  -webkit-transition: right 0.3s ease;
+  -moz-transition: right 0.3s ease;
+  -o-transition: right 0.3s ease;
+  -ms-transition: right 0.3s ease;
+  transition: right 0.3s ease;
+}
+/* sanpham7 */
+/* sanpham8*/
+.split.crop .image13 {
+  background: url("../images/sanphammoinhat/ipadmini.jpg");
+}
+.crop:hover .left.image13 {
+  left: -50%;
+}
+
+.crop:hover .right.image13 {
+  right: -50%;
+}
+
+.crop .image13 {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+.crop .left.image13, .crop .right.image13 {
+  width: 50%;
+}
+
+.crop .left.image13 {
+  left: 0;
+  background-position: 0% 50%;
+  -webkit-transition: left 0.3s ease;
+  -moz-transition: left 0.3s ease;
+  -o-transition: left 0.3s ease;
+  -ms-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+}
+.crop .right.image13 {
+  right: 0;
+  background-position: 100%;
+  -webkit-transition: right 0.3s ease;
+  -moz-transition: right 0.3s ease;
+  -o-transition: right 0.3s ease;
+  -ms-transition: right 0.3s ease;
+  transition: right 0.3s ease;
+}
+/* sanpham8 */
+
+/* sanpham9*/
+.split.crop .image14 {
+  background: url("../images/sanphammoinhat/tiviasanzo.jpg");
+}
+.crop:hover .left.image14 {
+  left: -50%;
+}
+
+.crop:hover .right.image14 {
+  right: -50%;
+}
+
+.crop .image14 {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+.crop .left.image14, .crop .right.image14 {
+  width: 50%;
+}
+
+.crop .left.image14 {
+  left: 0;
+  background-position: 0% 50%;
+  -webkit-transition: left 0.3s ease;
+  -moz-transition: left 0.3s ease;
+  -o-transition: left 0.3s ease;
+  -ms-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+}
+.crop .right.image14 {
+  right: 0;
+  background-position: 100%;
+  -webkit-transition: right 0.3s ease;
+  -moz-transition: right 0.3s ease;
+  -o-transition: right 0.3s ease;
+  -ms-transition: right 0.3s ease;
+  transition: right 0.3s ease;
+}
+/* sanpham9 */
+
+/* sanpham9*/
+.split.crop .image15 {
+  background: url("../images/sanphammoinhat/dellins.jpg");
+}
+.crop:hover .left.image15 {
+  left: -50%;
+}
+
+.crop:hover .right.image15 {
+  right: -50%;
+}
+
+.crop .image15 {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+.crop .left.image15, .crop .right.image15 {
+  width: 50%;
+}
+
+.crop .left.image15 {
+  left: 0;
+  background-position: 0% 50%;
+  -webkit-transition: left 0.3s ease;
+  -moz-transition: left 0.3s ease;
+  -o-transition: left 0.3s ease;
+  -ms-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+}
+.crop .right.image15 {
+  right: 0;
+  background-position: 100%;
+  -webkit-transition: right 0.3s ease;
+  -moz-transition: right 0.3s ease;
+  -o-transition: right 0.3s ease;
+  -ms-transition: right 0.3s ease;
+  transition: right 0.3s ease;
+}
+/* sanpham9 */
+
+/* sanpham9*/
+.split.crop .image16 {
+  background: url("../images/sanphammoinhat/iphone7.jpg");
+}
+.crop:hover .left.image16 {
+  left: -50%;
+}
+
+.crop:hover .right.image16 {
+  right: -50%;
+}
+
+.crop .image16 {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+.crop .left.image16, .crop .right.image16 {
+  width: 50%;
+}
+
+.crop .left.image16 {
+  left: 0;
+  background-position: 0% 50%;
+  -webkit-transition: left 0.3s ease;
+  -moz-transition: left 0.3s ease;
+  -o-transition: left 0.3s ease;
+  -ms-transition: left 0.3s ease;
+  transition: left 0.3s ease;
+}
+.crop .right.image16 {
+  right: 0;
+  background-position: 100%;
+  -webkit-transition: right 0.3s ease;
+  -moz-transition: right 0.3s ease;
+  -o-transition: right 0.3s ease;
+  -ms-transition: right 0.3s ease;
+  transition: right 0.3s ease;
+}
+/* sanpham9 */
+
+/* sanphammoinhat */

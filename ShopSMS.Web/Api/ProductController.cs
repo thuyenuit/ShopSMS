@@ -9,12 +9,10 @@ using ShopSMS.Web.Models;
 using ShopSMS.Web.Provider;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -26,17 +24,21 @@ namespace ShopSMS.Web.Api
     [Authorize]
     public class ProductController : BaseApiController
     {
-        IProductService productService;
-        INSXService NSXService;
-        IProductCategoryService productCategoryService;
+        private IProductService productService;
+        private INSXService NSXService;
+        private IProductCategoryService productCategoryService;
+        private ICategoryService categoryService;
+
         public ProductController(IErrorLogService errorLogService,
             IProductService productService,
             INSXService NSXService,
-            IProductCategoryService productCategoryService) : base(errorLogService)
+            IProductCategoryService productCategoryService,
+            ICategoryService categoryService) : base(errorLogService)
         {
             this.productService = productService;
             this.NSXService = NSXService;
             this.productCategoryService = productCategoryService;
+            this.categoryService = categoryService;
         }
 
         /// <summary>
@@ -56,9 +58,6 @@ namespace ShopSMS.Web.Api
         {
             return CreateHttpResponse(request, () =>
             {
-                List<Producer> lstProducer = NSXService.GetAll().ToList();
-                List<ProductCategory> lstProCategory = productCategoryService.GetAll().ToList();
-
                 IDictionary<string, object> dic = new Dictionary<string, object>();
                 dic.Add("KeyWord", keyWord);
                 if (categoryID.HasValue)
@@ -68,8 +67,12 @@ namespace ShopSMS.Web.Api
 
                 List<Product> lstProduct = productService.Search(dic).ToList();
 
-                List<ProductViewModel> lstResponse = lstProduct
-                .Select(x => new ProductViewModel
+                List<Producer> lstProducer = NSXService.GetAll().ToList();
+                List<Items> lstItemsProducer = lstProducer.Select(x => new Items { Value = x.ProducerID, Text = x.ProducerName }).ToList();
+                List<ProductCategory> lstProCategory = productCategoryService.GetAll().ToList();
+                List<Items> lstItemsPC = lstProCategory.Select(x => new Items { Value = x.ProductCategoryID, Text = x.ProductCategoryName }).ToList();
+
+                List<ProductViewModel> lstResponse = lstProduct.Select(x => new ProductViewModel
                 {
                     ProductID = x.ProductID,
                     ProductName = x.ProductName,
@@ -90,26 +93,15 @@ namespace ShopSMS.Web.Api
                     Status = x.Status,
                     ProductCategoryID = x.ProductCategoryID,
                     ProducerID = x.ProducerID,
-                    ProductCategoryName = "(Chưa có)",
-                    ProducerName = "(Chưa có)" // x.ProducerID.HasValue ? (lstProducer.FirstOrDefault(p => p.ProducerID == x.ProducerID) != null ? lstProducer.FirstOrDefault(p => p.ProducerID == x.ProducerID).ProducerName : string.Empty) : string.Empty,
+                    ProductCategoryName = x.ProductCategoryID.HasValue ? (
+                                        lstItemsPC.FirstOrDefault(p => p.Value == x.ProductCategoryID) != null ?
+                                        lstItemsPC.FirstOrDefault(p => p.Value == x.ProductCategoryID).Text : Res.Get("Not_Yet"))
+                                        : Res.Get("Not_Yet"),
+                    ProducerName = x.ProducerID.HasValue ? (
+                                        lstItemsProducer.FirstOrDefault(p => p.Value == x.ProducerID) != null ?
+                                        lstItemsProducer.FirstOrDefault(p => p.Value == x.ProducerID).Text : Res.Get("Not_Yet"))
+                                        : Res.Get("Not_Yet"),
                 }).ToList();
-
-                foreach (var item in lstResponse)
-                {
-                    if (item.ProducerID.HasValue)
-                    {
-                        var objProducer = lstProducer.FirstOrDefault(p => p.ProducerID == item.ProducerID);
-                        if (objProducer != null)
-                            item.ProducerName = objProducer.ProducerName;
-                    }
-
-                    if (item.ProductCategoryID.HasValue)
-                    {
-                        var objProCategory = lstProCategory.FirstOrDefault(p => p.ProductCategoryID == item.ProductCategoryID);
-                        if (objProCategory != null)
-                            item.ProductCategoryName = objProCategory.ProductCategoryName;
-                    }
-                }
 
                 lstResponse = lstResponse.OrderByDescending(x => x.ProductCode)
                                         .ThenBy(x => x.ProductName).ToList();
@@ -128,23 +120,7 @@ namespace ShopSMS.Web.Api
             });
         }
 
-        [Route("getbykeyword")]
-        [HttpGet]
-        public HttpResponseMessage GetByKeyword(HttpRequestMessage request)
-        {
-            return CreateHttpResponse(request, () =>
-            {
-                IDictionary<string, object> dic = new Dictionary<string, object>();
-                dic.Add("ProductCode", "SP2017000001");
-                var lstProduct = productService.Search(dic);
-                // var lstResponse = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(lstProduct);
-
-                var response = request.CreateResponse(HttpStatusCode.OK, lstProduct);
-                return response;
-            });
-        }
-
-        [Route("getbyid")]
+        [Route("getbyid")] 
         [HttpGet]
         public HttpResponseMessage GetById(HttpRequestMessage request, int categoryId)
         {
@@ -172,7 +148,7 @@ namespace ShopSMS.Web.Api
                 {
                     if (string.IsNullOrEmpty(model.ProductName))
                     {
-                        throw new Exception("Vui lòng nhập tên sản phẩm");
+                        throw new Exception(Res.Get("Please_Enter_Product_Name"));
                     }
 
                     Product objCheckProName = productService.GetAll()
@@ -183,7 +159,7 @@ namespace ShopSMS.Web.Api
                         throw new Exception(string.Format("Tên sản phẩm {0} đã tồn tại. Vui lòng kiểm tra lại!", model.ProductName));
                     }
 
-                    model.ProductCode = productService.AutoGenericCode();
+                    model.ProductCode = productService.AutoGenericCode(0, productService.GetAll().ToList());
 
                     Product objNew = new Product();
                     objNew.UpdateProduct(model);
@@ -193,7 +169,7 @@ namespace ShopSMS.Web.Api
                     productService.Create(objNew);
                     productService.SaveChanges();
 
-                    response = request.CreateResponse(HttpStatusCode.Created, "Thêm mới thành công!");
+                    response = request.CreateResponse(HttpStatusCode.Created, Res.Get("Create_Success"));
                 }
 
                 return response;
@@ -254,7 +230,7 @@ namespace ShopSMS.Web.Api
 
                     if (string.IsNullOrEmpty(model.ProductName))
                     {
-                        throw new Exception("Vui lòng nhập tên sản phẩm");
+                        throw new Exception(Res.Get("Please_Enter_Product_Name"));
                     }
 
                     Product objCheckProName = productService.GetAll()
@@ -271,7 +247,7 @@ namespace ShopSMS.Web.Api
                     objResult.PriceSell = model.PriceSell;
                     productService.Update(objResult);
                     productService.SaveChanges();
-                    response = request.CreateResponse(HttpStatusCode.Created, "Cập nhật thành công!");
+                    response = request.CreateResponse(HttpStatusCode.Created, Res.Get("Update_Success"));
                 }
 
                 return response;
@@ -323,7 +299,6 @@ namespace ShopSMS.Web.Api
                 }
                 productService.SaveChanges();
                 response = request.CreateResponse(HttpStatusCode.OK, listLicense.Count());
-
             }
             return response;
         }
@@ -346,8 +321,22 @@ namespace ShopSMS.Web.Api
             var provider = new MultipartFormDataStreamProvider(root);
             var result = await Request.Content.ReadAsMultipartAsync(provider);
 
-            int categoryId = 0;
-            int.TryParse(result.FormData["categoryId"], out categoryId);
+            int categoryID = Int32.Parse(result.FormData["categoryID"]);
+            int productCategoryID = Int32.Parse(result.FormData["productCategoryID"]);
+
+            var objCategory = categoryService.GetSingleById(categoryID);
+            if (objCategory == null || (objCategory != null && !objCategory.Status))
+            {
+                string message = Res.Get("Category") + " " + Res.Get("Does_Not_Exist").ToLower();
+                return Request.CreateResponse(HttpStatusCode.NotFound, message);
+            }
+
+            var objProductCategory = productCategoryService.GetSingleById(productCategoryID);
+            if (objProductCategory == null || (objProductCategory != null && !objProductCategory.Status))
+            {
+                string message = Res.Get("Product_Category") + " " + Res.Get("Does_Not_Exist").ToLower();
+                return Request.CreateResponse(HttpStatusCode.NotFound, message);
+            }
 
             List<Product> lstProductFromExcel = new List<Product>();
             List<ListError> lstListError = new List<ListError>();
@@ -358,7 +347,7 @@ namespace ShopSMS.Web.Api
             {
                 if (string.IsNullOrEmpty(fileData.Headers.ContentDisposition.FileName))
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.NotAcceptable, "File dữ liệu không hợp lệ");
+                    return Request.CreateErrorResponse(HttpStatusCode.NotAcceptable, Res.Get("File_Data_Not_Invalid"));
                 }
 
                 string fileName = fileData.Headers.ContentDisposition.FileName;
@@ -382,30 +371,35 @@ namespace ShopSMS.Web.Api
                 {
                     throw new Exception(ex.Message);
                 }
-
             }
 
             if (lstListError.Count > 0)
             {
-                return Request.CreateResponse(HttpStatusCode.NotModified, lstListError);
+                return Request.CreateResponse(HttpStatusCode.BadGateway, lstListError);
             }
             else
             {
-                productService.InsertOrUpdateFromExcel(lstProductFromExcel, lstProductDB);
+                /* if (lstProductFromExcel.Count == 0)
+                 {
+                     return Request.CreateResponse(HttpStatusCode.NotAcceptable, Res.Get("Import_Excel_Success"));
+                 }*/
+
+                productService.InsertOrUpdateFromExcel(lstProductFromExcel, lstProductDB, objProductCategory.ProductCategoryID);
                 productService.SaveChanges();
-                
             }
 
-            return Request.CreateResponse(HttpStatusCode.OK, "Import thành công!");
+            return Request.CreateResponse(HttpStatusCode.OK, Res.Get("Import_Excel_Success"));
         }
 
         private List<Product> GetDataFromExcel(string fullPath, List<Product> lstProductDB, ref List<ListError> lstListError)
         {
-            List<Product> lstProduct = new List<Product>();
-            Product objNew = null;
-
             ExcelPackage package = new ExcelPackage(new FileInfo(fullPath));
             ExcelWorksheet sheet = package.Workbook.Worksheets[1];
+
+            var listNSX = NSXService.GetAll().ToList();
+
+            List<Product> lstProduct = new List<Product>();
+            Product objNew = null;
 
             List<string> lstProductCode = new List<string>();
             List<string> lstProductName = new List<string>();
@@ -418,17 +412,25 @@ namespace ShopSMS.Web.Api
             int endRow = sheet.Dimension.End.Row;
 
             string error = string.Empty;
+
             for (int i = 9; i <= endRow; i++)
             {
+                // chỉ cho phép lưu tối đa 500 bản ghi
+                if (i >= (500 + 9))
+                    break;
+
                 objNew = new Product();
 
                 if ((sheet.Cells[i, 2].Value == null && sheet.Cells[i, 3].Value == null)
                     || sheet.Cells[i, 3].Value == null)
                 {
-                    continue;
+                    break;
                 }
 
+                #region // Getdata
+
                 #region // Mã sản phẩm
+
                 if (sheet.Cells[i, 2].Value != null)
                 {
                     productCode = sheet.Cells[i, 2].Value.ToString();
@@ -440,24 +442,14 @@ namespace ShopSMS.Web.Api
                     }
                     else
                     {
-                        var checkCode = lstProductDB.Where(x => x.ProductCode.ToUpper().Equals(productCode.ToUpper())).FirstOrDefault();
-                        if (checkCode != null)
-                        {
-                            if (checkCode.Status == false)
-                                continue;
-                            else
-                                objNew.ProductCode = productCode;
-                        }
-                        else
-                        {
-                            objNew.ProductCode = productCode;
-                            // lstListError.Add(MassageError(productCode, "", "Mã sản phẩm không tồn tại"));
-                        }
+                        objNew.ProductCode = productCode;
                     }
                 }
-                #endregion
+
+                #endregion // Mã sản phẩm
 
                 #region // tên sản phẩm
+
                 if (sheet.Cells[i, 3].Value != null)
                 {
                     // tên sản phẩm
@@ -476,23 +468,24 @@ namespace ShopSMS.Web.Api
                         }
                         else
                         {
-                           objNew.ProductName = productName;
+                            objNew.ProductName = productName;
                         }
                     }
                 }
-                #endregion
+
+                #endregion // tên sản phẩm
 
                 #region // Số lượng
+
                 if (sheet.Cells[i, 4].Value != null)
                 {
                     if (Utils.IsInt32(sheet.Cells[i, 4].Value.ToString()))
                     {
                         Int32.TryParse(sheet.Cells[i, 4].Value.ToString(), out quantity);
-                        if (quantity < 0 || quantity > 999999)
+                        if (quantity < 0 || quantity > 999)
                         {
-                            // Không phải kiểu Int
-                            error = "Số lượng không hợp lệ. Giá trị là số nguyên dương trong khoảng [0 - 999,999]";
-                            lstListError.Add(MassageError(productCode, productName, error));                       
+                            error = "Số lượng không hợp lệ. Giá trị là số nguyên dương trong khoảng [0 - 999]";
+                            lstListError.Add(MassageError(productCode, productName, error));
                         }
                         else
                         {
@@ -502,14 +495,15 @@ namespace ShopSMS.Web.Api
                     }
                     else
                     {
-                        // Không phải kiểu Int
-                        error = "Số lượng không hợp lệ. Giá trị là số nguyên dương trong khoảng [0 - 999,999]";
+                        error = "Số lượng không hợp lệ. Giá trị là số nguyên dương trong khoảng [0 - 999]";
                         lstListError.Add(MassageError(productCode, productName, error));
                     }
                 }
-                #endregion
+
+                #endregion // Số lượng
 
                 #region // Giá nhập
+
                 if (sheet.Cells[i, 5].Value != null)
                 {
                     if (Utils.IsDecimal(sheet.Cells[i, 5].Value.ToString()))
@@ -517,8 +511,8 @@ namespace ShopSMS.Web.Api
                         Decimal.TryParse(sheet.Cells[i, 5].Value.ToString(), out priceInput);
                         if (priceInput < 0 || priceInput > 999999999)
                         {
-                            error = "Giá nhập không hợp lệ.Giá trị là số nguyên dương trong khoảng[0 - 999, 999, 999]";
-                            lstListError.Add(MassageError(productCode, productName, error));                           
+                            error = "Giá nhập không hợp lệ.Giá trị là số nguyên dương trong khoảng[0 - 999,999,999]";
+                            lstListError.Add(MassageError(productCode, productName, error));
                         }
                         else
                         {
@@ -528,14 +522,15 @@ namespace ShopSMS.Web.Api
                     }
                     else
                     {
-                        // Không phải kiểu Decimal
-                        error = "Giá nhập không hợp lệ.Giá trị là số nguyên dương trong khoảng[0 - 999, 999, 999]";
+                        error = "Giá nhập không hợp lệ.Giá trị là số nguyên dương trong khoảng[0 - 999,999,999]";
                         lstListError.Add(MassageError(productCode, productName, error));
                     }
                 }
-                #endregion
+
+                #endregion // Giá nhập
 
                 #region // Giá bán
+
                 if (sheet.Cells[i, 6].Value != null)
                 {
                     if (Utils.IsDecimal(sheet.Cells[i, 6].Value.ToString()))
@@ -554,19 +549,39 @@ namespace ShopSMS.Web.Api
                     }
                     else
                     {
-                        // Không phải kiểu Decimal
                         error = "Giá bán không hợp lệ. Giá trị là số nguyên dương trong khoảng [0 - 999,999,999]";
                         lstListError.Add(MassageError(productCode, productName, error));
                     }
                 }
-                #endregion
+
+                #endregion // Giá bán
+
+                #region // Nhà sản xuất
+
+                if (sheet.Cells[i, 7].Value != null && sheet.Cells[i, 7].Value != "")
+                {
+                    string nxs = sheet.Cells[i, 7].Value.ToString();
+                    var objNXS = listNSX.Where(x => x.ProducerName == nxs).FirstOrDefault();
+                    if (objNXS != null)
+                    {
+                        objNew.ProducerID = objNXS.ProducerID;
+                    }
+                    else
+                    {
+                        error = string.Format("Nhà sản xuất [{0}] không tồn tại", nxs);
+                        lstListError.Add(MassageError(productCode, productName, error));
+                    }
+                }
+
+                #endregion // Nhà sản xuất
 
                 #region // Thời gian bảo hành
-                if (sheet.Cells[i, 7].Value != null)
+
+                if (sheet.Cells[i, 8].Value != null)
                 {
-                    if (Utils.IsInt32(sheet.Cells[i, 7].Value.ToString()))
+                    if (Utils.IsInt32(sheet.Cells[i, 8].Value.ToString()))
                     {
-                        Int32.TryParse(sheet.Cells[i, 7].Value.ToString(), out warranty);
+                        Int32.TryParse(sheet.Cells[i, 8].Value.ToString(), out warranty);
                         if (warranty < 0 || warranty > 999)
                         {
                             error = "Thời gian bảo hành không hợp lệ. Giá trị là số nguyên dương trong khoảng [0 - 999]";
@@ -584,13 +599,15 @@ namespace ShopSMS.Web.Api
                         lstListError.Add(MassageError(productCode, productName, error));
                     }
                 }
-                #endregion
+
+                #endregion // Thời gian bảo hành
 
                 #region // Hiển thị website
-                if (sheet.Cells[i, 8].Value != null && sheet.Cells[i, 8].Value != "")
+
+                if (sheet.Cells[i, 9].Value != null && sheet.Cells[i, 9].Value != "")
                 {
-                    if ((sheet.Cells[i, 8].Value.ToString() == "X" || sheet.Cells[i, 8].Value.ToString() == "x")
-                        && sheet.Cells[i, 8].Value.ToString().Length == 1)
+                    if ((sheet.Cells[i, 9].Value.ToString() == "X" || sheet.Cells[i, 9].Value.ToString() == "x")
+                        && sheet.Cells[i, 9].Value.ToString().Length == 1)
                     {
                         objNew.ProductHomeFlag = true;
                     }
@@ -604,13 +621,15 @@ namespace ShopSMS.Web.Api
                 {
                     objNew.ProductHomeFlag = false;
                 }
-                #endregion
+
+                #endregion // Hiển thị website
 
                 #region // Hàng nổi bật
-                if (sheet.Cells[i, 9].Value != null && sheet.Cells[i, 9].Value != "")
+
+                if (sheet.Cells[i, 10].Value != null && sheet.Cells[i, 10].Value != "")
                 {
-                    if ((sheet.Cells[i, 9].Value.ToString() == "X" || sheet.Cells[i, 9].Value.ToString() == "x")
-                        && sheet.Cells[i, 9].Value.ToString().Length == 1)
+                    if ((sheet.Cells[i, 10].Value.ToString() == "X" || sheet.Cells[i, 10].Value.ToString() == "x")
+                        && sheet.Cells[i, 10].Value.ToString().Length == 1)
                     {
                         objNew.ProductHotFlag = true;
                     }
@@ -624,13 +643,15 @@ namespace ShopSMS.Web.Api
                 {
                     objNew.ProductHotFlag = false;
                 }
-                #endregion
+
+                #endregion // Hàng nổi bật
 
                 #region // Hàng bán chạy
-                if (sheet.Cells[i, 10].Value != null && sheet.Cells[i, 10].Value != "")
+
+                if (sheet.Cells[i, 11].Value != null && sheet.Cells[i, 11].Value != "")
                 {
-                    if ((sheet.Cells[i, 10].Value.ToString() == "X" || sheet.Cells[i, 10].Value.ToString() == "x")
-                        && sheet.Cells[i, 10].Value.ToString().Length == 1)
+                    if ((sheet.Cells[i, 11].Value.ToString() == "X" || sheet.Cells[i, 11].Value.ToString() == "x")
+                        && sheet.Cells[i, 11].Value.ToString().Length == 1)
                     {
                         objNew.ProductSellingGood = true;
                     }
@@ -644,13 +665,15 @@ namespace ShopSMS.Web.Api
                 {
                     objNew.ProductSellingGood = false;
                 }
-                #endregion
+
+                #endregion // Hàng bán chạy
 
                 #region // Hàng mới
-                if (sheet.Cells[i, 11].Value != null && sheet.Cells[i, 11].Value != "")
+
+                if (sheet.Cells[i, 12].Value != null && sheet.Cells[i, 12].Value != "")
                 {
-                    if ((sheet.Cells[i, 11].Value.ToString() == "X" || sheet.Cells[i, 11].Value.ToString() == "x")
-                        && sheet.Cells[i, 11].Value.ToString().Length == 1)
+                    if ((sheet.Cells[i, 12].Value.ToString() == "X" || sheet.Cells[i, 12].Value.ToString() == "x")
+                        && sheet.Cells[i, 12].Value.ToString().Length == 1)
                     {
                         objNew.ProductNew = true;
                     }
@@ -664,13 +687,15 @@ namespace ShopSMS.Web.Api
                 {
                     objNew.ProductNew = false;
                 }
-                #endregion
+
+                #endregion // Hàng mới
 
                 #region // Trạng thái
-                if (sheet.Cells[i, 12].Value != null && sheet.Cells[i, 12].Value != "")
+
+                if (sheet.Cells[i, 13].Value != null && sheet.Cells[i, 13].Value != "")
                 {
-                    if ((sheet.Cells[i, 12].Value.ToString() == "X" || sheet.Cells[i, 12].Value.ToString() == "x")
-                        && sheet.Cells[i, 12].Value.ToString().Length == 1)
+                    if ((sheet.Cells[i, 13].Value.ToString() == "X" || sheet.Cells[i, 13].Value.ToString() == "x")
+                        && sheet.Cells[i, 13].Value.ToString().Length == 1)
                     {
                         objNew.Status = true;
                     }
@@ -684,14 +709,16 @@ namespace ShopSMS.Web.Api
                 {
                     objNew.Status = false;
                 }
-                #endregion
+
+                #endregion // Trạng thái
 
                 #region // Mô tả
-                if (sheet.Cells[i, 13].Value != null)
+
+                if (sheet.Cells[i, 14].Value != null)
                 {
-                    if (sheet.Cells[i, 13].Value.ToString().Length <= 500)
+                    if (sheet.Cells[i, 14].Value.ToString().Length <= 500)
                     {
-                        objNew.Description = sheet.Cells[i, 13].Value.ToString();
+                        objNew.Description = sheet.Cells[i, 14].Value.ToString();
                     }
                     else
                     {
@@ -699,14 +726,16 @@ namespace ShopSMS.Web.Api
                         lstListError.Add(MassageError(productCode, productName, error));
                     }
                 }
-                #endregion
+
+                #endregion // Mô tả
 
                 #region // Thông tin mô tả
-                if (sheet.Cells[i, 14].Value != null)
+
+                if (sheet.Cells[i, 15].Value != null)
                 {
-                    if (sheet.Cells[i, 14].Value.ToString().Length <= 100)
+                    if (sheet.Cells[i, 15].Value.ToString().Length <= 100)
                     {
-                        objNew.MetaDescription = sheet.Cells[i, 14].Value.ToString();
+                        objNew.MetaDescription = sheet.Cells[i, 15].Value.ToString();
                     }
                     else
                     {
@@ -714,14 +743,16 @@ namespace ShopSMS.Web.Api
                         lstListError.Add(MassageError(productCode, productName, error));
                     }
                 }
-                #endregion
+
+                #endregion // Thông tin mô tả
 
                 #region // Tags
-                if (sheet.Cells[i, 15].Value != null)
+
+                if (sheet.Cells[i, 16].Value != null)
                 {
-                    if (sheet.Cells[i, 15].Value.ToString().Length <= 100)
+                    if (sheet.Cells[i, 16].Value.ToString().Length <= 100)
                     {
-                        objNew.MetaKeyword = sheet.Cells[i, 15].Value.ToString();
+                        objNew.MetaKeyword = sheet.Cells[i, 16].Value.ToString();
                     }
                     else
                     {
@@ -729,7 +760,13 @@ namespace ShopSMS.Web.Api
                         lstListError.Add(MassageError(productCode, productName, error));
                     }
                 }
-                #endregion
+
+                #endregion // Tags
+
+                #endregion // Getdata
+
+                productCode = string.Empty;
+                productName = string.Empty;
 
                 objNew.CreateBy = UserInfoInstance.UserCode;
                 objNew.CreateDate = DateTime.Now;
@@ -818,5 +855,37 @@ namespace ShopSMS.Web.Api
             }
         }
 
+        [Route("downloadTemplate")]
+        [HttpGet]
+        public HttpResponseMessage downloadTemplate(HttpRequestMessage request)
+        {
+            // Tên file
+            string fileName = "FileMau_Import_DanhSachSanPham.xlsx";
+            // Nơi chứa file Report
+            string filePath = HttpContext.Current.Server.MapPath(ParameterFileInfo.ReportFolder);
+            // Nơi chứa file Template
+            string fileTemplatePath = HttpContext.Current.Server.MapPath(ParameterFileInfo.TemplateFolder + "TemplateProduct.xlsx");
+
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+
+            string fullPath = Path.Combine(filePath, fileName);
+            try
+            {
+                FileInfo fileTemplate = new FileInfo(fileTemplatePath);
+                FileInfo newFile = new FileInfo(fullPath);
+
+                productService.DownLoadTemplate(fullPath, fileTemplatePath);
+
+                string newfullPath = Path.Combine(ParameterFileInfo.ReportFolder, fileName);
+                return request.CreateErrorResponse(HttpStatusCode.OK, newfullPath);
+            }
+            catch (Exception ex)
+            {
+                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
+            }
+        }
     }
 }

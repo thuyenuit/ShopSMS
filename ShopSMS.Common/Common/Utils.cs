@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Resources;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -160,17 +161,5 @@ namespace ShopSMS.Common.Common
             return Decimal.TryParse(val, out temp);
         }
 
-        public static string AutoCode(string def = null)
-        {
-            string code = string.Empty;
-
-            for (int i = 0; i < 8; i++)
-            {
-
-            }
-
-
-            return def;
-        }
     }
 }

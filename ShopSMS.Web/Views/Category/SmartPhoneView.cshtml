@@ -1,7 +1,11 @@
-﻿
+﻿@model ShopSMS.Web.ViewModelClient.CCategoryViewModel
+
 @{
     ViewBag.Title = "Điện thoại, smartphone chính hãng";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var index = 0;
+    var indexStop = Model.ListCategoryProduct1.Count() / 2;
 }
 
 <style>
@@ -17,7 +21,7 @@
         margin-left: 1px;
     }
 
-    .choose-filter{
+    .choose-filter {
         border-radius: 5px;
         background-color: blue;
         padding: 5px;
@@ -26,11 +30,13 @@
         text-decoration: none !important;
     }
 
-    .choose-filter a:hover, choose-filter a:focus, 
-    .choose-filter-2 a:hover, choose-filter-2 a:focus{
-        color: #fff !important;
-        text-decoration: none !important;
-    }
+        .choose-filter a:hover,
+        .choose-filter a:focus,
+        .choose-filter-2 a:hover,
+        .choose-filter-2 a:focus {
+            color: #fff !important;
+            text-decoration: none !important;
+        }
 
     .choose-filter-2 {
         border-radius: 5px;
@@ -40,218 +46,276 @@
         margin: 2px;
         text-decoration: none !important;
     }
+
+    ul.class-search {
+        margin-top: -20px;
+        display: block;
+        height: 40px;
+        background: #fff;
+        border-right: 1px solid #f5f5f5;
+        width: 100%;
+    }
+
+    .class-search li {
+        display: inline-block;
+        height: 40px;
+        width: auto;
+        vertical-align: top;
+        font-size: 12px;
+        position: relative;
+        white-space: nowrap;
+    }
+
+        .class-search li h1 {
+            display: inline-block;
+            vertical-align: top;
+            line-height: 40px;
+            padding-left: 10px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #666;
+            margin-top: -0px;
+        }
+
+    .tb-show-popup {
+        display: inline-block;
+        overflow: hidden;
+        font-size: 12px;
+        color: #288ad6;
+        padding-left: 10px;
+        cursor: pointer;
+        line-height: 40px;
+    }
+
+    .class-popup-category {
+        display: none;
+        overflow: visible;
+        background: #fff;
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+        box-shadow: 0 10px 10px 0 rgba(0,0,0,.1);
+        padding: 5px 10px;
+        position: absolute;
+        right: -45%;
+        top: 40px;
+        z-index: 11;
+        width: 300px;
+    }
+
+    .for-label {
+        display: block;
+        padding: 4px 0 2px;
+        cursor: pointer;
+    }
+
+    .class-prevent {
+        pointer-events: none;
+        color: #333;
+        display: inline;
+        padding: 0;
+        margin: 0;
+        line-height: normal;
+    }
+
+    .tb-show-a {
+        color: #288ad6;
+        display: inline-block;
+        vertical-align: top;
+        padding-left: 10px;
+        line-height: 40px;
+    }
+
+    aside.content-popup {
+        float: left;
+        overflow: hidden;
+        width: 50%;
+        padding: 10px 0;
+    }
+
+    .for-label-category {
+        display: block;
+        padding: 4px 0 2px;
+        cursor: pointer;
+    }
+
+    .tb-popup-price {
+        display: none;
+        overflow: visible;
+        background: #fff;
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+        box-shadow: 0 10px 10px 0 rgba(0,0,0,.1);
+        padding: 5px 10px;
+        position: absolute;
+        right: -18%;
+        top: 40px;
+        z-index: 11;
+        width: 140px;
+    }
+
+    .content-popup-price {
+        float: left;
+        overflow: hidden;
+        padding: 10px 0;
+        width:95%
+    }
+
+    .class-orderby {
+        display: inline-block;
+        overflow: hidden;
+        font-size: 12px;
+        color: #288ad6;
+        cursor: pointer;
+        line-height: 40px;
+        margin-left: 10px;
+    }
+
+    .class-popup-orderby {
+        display: none;
+        overflow: visible;
+        background: #fff;
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+        box-shadow: 0 10px 10px 0 rgba(0,0,0,.1);
+        padding: 5px 10px;
+        position: absolute;
+        right: -100%;
+        top: 40px;
+        z-index: 11;
+        width: 140px;
+    }
+
+    .for-label:hover, .for-label:focus,
+    .for-label-category:hover, .for-label-category:focus {
+        background-color:#4fbfa8;
+        border-radius:3px;
+        padding-left:5px;
+        width:95%;
+    }
 </style>
 
 <div id="content">
     <div class="container">
-        <div class="col-md-12">
-            <ul style="margin-top:-20px;display: block;height: 40px;background: #fff;border-right: 1px solid #f5f5f5;width: 100%;">
-                <li style="display: inline-block;height: 40px;width: auto;
-                        vertical-align: top;font-size: 12px;position: relative; white-space: nowrap;">
-                    <h1 style="display: inline-block;vertical-align: top;line-height: 40px;
-padding-left: 10px;font-size: 13px;font-weight: bold;color: #666;margin-top:-0px">
-                        Điện thoại:
-                    </h1>
-                    <a style="color: #288ad6;
-    display: inline-block;
-    vertical-align: top;
-    padding-left: 10px;
-    line-height: 40px;" href="#">Iphone (Apple)</a>
-                    <a style="color: #288ad6;
-    display: inline-block;
-    vertical-align: top;
-    padding-left: 10px;
-    line-height: 40px;" href="#">Samsung</a>
-                    <a style="color: #288ad6;
-    display: inline-block;
-    vertical-align: top;
-    padding-left: 10px;
-    line-height: 40px;" href="#">OPPO</a>
-                    <span id="hienthiSP" onclick="showOrHide()" style="display: inline-block;
-    overflow: hidden;
-    font-size: 12px;
-    color: #288ad6;
-    padding-left: 10px;
-    cursor: pointer;
-    line-height: 40px;">Hãng khác</span>
-                    <div id="popupHang" style="display:none;    overflow: visible;
-    background: #fff;
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    box-shadow: 0 10px 10px 0 rgba(0,0,0,.1);
-    padding: 5px 10px;
-    position: absolute;
-    right: -45%;
-    top: 40px;
-    z-index: 11;width: 300px;">
+        <div class="col-md-12 col-xs-12">
+            <ul class="class-search">
+                <li>
+                    <h1>Điện thoại: </h1>
+                    @if (Model.ObjectPCFirst != null)
+                    {
+                        <a href="#" data-id="@(Model.ObjectPCFirst.ProductCategoryID)" class="tb-show-a">@Model.ObjectPCFirst.ProductCategoryName</a>
+                    }
+                    @if (Model.ObjectPCSecond != null)
+                    {
+                        <a href="#" data-id="@(Model.ObjectPCSecond.ProductCategoryID)" class="tb-show-a">@Model.ObjectPCSecond.ProductCategoryName</a>
+                    }
+                    @if (Model.ObjectPCThird != null)
+                    {
+                        <a href="#" data-id="@(Model.ObjectPCThird.ProductCategoryID)" class="tb-show-a">@Model.ObjectPCThird.ProductCategoryName</a>
+                    }
+                    
+                    @if (Model.ListCategoryProduct1.Count() > 0)
+                    {
+                        <span class="tb-show-popup" id="hienthiSP" onclick="showOrHide()">Hãng khác</span>
+                    }
+                  
+                    <div class="class-popup-category" id="popupHang">
                         <div style="border-bottom:1px solid red">
-                            <label data-id="80" style="display: block;padding: 4px 0 2px;cursor: pointer;">
-                                <input type="checkbox" name="hang-0" value="0"/>
-                                <a href="/dtdd-apple-iphone" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                            <label data-id="80" class="for-label">
+                                <input onclick="viewAllPC()" type="checkbox" name="hang-all-0" id="checkAllCategory" value="0" />
+                                <a href="/dtdd-apple-iphone" class="class-prevent">
                                     Tất cả hãng
                                 </a>
                             </label>
                         </div>
 
-                        <aside style="float: left; overflow: hidden;width: 50%;padding: 10px 0;">
-                            <label data-id="80" style="display: block;padding: 4px 0 2px;cursor: pointer;">
-                                <input type="checkbox" name="hang-1"  value="1" default="iPhone (Apple)"/>
-                                <a href="/dtdd-apple-iphone" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
-
-                                    iPhone (Apple)
-                                </a>
-                            </label>
-                            <label data-id="2" style="display: block;padding: 4px 0 2px;cursor: pointer;">
-                                <input type="checkbox" name="hang-2"  value="2" default="Samsung"/>
-                                <a href="/dtdd-samsung" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
-                                    Samsung
-                                </a>
-                            </label>
-                            <label data-id="1971" style="display: block;padding: 4px 0 2px;cursor: pointer;">
-                                <input type="checkbox" name="hang-3"  value="3" default="OPPO"/>
-                                <a href="/dtdd-oppo" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
-
-                                    OPPO
-                                </a>
-                            </label>
-                            <label data-id="3" style="display: block;padding: 4px 0 2px;cursor: pointer;">
-                                <input type="checkbox" name="hang-4" value="4" default="Sony"/>
-                                <a href="/dtdd-sony" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
-
-                                    Sony
-                                </a>
-                            </label>
-                            <label data-id="1" style="display: block;padding: 4px 0 2px;cursor: pointer;">
-                                <input type="checkbox" name="hang-5" value="5"/>
-                                <a href="/dtdd-nokia" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
-                                    Nokia
-                                </a>
-                            </label>
-                            <label data-id="14" style="display: block;padding: 4px 0 2px;cursor: pointer;">
-                                <input type="checkbox" name="hang-6" value="6"/>
-                                <a href="/dtdd-htc" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
-                                    HTC
-                                </a>
-                            </label>
-                            <label data-id="111" style="display: block;padding: 5px 0 6px;cursor: pointer;">
-                                <input type="checkbox" name="hang-7" value="7"/>
-                                <a href="/dtdd-asus-zenfone" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
-                                    Asus (Zenfone)
-                                </a>
-                            </label>
-                            <label data-id="4" style="display: block;padding: 4px 0 2px;cursor: pointer;">
-                                <input type="checkbox" name="hang-8" value="8"/>
-                                <a href="/dtdd-motorola" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
-                                    Motorola
-                                </a>
-                            </label>
-                            <label data-id="113" style="display: block;padding: 4px 0 2px;cursor: pointer;">
-                                <input type="checkbox" name="hang-9" value="9"/>
-                                <a href="/dtdd-lenovo" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
-
-                                    Lenovo
-                                </a>
-                            </label>
+                        <aside class="content-popup">
+                            @foreach (var item in Model.ListCategoryProduct1)
+                            {
+                                if (index <= indexStop)
+                                {
+                                    index++;
+                                    <label class="for-label-category">
+                                        <input type="checkbox" name="@("hang-" + item.ProductCategoryID)"
+                                               value="@(item.ProductCategoryID)" default="@(item.ProductCategoryName)" />
+                                        <a href="/dtdd-apple-iphone" class="class-prevent">@(item.ProductCategoryName)</a>
+                                    </label>
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
                         </aside>
-                        <aside style="float: left; overflow: hidden;width: 50%;padding: 10px 0;">
-                            <label data-id="80" style="display: block;padding: 4px 0 2px;cursor: pointer;">
-                                <input type="checkbox" name="hang-10"  value="10"/>
-                                <a href="/dtdd-apple-iphone" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
-                                    iPhone (Apple) 2
-                                </a>
-                            </label>
-                            <label data-id="2" style="display: block;padding: 4px 0 2px;cursor: pointer;">
-                                <input type="checkbox" name="hang-11"  value="11"/>
-                                <a href="/dtdd-samsung" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
-                                    Samsung 2
-                                </a>
-                            </label>
-                            <label data-id="1971" style="display: block;padding: 4px 0 2px;cursor: pointer;">
-                                <input type="checkbox" name="hang-12" value="12"/>
-                                <a href="/dtdd-oppo" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
-                                    OPPO 2
-                                </a>
-                            </label>                         
+                        <aside class="content-popup">
+                            @foreach (var item in Model.ListCategoryProduct1)
+                            {
+                                if (index == 0)
+                                {
+                                    <label class="for-label-category">
+                                        <input type="checkbox" name="@("hang-" + item.ProductCategoryID)"
+                                               value="@(item.ProductCategoryID)" default="@(item.ProductCategoryName)" />
+                                        <a href="/dtdd-apple-iphone" class="class-prevent">@(item.ProductCategoryName)</a>
+                                    </label>
+                                }
+                                else
+                                {
+                                    index--;
+                                }
+                            }
                         </aside>
                         <div class="clearfix"></div>
                         <button type="button" class="form-control btn-primary" id="btnSeachCategory">Tìm kiếm</button>
                     </div>
                 </li>
-                <li style="display: inline-block;height: 40px;width: auto;
-                        vertical-align: top;font-size: 12px;position: relative; white-space: nowrap;">
-                    <a style="color: #288ad6;display: inline-block;vertical-align: top;padding-left: 10px; line-height: 40px;" href="#">
-                        Dưới 1 triệu
-                    </a>
-                    <a style="color: #288ad6;
-    display: inline-block;
-    vertical-align: top;
-    padding-left: 10px;
-    line-height: 40px;" href="#">Từ 1 - 3 triệu</a>
-                    <a style="color: #288ad6;
-    display: inline-block;
-    vertical-align: top;
-    padding-left: 10px;
-    line-height: 40px;" href="#">Từ 3 - 7 triệu</a>
-                    <span id="hienthiGia" onclick="showOrHideGia()" style="display: inline-block;
-    overflow: hidden;
-    font-size: 12px;
-    color: #288ad6;
-    padding-left: 10px;
-    cursor: pointer;
-    line-height: 40px;">Giá khác</span>
-                    <div id="popupGia" style="display:none;    overflow: visible;
-    background: #fff;
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    box-shadow: 0 10px 10px 0 rgba(0,0,0,.1);
-    padding: 5px 10px;
-    position: absolute;
-    right: -18%;
-    top: 40px;
-    z-index: 11;width: 140px;">
+                <li>
+                    <a class="tb-show-a" href="#">Dưới 1 triệu</a>
+                    <a class="tb-show-a" href="#">Từ 1 - 3 triệu</a>
+                    <a class="tb-show-a" href="#">Từ 3 - 7 triệu</a>
+                    <span class="tb-show-popup" id="hienthiGia" onclick="showOrHideGia()">Giá khác</span>
+                    <div class="tb-popup-price" id="popupGia">
                         <div style="border-bottom:1px solid red">
-                            <label data-id="80" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                            <label data-id="80" class="for-label">
                                 <input type="radio" name="price1" value="1" />
-                                <a href="/dtdd-apple-iphone" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                <a href="/dtdd-apple-iphone" class="class-prevent">
                                     Tất cả mức giá
                                 </a>
                             </label>
                         </div>
-                        <aside id="formPrice" style="float: left; overflow: hidden;padding: 10px 0;">
-                            <label data-id="80" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                        <aside class="content-popup-price" id="formPrice">
+                            <label data-id="80" class="for-label-category">
                                 <input type="radio" name="price1" value="2" />
-                                <a href="/dtdd-apple-iphone" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                <a href="/dtdd-apple-iphone" class="class-prevent">
                                     Dưới 1 triệu
                                 </a>
                             </label>
-                            <label data-id="2" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                            <label data-id="2" class="for-label-category">
                                 <input type="radio" name="price1" value="3" />
-                                <a href="/dtdd-samsung" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                <a href="/dtdd-samsung" class="class-prevent">
                                     Từ 1 - 3 triệu
                                 </a>
                             </label>
-                            <label data-id="1971" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                            <label data-id="1971" class="for-label-category">
                                 <input type="radio" name="price1" value="4" />
-                                <a href="/dtdd-oppo" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                <a href="/dtdd-oppo" class="class-prevent">
 
                                     Từ 3 - 7 triệu
                                 </a>
                             </label>
-                            <label data-id="3" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                            <label data-id="3" class="for-label-category">
                                 <input type="radio" name="price1" value="5" />
-                                <a href="/dtdd-sony" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                <a href="/dtdd-sony" class="class-prevent">
                                     Từ 7 - 10 triệu
                                 </a>
                             </label>
-                            <label data-id="1" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                            <label data-id="1" class="for-label-category">
                                 <input type="radio" name="price1" value="6" />
-                                <a href="/dtdd-nokia" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                <a href="/dtdd-nokia" class="class-prevent">
                                     Từ 10 - 15 triệu
                                 </a>
                             </label>
-                            <label data-id="14" style="display: block;padding: 4px 0 2px;cursor: pointer;">
+                            <label data-id="14" class="for-label-category">
                                 <input type="radio" name="price1" value="7" />
-                                <a href="/dtdd-htc" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
+                                <a href="/dtdd-htc" class="class-prevent">
                                     Trên 15 triệu
                                 </a>
                             </label>
@@ -261,53 +325,35 @@ padding-left: 10px;font-size: 13px;font-weight: bold;color: #666;margin-top:-0px
                         <button style="display:none" type="button" class="form-control btn-primary" id="searchByPrice">Tìm kiếm</button>
                     </div>
                 </li>
-
-                <li style="display: inline-block;height: 40px;width: auto;
-                        vertical-align: top;font-size: 12px;position: relative; white-space: nowrap;">
+                <li>
+                    <span class="class-orderby" id="hienthiOrderBy" onclick="showOrHideOrderBy()">Sắp xếp</span>
+                    <div id="popupOrderBy" class="class-popup-orderby">
+                        <aside id="formPrice" class="content-popup-price">
+                            <label data-id="80" class="for-label">
+                                <a href="/dtdd-apple-iphone" class="class-prevent">
+                                    Giá thấp đến cao
+                                </a>
+                            </label>
+                            <label data-id="2" class="for-label">
+                                <a href="/dtdd-samsung" class="class-prevent">
+                                    Giá cao đến thấp
+                                </a>
+                            </label>
+                            <label data-id="1971" class="for-label">
+                                <a href="/dtdd-oppo" class="class-prevent">
+                                    Theo tên sản phẩm
+                                </a>
+                            </label>
+                        </aside>
+                    </div>
+                </li>
+                <li>
                     <label data-id="113" style="display: block;padding: 7px 5px;cursor: pointer;color: #288ad6">
                         <input type="checkbox" />
                         <a href="/dtdd-lenovo" class="prevent" style="pointer-events: none;color: #288ad6;display: inline;padding: 0;margin: 0;line-height: normal;">
                             Sản phẩm mới
                         </a>
                     </label>
-                </li>
-                <li style="display: inline-block;height: 40px;width: auto;
-                        vertical-align: top;font-size: 12px;position: relative; white-space: nowrap;">
-                    <span id="hienthiOrderBy" onclick="showOrHideOrderBy()" style="display: inline-block;
-    overflow: hidden;
-    font-size: 12px;
-    color: #288ad6;
-    cursor: pointer;
-    line-height: 40px;">Sắp xếp</span>
-                    <div id="popupOrderBy" style="display:none;    overflow: visible;
-    background: #fff;
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    box-shadow: 0 10px 10px 0 rgba(0,0,0,.1);
-    padding: 5px 10px;
-    position: absolute;
-    right: -18%;
-    top: 40px;
-    z-index: 11;width: 160px;">
-                        <aside id="formPrice" style="float: left; overflow: hidden;padding: 10px 0;">
-                            <label data-id="80" style="display: block;padding: 4px 0 2px;cursor: pointer;">
-                                <a href="/dtdd-apple-iphone" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
-                                    Giá thấp đến cao
-                                </a>
-                            </label>
-                            <label data-id="2" style="display: block;padding: 4px 0 2px;cursor: pointer;">
-                                <a href="/dtdd-samsung" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
-                                    Giá cao đến thấp
-                                </a>
-                            </label>
-                            <label data-id="1971" style="display: block;padding: 4px 0 2px;cursor: pointer;">
-                                <a href="/dtdd-oppo" class="prevent" style="pointer-events: none;color: #333;display: inline;padding: 0;margin: 0;line-height: normal;">
-
-                                    Theo tên sản phẩm
-                                </a>
-                            </label>
-                        </aside>
-                    </div>
                 </li>
             </ul>
         </div>
@@ -660,10 +706,10 @@ padding-left: 10px;font-size: 13px;font-weight: bold;color: #666;margin-top:-0px
     </div>
 
     <div style="display:none">
-        <input id="selectSP" type="hidden"/>
-        <input id="selectPrice" type="hidden"/>
+        <input id="selectSP" type="hidden" />
+        <input id="selectPrice" type="hidden" />
         <input id="selectTxtPrice" type="hidden" />
-        
+
     </div>
     <!-- /.container -->
 </div>
@@ -697,6 +743,20 @@ padding-left: 10px;font-size: 13px;font-weight: bold;color: #666;margin-top:-0px
         }
     });
 
+    function viewAllPC() {
+
+    }
+
+    $('#popupHang').find('input[id="checkAllCategory"]').click(function () {
+        if ( $('#checkAllCategory').is(':checked') ) {
+            $('#popupHang').find('input[name^="hang-"]').each(function () {
+                if ($(this).is(':checked')) {
+                    $(this).removeAttr('checked');
+                }
+            });
+        }  
+    });
+
     $("#searchByPrice").click(function () {
         $('#popupGia').find('input[name="price1"]').each(function () {
             if ($(this).is(':checked')) {
@@ -726,7 +786,7 @@ padding-left: 10px;font-size: 13px;font-weight: bold;color: #666;margin-top:-0px
                     $("#selectTxtPrice").val(txt);
 
                     GenericChooseFilter();
-                }                
+                }
             }
         });
     });
@@ -738,21 +798,19 @@ padding-left: 10px;font-size: 13px;font-weight: bold;color: #666;margin-top:-0px
                 valSelected += $(this).val() + ',';
             }
         });
-
+        $("#popupHang").css("display", "none");
         $("#selectSP").val(valSelected);
         GenericChooseFilter();
-    });   
+    });
 
     function GenericChooseFilter() {
         var textHtml = '';
         var showAll = 0;
 
-        var selectedSP =$("#selectSP").val();
-        if(selectedSP != '' && selectedSP != 'undefined' && selectedSP != null)
-        {
+        var selectedSP = $("#selectSP").val();
+        if (selectedSP != '' && selectedSP != 'undefined' && selectedSP != null) {
             var arraySP = selectedSP.split(',');
-            for (var i = 0; i < arraySP.length -1; i++)
-            {
+            for (var i = 0; i < arraySP.length - 1; i++) {
                 showAll++;
                 var tensp = $('#popupHang').find('input[name="hang-' + arraySP[i] + '"]').attr("default");
 
@@ -763,10 +821,8 @@ padding-left: 10px;font-size: 13px;font-weight: bold;color: #666;margin-top:-0px
             }
         }
 
-
         var valPrice = $("#selectPrice").val();
-        if (valPrice != 1 && valPrice > 1)
-        {
+        if (valPrice != 1 && valPrice > 1) {
             showAll++;
             var txt = $("#selectTxtPrice").val();
 
@@ -777,11 +833,12 @@ padding-left: 10px;font-size: 13px;font-weight: bold;color: #666;margin-top:-0px
             textHtml += textHtml2;
         }
 
-        if (showAll >= 2) {
-            textHtml += "<a href='/dien-thoai' class='choose-filter-2'> Xóa tất cả <span> X</span></a>";
+        if (textHtml.length > 0) {
+            if (showAll >= 2) {
+                textHtml += "<a href='/dien-thoai' class='choose-filter-2'> Xóa tất cả <span> X</span></a>";
+            }
+            $(".choosedfilter").html(textHtml);
         }
-
-        $(".choosedfilter").html(textHtml);
     }
 
     function showOrHideGia() {

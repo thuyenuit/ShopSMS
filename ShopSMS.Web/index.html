@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-controller="rootController" ng-app="sms">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,11 +18,20 @@
     <link href="/Assets/Admin/libs/angular-loading-bar/src/loading-bar.css" rel="stylesheet" />
     <link href="/Assets/Admin/libs/angular-busy/angular-busy.css" rel="stylesheet" />
 
+    <style>
+        .main-footer {
+          position: absolute;
+          right: 0;
+          /*bottom:initial;*/
+          left: 0;
+        }
+    </style>
+
 </head>
 
-<body ng-controller="rootController" ng-app="sms" class="hold-transition skin-blue fixed sidebar-mini">
-    <div cg-busy="{promise:promise,templateUrl:templateUrl,
-         message:message,backdrop:backdrop,delay:delay,minDuration:minDuration}">
+<body cg-busy="{promise:promise,templateUrl:templateUrl,message:message,backdrop:backdrop,delay:delay,minDuration:minDuration}" 
+      class="hold-transition skin-blue fixed sidebar-mini">
+    <div>
         <div ui-view>
         </div>
     </div>

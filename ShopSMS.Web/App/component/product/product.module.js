@@ -26,7 +26,7 @@
                 controller: 'productEditController'
             }).state('productImport', {
                  parent: 'baseView',
-                 url: '/impot-product',
+                 url: '/list-product/import-product',
                  templateUrl: '/app/component/product/productImportView.html',
                  controller: 'productImportController'
              });
